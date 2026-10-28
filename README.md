@@ -86,6 +86,8 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 - `vendor/fflate.min.js`：DOCX 解压与正文读取
 - `favicon.svg`：Roleport 图标
 - `index.html`：1.0 网站入口跳转页
+- `DEPLOYMENT.md`：GitHub Pages 部署、反馈地址配置与上线验收清单
+- `.nojekyll`：GitHub Pages 静态文件发布配置
 - `legacy-jobs.html` / `styles.css` / `app.js` / `jobs.js`：早期招聘信息页面示例
 
 ## 岗位指南维护
@@ -132,10 +134,13 @@ http://localhost:8000/tests/matcher-regression-test.html
 
 ## 1.0.1 上线验证
 
+部署步骤见 [`DEPLOYMENT.md`](DEPLOYMENT.md)。
+
 - 核心分析流程：JD/简历文本、文件导入、匹配、状态筛选、导出、重置与重新匹配
 - 匹配规则回归：28 项自动检查
 - 状态统计口径：要求总数与五类最终状态都由同一份明细动态计算
 - 判断依据：每条要求显示 JD 原文、判断理由和匹配到的简历证据
+- 反馈通道支持配置 GitHub Issues；未配置时回退为本地复制
 - 部署兼容：纯静态文件，可直接部署到 GitHub Pages
 
 最终验收时请使用目标浏览器手动检查复制、下载和手机端交互。

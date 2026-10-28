@@ -610,7 +610,9 @@
     .mbadge-unstated { background:var(--status-neutral-bg); color:var(--status-neutral-text); }
     .msource-dictionary { background:var(--surface-raised); color:var(--text); }
     .msource-auto { background:#edf3ff; color:#315fa9; }
-    .msource-custom { background:#eee9ff; color:#6d4dd2; }\n    [data-theme="dark"] .msource-auto { background:#1a2740; color:#9db9f0; }\n    [data-theme="dark"] .msource-custom { background:#332d4f; color:#b5a3f0; }
+    .msource-custom { background:#eee9ff; color:#6d4dd2; }
+    [data-theme="dark"] .msource-auto { background:#1a2740; color:#9db9f0; }
+    [data-theme="dark"] .msource-custom { background:#332d4f; color:#b5a3f0; }
     .mcoverage-list { display:grid; gap:16px; }
     .mcoverage-item { display:grid; gap:7px; }
     .mcoverage-top { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--text); font-size:10.5px; font-weight:650; }
@@ -1357,11 +1359,11 @@
           'about.howTitle': '基本使用说明', 'about.how1Title': '选择工具或资源', 'about.how1Desc': '从当前最需要解决的问题开始。',
           'about.how2Title': '在本地输入资料', 'about.how2Desc': '文本与结果尽量只保存在浏览器。', 'about.how3Title': '导出或继续下一步', 'about.how3Desc': '复制结果，带到常用文档或官方平台。',
           'about.feedbackTitle': '反馈与资源纠错', 'about.feedbackTypeLabel': '问题类型', 'about.feedbackSuggestion': '产品建议', 'about.feedbackCorrection': '资源纠错', 'about.feedbackTool': '工具需求',
-          'about.feedbackNote': '无需登录。当前版本不上传反馈内容，提交按钮会将反馈复制到剪贴板，请自行发送给开发者。', 'about.feedbackLabel': '反馈内容',
+          'about.feedbackNoteCopy': '无需登录。当前版本不上传反馈内容，提交按钮会将反馈复制到剪贴板，请自行发送给开发者。', 'about.feedbackNoteIssue': '提交后将打开 GitHub Issues，请确认内容后创建 issue。', 'about.feedbackSubmitGitHub': '前往 GitHub 提交', 'about.feedbackNote': '无需登录。当前版本不上传反馈内容，提交按钮会将反馈复制到剪贴板，请自行发送给开发者。', 'about.feedbackLabel': '反馈内容',
           'about.feedbackPlaceholder': '简单描述你遇到的问题、建议或希望新增的资源…', 'about.feedbackSubmit': '提交反馈',
           'about.note': 'Roleport 不会要求注册账号，也不会把本地工具输入自动上传。',
           'footer.disclaimer': '求职信息与外部服务请以官方页面为准。',
-          'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制，请发送给开发者',
+          'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制，请发送给开发者', 'toast.feedbackOpening': '正在打开 GitHub Issues',
           'summary.tools': '{count} 个工具 · {developing} 个开发中', 'summary.resources': '{count} 个资源',
           'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '找机会', 'page.matcher': 'JD 与简历匹配器', 'page.advisor': '简历改进建议',
           'matcher.title': 'JD 与简历关键词匹配器', 'matcher.subtitle': '粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。',
@@ -1446,11 +1448,11 @@
           'about.howTitle': 'How to use Roleport', 'about.how1Title': 'Choose a tool or resource', 'about.how1Desc': 'Start with the problem you need to solve now.',
           'about.how2Title': 'Enter information locally', 'about.how2Desc': 'Text and results should stay in your browser where possible.', 'about.how3Title': 'Export or move forward', 'about.how3Desc': 'Copy results into your documents or the official platform.',
           'about.feedbackTitle': 'Feedback & corrections', 'about.feedbackTypeLabel': 'Feedback type', 'about.feedbackSuggestion': 'Product idea', 'about.feedbackCorrection': 'Resource correction', 'about.feedbackTool': 'Tool request',
-          'about.feedbackNote': 'No login required. This version does not upload feedback; the submit button copies it so you can send it to the developer.', 'about.feedbackLabel': 'Feedback',
+          'about.feedbackNoteCopy': 'No login required. This version does not upload feedback; the submit button copies it so you can send it to the developer.', 'about.feedbackNoteIssue': 'Submitting opens GitHub Issues. Review the content before creating the issue.', 'about.feedbackSubmitGitHub': 'Continue on GitHub', 'about.feedbackNote': 'No login required. This version does not upload feedback; the submit button copies it so you can send it to the developer.', 'about.feedbackLabel': 'Feedback',
           'about.feedbackPlaceholder': 'Describe the issue, suggestion, or resource you would like to add…', 'about.feedbackSubmit': 'Submit feedback',
           'about.note': 'Roleport does not require an account and does not upload local tool inputs automatically.',
           'footer.disclaimer': 'Verify job and external service information on the official page.',
-          'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied. Send it to the developer.',
+          'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied. Send it to the developer.', 'toast.feedbackOpening': 'Opening GitHub Issues',
           'summary.tools': '{count} tools · {developing} in development', 'summary.resources': '{count} resources',
           'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Find Opportunities', 'page.matcher': 'JD & Resume Matcher', 'page.advisor': 'Resume Improvement Advisor',
           'matcher.title': 'JD & Resume Keyword Matcher', 'matcher.subtitle': 'Paste a job description and your resume to find covered and missing keywords, then build an actionable checklist.',
@@ -1516,7 +1518,9 @@
         zh: { all: '全部岗位', operations: '运营与增长', business: '商务与合作', product: '产品与项目', engineering: '技术开发', data: '数据与研究', design: '产品设计' },
         en: { all: 'All roles', operations: 'Operations & growth', business: 'Business & partnerships', product: 'Product & projects', engineering: 'Engineering', data: 'Data & research', design: 'Product design' }
       };
-      const FEEDBACK_EMAIL = '';
+      // 部署到 GitHub Pages 后填写仓库的 Issues 新建地址，例如：
+      // https://github.com/your-name/roleport/issues/new
+      const FEEDBACK_ISSUE_URL = '';
 
       const TOOLS = [
         { id: 'application-manager', icon: 'manage', category: 'manage', status: 'planned', name: { zh: '求职申请管理器', en: 'Application Tracker' }, desc: { zh: '记录岗位、截止时间和下一步行动。', en: 'Track roles, deadlines, and your next actions.' } },
@@ -1602,7 +1606,7 @@
         coreToolsGrid: $('#coreToolsGrid'), toolsGrid: $('#toolsGrid'), futureToolsCount: $('#futureToolsCount'),
         resourceFilters: $('#resourceFilters'), resourceGrid: $('#resourceGrid'), legacyResourceGrid: $('#legacyResourceGrid'), featuredResourcesSection: $('#featuredResourcesSection'), legacyResourcesSection: $('#legacyResourcesSection'), featuredResourcesCount: $('#featuredResourcesCount'), legacyResourcesCount: $('#legacyResourcesCount'), resourcesSummary: $('#resourcesSummary'),
         resourceEmpty: $('#resourceEmpty'), resourceSearch: $('#resourceSearch'), resourceSearchForm: $('#resourceSearchForm'), opportunitySwitch: $('#opportunitySwitch'), roleGuidePanel: $('#roleGuidePanel'), resourceDirectoryPanel: $('#resourceDirectoryPanel'), roleGuideGrid: $('#roleGuideGrid'), roleGuideEmpty: $('#roleGuideEmpty'), opportunityDisclaimer: $('#opportunityDisclaimer'),
-        feedbackForm: $('#feedbackForm'), feedbackText: $('#feedbackText'), feedbackTypes: $('#feedbackTypes'), toast: $('#toast'),
+        feedbackForm: $('#feedbackForm'), feedbackText: $('#feedbackText'), feedbackTypes: $('#feedbackTypes'), feedbackNote: $('.feedback-note'), feedbackSubmit: $('.feedback-submit'), toast: $('#toast'),
         guideBackdrop: $('#guideBackdrop'), guideDrawer: $('#guideDrawer'), guideClose: $('#guideClose'), guideTitle: $('#guideTitle'), guideScenario: $('#guideScenario'), guideContent: $('#guideContent'),
         matcherJd: $('#matcherJd'), matcherResume: $('#matcherResume'), matcherJdCount: $('#matcherJdCount'), matcherResumeCount: $('#matcherResumeCount'),
         matcherJdFile: $('#matcherJdFile'), matcherJdImport: $('#matcherJdImport'), matcherJdFileStatus: $('#matcherJdFileStatus'),
@@ -1683,6 +1687,7 @@
           try { localStorage.setItem('roleport-theme', state.theme); } catch (_) {}
         }
         updateThemeLabel();
+        updateFeedbackChannel();
         syncHeaderTheme();
       };
 
@@ -1709,6 +1714,7 @@
           element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel));
         });
         updateThemeLabel();
+        updateFeedbackChannel();
         updateMatcherCounts();
         updatePageTitle();
         renderHomeTools();
@@ -2655,14 +2661,26 @@
         }
         const typeLabel = state.feedbackType === 'correction' ? t('about.feedbackCorrection') : state.feedbackType === 'tool' ? t('about.feedbackTool') : t('about.feedbackSuggestion');
         const content = `Roleport Feedback\nType: ${typeLabel}\nMessage: ${message}\nPage: ${window.location.href}`;
-        if (FEEDBACK_EMAIL) {
-          window.location.href = `mailto:${encodeURIComponent(FEEDBACK_EMAIL)}?subject=${encodeURIComponent('Roleport Feedback')}&body=${encodeURIComponent(content)}`;
-          return;
+        if (FEEDBACK_ISSUE_URL) {
+          try {
+            const issueUrl = new URL(FEEDBACK_ISSUE_URL);
+            issueUrl.searchParams.set('title', `[Roleport Feedback] ${typeLabel}`);
+            issueUrl.searchParams.set('body', content);
+            window.open(issueUrl.toString(), '_blank', 'noopener,noreferrer');
+            showToast(t('toast.feedbackOpening'));
+            return;
+          } catch (_) {}
         }
         await copyText(content);
         showToast(t('toast.feedbackCopied'));
       });
 
+      const updateFeedbackChannel = () => {
+        if (!refs.feedbackNote || !refs.feedbackSubmit) return;
+        const hasIssueUrl = Boolean(FEEDBACK_ISSUE_URL);
+        refs.feedbackNote.textContent = t(hasIssueUrl ? 'about.feedbackNoteIssue' : 'about.feedbackNoteCopy');
+        refs.feedbackSubmit.textContent = t(hasIssueUrl ? 'about.feedbackSubmitGitHub' : 'about.feedbackSubmit');
+      };
       const updateMatcherCounts = () => {
         refs.matcherJdCount.textContent = t('matcher.charCount').replace('{count}', refs.matcherJd.value.length);
         refs.matcherResumeCount.textContent = t('matcher.charCount').replace('{count}', refs.matcherResume.value.length);
