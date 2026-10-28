@@ -347,6 +347,17 @@
     .tools-grid .tool-card .tool-card-top { padding-right: 92px; }
     .tools-status-note { margin: 26px 0 0; color: var(--soft); font-size: 10.5px; }
 
+    .toolbox-core-head { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin:4px 0 20px; }
+    .toolbox-core-head h2 { margin:7px 0 6px; color:var(--text); font-size:23px; line-height:1.3; letter-spacing:-.025em; }
+    .toolbox-core-head p { max-width:680px; margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+    .toolbox-workflow { flex:0 0 auto; display:inline-flex; align-items:center; min-height:32px; padding:0 11px; border:1px solid var(--line); border-radius:8px; background:var(--surface-soft); color:var(--muted); font-size:11.5px; font-weight:700; }
+    .core-tools-grid .tool-card { min-height:192px; padding:22px; }
+    .core-tools-grid .tool-card h3 { max-width:480px; font-size:18px; }
+    .core-tools-grid .tool-card p { max-width:520px; font-size:12.5px; }
+    .tool-availability { margin:14px 0 0 !important; padding-top:12px; border-top:1px solid var(--line); color:var(--soft) !important; font-size:11.5px !important; }
+    .toolbox-future { margin-top:30px; }
+    .toolbox-future .tools-grid { margin-top:16px; }
+    @media(max-width:760px){ .toolbox-core-head { align-items:flex-start; flex-direction:column; gap:12px; } .toolbox-workflow { width:100%; justify-content:center; } .core-tools-grid .tool-card { min-height:0; padding:20px; } }
     .resource-search-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
     .resource-search { display: flex; align-items: center; gap: 10px; width: 366px; flex: 0 0 366px; }
     .search-box {
@@ -971,13 +982,29 @@
         <header class="page-heading">
           <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / TOOLBOX</div>
           <h1 data-i18n="tools.title">求职工具箱</h1>
-          <p data-i18n="tools.subtitle">选择适合当前阶段的轻量工具。尚未开放的功能会明确标记状态。</p>
+          <p data-i18n="tools.subtitle">1.0 聚焦两个核心工具：先诊断岗位匹配，再把结果转成简历改进行动。</p>
         </header>
-        <div class="filter-bar">
-          <div id="toolFilters" class="filter-bar" style="margin:0"><button class="filter-chip is-active" type="button" data-tool-filter="all" aria-pressed="true">全部工具</button><button class="filter-chip" type="button" data-tool-filter="manage" aria-pressed="false">管理</button><button class="filter-chip" type="button" data-tool-filter="analysis" aria-pressed="false">分析</button><button class="filter-chip" type="button" data-tool-filter="optimize" aria-pressed="false">优化</button><button class="filter-chip" type="button" data-tool-filter="decision" aria-pressed="false">决策</button></div>
-          <p class="filter-summary" id="toolsSummary"></p>
-        </div>
-        <div class="tools-grid" id="toolsGrid"></div>
+
+        <section class="toolbox-core-section" aria-labelledby="coreToolsTitle">
+          <div class="toolbox-core-head">
+            <div>
+              <div class="eyebrow" data-i18n="tools.coreEyebrow">1.0 CORE WORKFLOW</div>
+              <h2 id="coreToolsTitle" data-i18n="tools.coreTitle">两个核心工具</h2>
+              <p data-i18n="tools.coreDesc">围绕同一个目标岗位，先看清关键词与经历证据，再把诊断结果转成可执行的简历修改清单。</p>
+            </div>
+            <span class="toolbox-workflow" data-i18n="tools.workflow">01 匹配诊断 → 02 简历改进</span>
+          </div>
+          <div class="tools-grid core-tools-grid" id="coreToolsGrid"></div>
+        </section>
+
+        <details class="resource-legacy toolbox-future" id="futureToolsSection">
+          <summary>
+            <span class="resource-summary-copy"><strong data-i18n="tools.futureTitle">后续规划工具</strong><small data-i18n="tools.futureDesc">这些功能尚未纳入 1.0，当前只展示规划，不提供可用入口。</small></span>
+            <span class="resource-section-count" id="futureToolsCount"></span>
+          </summary>
+          <div class="tools-grid" id="toolsGrid"></div>
+        </details>
+
         <p class="tools-status-note" data-i18n="tools.statusNote">状态说明：开发中 = 正在实现；规划中 = 尚未开始；可用 = 已上线。</p>
         <footer class="site-footer">
           <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
@@ -985,7 +1012,6 @@
         </footer>
       </div>
     </section>
-
     <section class="page-view" data-view="resources" hidden="">
       <div class="shell page-shell">
         <div class="resource-search-row">
@@ -1216,7 +1242,9 @@
           'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': '从寻找机会、诊断 JD 到优化简历，用一套清晰的流程完成 Web3 求职准备。', 'home.v9.primary': '找机会', 'home.v9.secondary': '诊断我的简历', 'home.v9.signal1Title': '本地处理', 'home.v9.signal1Desc': '材料只在当前浏览器处理', 'home.v9.signal2Title': '无需账号', 'home.v9.signal2Desc': '打开即可开始使用', 'home.v9.signal3Title': '规则透明', 'home.v9.signal3Desc': '结果可回看原文依据', 'home.v9.signal4Title': '中英双语', 'home.v9.signal4Desc': '支持语言与主题切换', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': '从看机会到做决定，沿着一条路径推进。', 'home.v9.workflowDesc': '先知道当前阶段该做什么，再选择对应工具。', 'home.v9.allTools': '查看工具箱 →', 'home.v9.stage1Title': '找机会', 'home.v9.stage1Desc': '先了解岗位方向与搜索词，再从中文友好、Web3、远程与社群资源中找到入口。', 'home.v9.stage1Meta': '岗位指南 + 资源导航 · 可用', 'home.v9.stage2Title': '看岗位', 'home.v9.stage2Desc': '理解岗位要求，并比较多个 JD 的共同点与差异。', 'home.v9.stage2Meta': '多岗位分析 · 开发中', 'home.v9.stage3Title': '改简历', 'home.v9.stage3Desc': '核对岗位关键词与真实经历，形成修改清单。', 'home.v9.stage3Meta': 'JD 简历诊断 · 可用', 'home.v9.stage4Title': '做决策', 'home.v9.stage4Desc': '记录机会、比较投入与回报，决定下一步。', 'home.v9.stage4Meta': '后续规划', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': '优先展示能真正推进求职的工具。', 'home.v9.toolsDesc': '不堆功能，不伪装状态。正在开发与规划中的能力都会明确标注。', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': '先从可信的求职入口开始。', 'home.v9.resourceDesc': '优先查看中文友好、Web3、远程与求职社群资源，再按需展开海外通用平台。', 'home.v9.resourceCta': '打开求职资源导航 →', 'home.v9.resourceMetric1': '正式资源', 'home.v9.resourceMetric2': '资源分类', 'home.v9.resourceMetric3': '双语入口',
           'home.note': 'Roleport 不重复建设招聘平台，只为你汇集成熟服务与轻量工具。',
           'stage.orient': '找方向', 'stage.roles': '看岗位', 'stage.resume': '改简历', 'stage.apply': '投递管理', 'stage.interview': '面试准备', 'stage.decide': '做决策',
-          'tools.title': '求职工具箱', 'tools.subtitle': '选择适合当前阶段的轻量工具。尚未开放的功能会明确标记状态。',
+          'tools.title': '求职工具箱', 'tools.subtitle': '1.0 聚焦两个核心工具：先诊断岗位匹配，再把结果转成简历改进行动。',
+          'tools.coreEyebrow': '1.0 CORE WORKFLOW', 'tools.coreTitle': '两个核心工具', 'tools.coreDesc': '围绕同一个目标岗位，先看清关键词与经历证据，再把诊断结果转成可执行的简历修改清单。', 'tools.workflow': '01 匹配诊断 → 02 简历改进',
+          'tools.futureTitle': '后续规划工具', 'tools.futureDesc': '这些功能尚未纳入 1.0，当前只展示规划，不提供可用入口。', 'tools.futureCount': '{count} 个方向', 'tools.availability.developing': '功能仍在开发中，当前没有可用入口。', 'tools.availability.planned': '后续规划功能，当前没有可用入口。',
           'guide.trigger': '使用指南', 'guide.kicker': '工具使用指南', 'guide.when': '什么时候使用', 'guide.prepare': '使用前准备', 'guide.steps': '怎么操作', 'guide.outputs': '你会得到', 'guide.cautions': '注意事项', 'guide.next': '下一步', 'guide.stage': '阶段', 'guide.duration': '预计用时', 'guide.useCase': '适用场景', 'guide.close': '关闭使用指南', 'guide.comingSoon': '工具开发中',
           'tools.statusNote': '状态说明：开发中 = 正在实现；规划中 = 尚未开始；可用 = 已上线。',
           'tools.status.planned': '规划中', 'tools.status.developing': '开发中', 'tools.status.available': '可用',
@@ -1287,7 +1315,9 @@
           'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': 'Find opportunities, diagnose a JD, and improve your resume through one clear Web3 job-search workflow.', 'home.v9.primary': 'Find opportunities', 'home.v9.secondary': 'Diagnose my resume', 'home.v9.signal1Title': 'Local processing', 'home.v9.signal1Desc': 'Your materials stay in the browser', 'home.v9.signal2Title': 'No account', 'home.v9.signal2Desc': 'Open and start immediately', 'home.v9.signal3Title': 'Transparent rules', 'home.v9.signal3Desc': 'Review the original evidence behind every result', 'home.v9.signal4Title': 'Bilingual', 'home.v9.signal4Desc': 'Language and theme switching supported', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': 'One path from finding opportunities to making a decision.', 'home.v9.workflowDesc': 'Know what to do at each stage, then choose the right tool.', 'home.v9.allTools': 'View toolbox →', 'home.v9.stage1Title': 'Find opportunities', 'home.v9.stage1Desc': 'Understand role directions and search terms first, then use Chinese-friendly, Web3, remote, and community resources.', 'home.v9.stage1Meta': 'Role guides + resource directory · Live', 'home.v9.stage2Title': 'Explore roles', 'home.v9.stage2Desc': 'Understand requirements and compare shared and unique JD signals.', 'home.v9.stage2Meta': 'Multi-role analysis · In development', 'home.v9.stage3Title': 'Improve resume', 'home.v9.stage3Desc': 'Check keyword evidence and turn it into a focused revision list.', 'home.v9.stage3Meta': 'JD-resume diagnosis · Live', 'home.v9.stage4Title': 'Make decisions', 'home.v9.stage4Desc': 'Track opportunities, compare effort and return, and choose the next move.', 'home.v9.stage4Meta': 'Planned', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': 'Tools that move a job search forward.', 'home.v9.toolsDesc': 'No feature padding and no misleading status. In-development and planned capabilities are clearly marked.', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': 'Start with trustworthy job-search destinations.', 'home.v9.resourceDesc': 'Review Chinese-friendly, Web3, remote, and community resources first, then expand global platforms when needed.', 'home.v9.resourceCta': 'Open resource directory →', 'home.v9.resourceMetric1': 'Curated resources', 'home.v9.resourceMetric2': 'Categories', 'home.v9.resourceMetric3': 'Bilingual access',
           'home.note': 'Roleport does not rebuild job boards. It brings proven services and lightweight tools together for you.',
           'stage.orient': 'Find direction', 'stage.roles': 'Explore roles', 'stage.resume': 'Resume', 'stage.apply': 'Applications', 'stage.interview': 'Interview prep', 'stage.decide': 'Decisions',
-          'tools.title': 'Job search toolbox', 'tools.subtitle': 'Choose a lightweight tool for your current stage. Unavailable tools are clearly marked.',
+          'tools.title': 'Job search toolbox', 'tools.subtitle': 'Version 1.0 focuses on two core tools: diagnose role fit first, then turn the result into resume improvements.',
+          'tools.coreEyebrow': '1.0 CORE WORKFLOW', 'tools.coreTitle': 'Two core tools', 'tools.coreDesc': 'For one target role, review keyword and evidence matches first, then turn the diagnosis into an actionable resume revision list.', 'tools.workflow': '01 Match diagnosis → 02 Resume improvements',
+          'tools.futureTitle': 'Future tools', 'tools.futureDesc': 'These tools are not part of Version 1.0 yet. They are shown as plans only and have no active entry.', 'tools.futureCount': '{count} directions', 'tools.availability.developing': 'This tool is still in development and has no active entry yet.', 'tools.availability.planned': 'This is a planned tool with no active entry yet.',
           'guide.trigger': 'How to use', 'guide.kicker': 'TOOL GUIDE', 'guide.when': 'When to use this', 'guide.prepare': 'Before you start', 'guide.steps': 'How it works', 'guide.outputs': 'What you get', 'guide.cautions': 'Keep in mind', 'guide.next': 'Next step', 'guide.stage': 'Stage', 'guide.duration': 'Time', 'guide.useCase': 'Best for', 'guide.close': 'Close guide', 'guide.comingSoon': 'In development',
           'tools.statusNote': 'Status: Developing = in progress; Planned = not started; Available = live.',
           'tools.status.planned': 'Planned', 'tools.status.developing': 'Developing', 'tools.status.available': 'Available',
@@ -1345,7 +1375,6 @@
         }
       };
 
-      const TOOL_CATEGORIES = ['all', 'manage', 'analysis', 'optimize', 'decision'];
       const RESOURCE_CATEGORIES = ['all', 'general', 'tech', 'web3', 'remote', 'freelance', 'community', 'resume', 'learning'];
       const RESOURCE_CATEGORY_LABELS = {
         zh: { all: '全部', general: '综合招聘', tech: '互联网与科技招聘', web3: 'Web3 招聘', remote: '远程工作平台', freelance: '兼职与悬赏平台', community: '求职社群与内推', resume: '简历与面试资源', learning: '技能学习资源' },
@@ -1368,10 +1397,14 @@
 
       const TOOLS = [
         { id: 'application-manager', icon: 'manage', category: 'manage', status: 'planned', name: { zh: '求职申请管理器', en: 'Application Tracker' }, desc: { zh: '记录岗位、截止时间和下一步行动。', en: 'Track roles, deadlines, and your next actions.' } },
-        { id: 'multi-job-analyzer', icon: 'compare', category: 'analysis', status: 'developing', name: { zh: '多岗位 JD 对比与简历批量匹配器', en: 'Multi-role JD Comparator & Batch Matcher' }, desc: { zh: '对比多个 JD 的共同要求、差异和简历覆盖情况。', en: 'Compare shared requirements, differences, and resume coverage across multiple JDs.' } },
-        { id: 'resume-keyword', icon: 'match', category: 'optimize', status: 'available', route: 'matcher', name: { zh: 'JD 与简历关键词匹配器', en: 'Resume Keyword Matcher' }, desc: { zh: '针对一个重点岗位，查看完整证据并优化简历。', en: 'Deep-check one priority role with evidence and a resume checklist.' } },
+        { id: 'multi-job-analyzer', icon: 'compare', category: 'analysis', status: 'planned', name: { zh: '多岗位 JD 对比与简历批量匹配器', en: 'Multi-role JD Comparator & Batch Matcher' }, desc: { zh: '对比多个 JD 的共同要求、差异和简历覆盖情况。', en: 'Compare shared requirements, differences, and resume coverage across multiple JDs.' } },
+        { id: 'resume-keyword', icon: 'match', category: 'optimize', status: 'available', route: 'matcher', name: { zh: 'JD 与简历关键词匹配器', en: 'Resume Keyword Matcher' }, desc: { zh: '针对一个重点岗位，核对关键词、原文证据和简历缺口。', en: 'Check keywords, source evidence, and resume gaps for one priority role.' } },
+        { id: 'resume-advisor', icon: 'refine', category: 'optimize', status: 'developing', name: { zh: '简历改进建议', en: 'Resume Improvement Advisor' }, desc: { zh: '把匹配诊断整理成可执行的简历修改清单，不虚构用户经历。', en: 'Turn a match diagnosis into an actionable resume checklist without inventing experience.' } },
         { id: 'opportunity-roi', icon: 'roi', category: 'decision', status: 'planned', name: { zh: '机会投入产出计算器', en: 'Opportunity ROI Calculator' }, desc: { zh: '估算时间投入、薪资和机会成本。', en: 'Estimate time investment, salary, and opportunity cost.' } }
       ];
+
+      const CORE_TOOL_IDS = ['resume-keyword', 'resume-advisor'];
+      const FUTURE_TOOL_IDS = ['multi-job-analyzer', 'application-manager', 'opportunity-roi'];
 
       const RESOURCE_DIRECTORY_TOOL = {
         id: 'resource-directory', icon: 'resource', category: 'resource', status: 'available', route: 'resources',
@@ -1388,7 +1421,7 @@
           steps: { zh: ['切换「岗位指南」了解工作内容、准备方向和中英文搜索词', '切换「招聘资源」选择平台分类或搜索用途', '先看「中文友好与专项资源」', '点击资源打开官方平台，需要时再展开海外通用资源'], en: ['Open Role guides for responsibilities, preparation areas, and bilingual search terms', 'Switch to Job resources and choose a platform category or search use case', 'Review Chinese-friendly and specialist resources first', 'Open the official platform and expand global resources only when needed'] },
           outputs: { zh: ['清晰的岗位方向与搜索词', '可用的官方求职入口', '不同平台的使用场景与下一步目标岗位'], en: ['Clear role directions and search terms', 'Official job-search destinations', 'Platform use cases and target roles for the next step'] },
           cautions: { zh: ['资源导航只提供官方入口，不复制岗位数据库', '平台收费、隐私和岗位真实性请以官方页面为准'], en: ['The directory links to official platforms and does not copy their job databases', 'Check each platform for pricing, privacy, and listing accuracy'] },
-          next: { toolId: 'multi-job-analyzer', label: { zh: '下一步：分析多个目标岗位', en: 'Next: analyze several target roles' } }
+          next: { toolId: 'resume-keyword', label: { zh: '下一步：诊断重点岗位简历', en: 'Next: diagnose your resume for a priority role' } }
         },
         'multi-job-analyzer': {
           stage: { zh: '选岗阶段', en: 'Shortlist' }, duration: { zh: '2～5 分钟', en: '2–5 min' },
@@ -1408,7 +1441,7 @@
           steps: { zh: ['粘贴或导入 JD', '粘贴或导入简历', '开始分析', '先核对“明确覆盖”和“证据覆盖”', '按清单只补充真实具备的经历', '修改后重新分析确认'], en: ['Paste or import the JD', 'Paste or import the resume', 'Run the analysis', 'Review explicit and evidence matches first', 'Use the checklist only for experiences you actually have', 'Re-run after editing'] },
           outputs: { zh: ['逐关键词五态匹配结果', 'JD 与简历的完整命中句', '分类覆盖情况', 'Markdown 和 CSV 导出'], en: ['Five-state keyword results', 'All matched JD and resume sentences', 'Category coverage', 'Markdown and CSV export'] },
           cautions: { zh: ['不要为了覆盖率虚构经历', '英语能力、轮班意愿等信息需要本人确认', '关键词结果用于辅助判断，不替你做最终决策'], en: ['Do not invent experience to improve coverage', 'Confirm personal facts such as English ability or shift availability', 'Use results as decision support, not an automatic verdict'] },
-          next: { toolId: 'multi-job-analyzer', label: { zh: '继续比较其他岗位', en: 'Compare more roles' } }
+          next: { toolId: 'resume-advisor', label: { zh: '下一步：整理简历改进清单', en: 'Next: build a resume improvement checklist' } }
         },
         'application-manager': {
           stage: { zh: '投递管理', en: 'Track' }, duration: { zh: '5～10 分钟', en: '5–10 min' },
@@ -1426,7 +1459,7 @@
       const state = {
         lang: document.documentElement.dataset.lang === 'en' ? 'en' : 'zh',
         theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
-        route: 'home', toolCategory: 'all', opportunityView: 'resources', resourceCategory: 'all', resourceQuery: '', roleCategory: 'all', roleQuery: '',
+        route: 'home', opportunityView: 'resources', resourceCategory: 'all', resourceQuery: '', roleCategory: 'all', roleQuery: '',
         feedbackType: 'suggestion', toastTimer: null, matcherResult: null, guideToolId: null, guideReturnFocus: null
       };
 
@@ -1435,7 +1468,7 @@
       const t = (key) => I18N[state.lang][key] ?? key;
       const refs = {
         themeToggle: $('#themeToggle'), homeToolsGrid: $('#homeToolsGrid'), homeResourceCount: $('#homeResourceCount'), homeResourceCategoryCount: $('#homeResourceCategoryCount'),
-        toolFilters: $('#toolFilters'), toolsGrid: $('#toolsGrid'), toolsSummary: $('#toolsSummary'),
+        coreToolsGrid: $('#coreToolsGrid'), toolsGrid: $('#toolsGrid'), futureToolsCount: $('#futureToolsCount'),
         resourceFilters: $('#resourceFilters'), resourceGrid: $('#resourceGrid'), legacyResourceGrid: $('#legacyResourceGrid'), featuredResourcesSection: $('#featuredResourcesSection'), legacyResourcesSection: $('#legacyResourcesSection'), featuredResourcesCount: $('#featuredResourcesCount'), legacyResourcesCount: $('#legacyResourcesCount'), resourcesSummary: $('#resourcesSummary'),
         resourceEmpty: $('#resourceEmpty'), resourceSearch: $('#resourceSearch'), resourceSearchForm: $('#resourceSearchForm'), opportunitySwitch: $('#opportunitySwitch'), roleGuidePanel: $('#roleGuidePanel'), resourceDirectoryPanel: $('#resourceDirectoryPanel'), roleGuideGrid: $('#roleGuideGrid'), roleGuideEmpty: $('#roleGuideEmpty'), opportunityDisclaimer: $('#opportunityDisclaimer'),
         feedbackForm: $('#feedbackForm'), feedbackText: $('#feedbackText'), feedbackTypes: $('#feedbackTypes'), toast: $('#toast'),
@@ -1463,6 +1496,7 @@
           compare: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="9" height="12" rx="1.8" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="2.5" width="9" height="12" rx="1.8" stroke="currentColor" stroke-width="1.3"/></svg>',
           stats: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16.5h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><rect x="4.5" y="10" width="3" height="5" rx=".7" fill="currentColor"/><rect x="8.7" y="6" width="3" height="9" rx=".7" fill="currentColor"/><rect x="12.9" y="8" width="3" height="7" rx=".7" fill="currentColor"/></svg>',
           match: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="4.8" stroke="currentColor" stroke-width="1.4"/><path d="m11.5 11.5 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="13" cy="6.5" r="2.5" stroke="currentColor" stroke-width="1.1"/></svg>',
+          refine: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 15.5 5 12l8.5-8.5a1.8 1.8 0 0 1 2.5 2.5L7.5 14.5 4 15.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="m12.5 5.5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>',
           roi: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6.8 10h6.4M10 6.8v6.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
           resource: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="3.5" width="15" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 7h8M6 10h6.5M6 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>'
         };
@@ -1476,10 +1510,12 @@
         const available = tool.status === 'available';
         const tag = available ? 'a' : 'article';
         const href = tool.route ? `#${tool.route}` : '#resources';
-        const attrs = available ? ` href="${href}" class="card tool-card is-available"` : ' class="card tool-card"';
+        const classes = `card tool-card${available ? ' is-available' : ''}`;
+        const attrs = available ? ` href="${href}" class="${classes}"` : ` class="${classes}"`;
         const category = tool.category === 'resource' ? t('tools.filter.resource') : t(`tools.filter.${tool.category}`);
         const guide = TOOL_GUIDES[tool.id];
         const guideContext = guide ? `<div class="tool-context"><span>${escapeHtml(guide.stage[state.lang])}</span><span>${escapeHtml(guide.duration[state.lang])}</span></div><p class="tool-scenario"><strong>${escapeHtml(t('guide.useCase'))}${state.lang === 'zh' ? '：' : ': '}</strong>${escapeHtml(guide.scenario[state.lang])}</p>` : '';
+        const availability = available ? '' : `<p class="tool-availability">${escapeHtml(t('tools.availability.' + tool.status))}</p>`;
         const cta = available ? `<span class="tool-card-cta">${tool.route === 'matcher' ? t('matcher.cta') : t('nav.resources')} →</span>` : '';
         return `<${tag}${attrs} data-tool-id="${escapeHtml(tool.id)}">
           <div class="tool-card-top">
@@ -1490,6 +1526,7 @@
           <h3>${escapeHtml(tool.name[state.lang])}</h3>
           <p>${escapeHtml(tool.desc[state.lang])}</p>
           ${guideContext}
+          ${availability}
           ${cta}
         </${tag}>`;
       };
@@ -1538,7 +1575,6 @@
         updateThemeLabel();
         updatePageTitle();
         renderHomeTools();
-        renderToolFilters();
         renderTools();
         renderOpportunityView();
         if (state.guideToolId) renderToolGuide();
@@ -1552,22 +1588,15 @@
         if (refs.homeResourceCategoryCount) refs.homeResourceCategoryCount.textContent = Math.max(0, RESOURCE_CATEGORIES.length - 1);
       }
 
-      function renderToolFilters() {
-        if (!refs.toolFilters) return;
-        refs.toolFilters.innerHTML = TOOL_CATEGORIES.map((category) => {
-          const active = state.toolCategory === category;
-          return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-tool-filter="${category}" aria-pressed="${active}">${escapeHtml(t(`tools.filter.${category}`))}</button>`;
-        }).join('');
-      }
-
       function renderTools() {
-        if (!refs.toolsGrid) return;
-        const filtered = TOOLS.filter((tool) => state.toolCategory === 'all' || tool.category === state.toolCategory);
-        const developing = filtered.filter((tool) => tool.status === 'developing').length;
-        refs.toolsGrid.innerHTML = filtered.map((tool) => toolCardMarkup(tool)).join('');
-        refs.toolsSummary.textContent = t('summary.tools').replace('{count}', filtered.length).replace('{developing}', developing);
+        if (!refs.toolsGrid || !refs.coreToolsGrid) return;
+        const byId = (id) => TOOLS.find((tool) => tool.id === id);
+        const coreTools = CORE_TOOL_IDS.map(byId).filter(Boolean);
+        const futureTools = FUTURE_TOOL_IDS.map(byId).filter(Boolean);
+        refs.coreToolsGrid.innerHTML = coreTools.map((tool) => toolCardMarkup(tool)).join('');
+        refs.toolsGrid.innerHTML = futureTools.map((tool) => toolCardMarkup(tool)).join('');
+        refs.futureToolsCount.textContent = t('tools.futureCount').replace('{count}', futureTools.length);
       }
-
       function renderOpportunityFilters() {
         if (!refs.resourceFilters) return;
         const showingRoles = state.opportunityView === 'roles';
@@ -2297,14 +2326,6 @@
         button.addEventListener('click', () => setLanguage(button.dataset.language));
       });
 
-      refs.toolFilters.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-tool-filter]');
-        if (!button) return;
-        state.toolCategory = button.dataset.toolFilter;
-        renderToolFilters();
-        renderTools();
-      });
-
       refs.opportunitySwitch.addEventListener('click', (event) => {
         const button = event.target.closest('[data-opportunity-view]');
         if (!button) return;
@@ -2338,9 +2359,7 @@
           const route = button.dataset.stageRoute;
           const filter = button.dataset.stageFilter;
           if (route === 'tools') {
-            state.toolCategory = TOOL_CATEGORIES.includes(filter) ? filter : 'all';
-            renderToolFilters();
-            renderTools();
+            // The toolbox now has a fixed core/future structure.
           } else if (route === 'resources') {
             state.opportunityView = 'resources';
             state.resourceCategory = RESOURCE_CATEGORIES.includes(filter) ? filter : 'all';
