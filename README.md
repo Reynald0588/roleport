@@ -22,6 +22,20 @@ python -m http.server 8000
 
 PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此不建议直接双击打开匹配器页面。
 
+## 1.0 开发进度
+
+当前已完成 1.0 计划的第 0 步和 A 阶段：
+
+- 建立 Git 版本基线
+- 首页调整为“找机会 / 提高申请竞争力”两条核心路径
+- 首页采用 V9 紫青动态科技视觉
+- 首页展示真实资源数量和分类数量
+- 主导航中的资源入口调整为“找机会”
+- 根地址自动进入 `toolkit.html#home`
+- 旧招聘列表保留为 `legacy-jobs.html`，不参与 1.0 主流程
+
+下一步为 B 阶段：在资源页增加岗位分类指南。
+
 ## 匹配器能力
 
 - 本地词典与同义词匹配
@@ -50,7 +64,8 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 - `vendor/pdf-cmaps-data.js`：内置 PDF CMap，支持直接打开 HTML 时解析中文 PDF
 - `vendor/fflate.min.js`：DOCX 解压与正文读取
 - `favicon.svg`：Roleport 图标
-- `index.html` / `styles.css` / `app.js` / `jobs.js`：早期招聘信息页面示例
+- `index.html`：1.0 网站入口跳转页
+- `legacy-jobs.html` / `styles.css` / `app.js` / `jobs.js`：早期招聘信息页面示例
 
 ## 文件导入
 
