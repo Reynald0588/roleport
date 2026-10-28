@@ -829,6 +829,31 @@
     .role-guide-related { margin:16px 0 0; color:var(--muted); font-size:11.5px; line-height:1.65; }
     .role-guide-related strong { color:var(--text); }
     @media(max-width:700px){ .opportunity-switch { grid-template-columns:1fr; } .opportunity-tab small { display:none; } .role-guide-intro { align-items:flex-start; flex-direction:column; gap:14px; } .role-guide-jump { width:100%; } .role-guide-card summary { grid-template-columns:32px minmax(0,1fr) 26px; gap:11px; padding:16px; } .role-guide-index { width:32px; height:32px; } .role-guide-body { padding:0 16px 18px; } .role-guide-detail-grid { grid-template-columns:1fr; gap:18px; } .role-keyword-row { grid-template-columns:1fr; gap:5px; } }
+    /* Resume improvement advisor */
+    .advisor-results { margin-top:26px; }
+    .advisor-results.is-visible { display:block; }
+    .advisor-summary { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .advisor-section { margin-top:16px; padding:20px; }
+    .advisor-section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; margin-bottom:14px; }
+    .advisor-section-head h3 { margin:0; color:var(--text); font-size:16px; letter-spacing:-.015em; }
+    .advisor-section-head p { margin:5px 0 0; color:var(--muted); font-size:11.5px; line-height:1.6; }
+    .advisor-count { flex:0 0 auto; color:var(--soft); font-size:11px; font-weight:700; }
+    .advisor-items { display:grid; gap:10px; }
+    .advisor-item { padding:15px; border:1px solid var(--line); border-radius:11px; background:var(--surface-soft); }
+    .advisor-item-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .advisor-item-title { display:flex; flex-wrap:wrap; align-items:center; gap:7px; min-width:0; }
+    .advisor-item-title strong { color:var(--text); font-size:13px; }
+    .advisor-item-meta { display:flex; flex-wrap:wrap; gap:6px; }
+    .advisor-copy { margin:11px 0 0; color:var(--muted); font-size:12px; line-height:1.7; }
+    .advisor-copy strong { color:var(--text); font-weight:700; }
+    .advisor-evidence { margin:12px 0 0; padding:11px 12px; border-left:2px solid var(--accent); border-radius:0 8px 8px 0; background:var(--surface); color:var(--muted); font-size:11.5px; line-height:1.7; }
+    .advisor-evidence mark { background:rgba(185,242,75,.22); color:var(--text); border-radius:2px; padding:0 2px; }
+    .advisor-empty { margin-top:26px; }
+    .advisor-empty-icon { display:grid; place-items:center; width:42px; height:42px; margin:0 auto 12px; border-radius:12px; background:var(--surface-raised); color:var(--text); }
+    .advisor-actions-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:18px; }
+    .advisor-actions-row .note { color:var(--soft); font-size:11.5px; line-height:1.55; }
+    @media(max-width:1080px){ .advisor-summary { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media(max-width:560px){ .advisor-summary { grid-template-columns:1fr; } .advisor-section { padding:16px; } .advisor-section-head { flex-direction:column; gap:5px; } .advisor-item-head { align-items:flex-start; flex-direction:column; } .advisor-actions-row { align-items:stretch; flex-direction:column; } }
     /* Functional typography readability pass */
     .language-option { min-width:30px; font-size:12px; }
     .brand-tagline { font-size:10.5px; }
@@ -1202,6 +1227,58 @@
         <div class="matcher-results" id="matcherResults" aria-live="polite"></div>
       </div>
     </section>
+    <section class="page-view" data-view="advisor" hidden="">
+      <div class="shell page-shell">
+        <header class="page-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>TOOL / RESUME IMPROVEMENT</div>
+          <h1 data-i18n="advisor.title">简历改进建议</h1>
+          <p data-i18n="advisor.subtitle">把 JD 与简历的匹配结果整理成可执行的检查与改写清单，并区分表达问题、待核实信息与暂未发现证据的能力。</p>
+          <button class="guide-trigger" type="button" data-guide-tool="resume-advisor"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
+        </header>
+
+        <div class="matcher-layout">
+          <section class="card matcher-panel">
+            <h2 data-i18n="advisor.inputTitle">输入目标岗位与简历</h2>
+            <p class="matcher-sub" data-i18n="advisor.inputSub">本地规则分析，不使用 AI，不上传材料。</p>
+            <div class="matcher-field">
+              <div class="matcher-field-head"><label for="advisorJd"><span data-i18n="matcher.jdLabel">岗位描述 JD</span><span data-i18n="matcher.required">必填 · 上限 10,000 字</span></label><div class="matcher-import"><input id="advisorJdFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown" hidden=""><button class="matcher-import-button" id="advisorJdImport" type="button" data-i18n="matcher.importFile">导入文件</button></div></div>
+              <div class="matcher-textarea" data-advisor-drop-target="jd"><textarea id="advisorJd" maxlength="10000" data-i18n-placeholder="matcher.jdPlaceholder" placeholder="粘贴岗位描述原文…"></textarea><span class="matcher-count" id="advisorJdCount">0 字</span></div>
+              <div class="matcher-file-status" id="advisorJdFileStatus" hidden=""></div>
+            </div>
+            <div class="matcher-field">
+              <div class="matcher-field-head"><label for="advisorResume"><span data-i18n="matcher.resumeLabel">简历文本</span><span data-i18n="matcher.required">必填 · 上限 10,000 字</span></label><div class="matcher-import"><input id="advisorResumeFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown" hidden=""><button class="matcher-import-button" id="advisorResumeImport" type="button" data-i18n="matcher.importFile">导入文件</button></div></div>
+              <div class="matcher-textarea" data-advisor-drop-target="resume"><textarea id="advisorResume" maxlength="10000" data-i18n-placeholder="matcher.resumePlaceholder" placeholder="粘贴简历文本…"></textarea><span class="matcher-count" id="advisorResumeCount">0 字</span></div>
+              <div class="matcher-file-status" id="advisorResumeFileStatus" hidden=""></div>
+            </div>
+            <div class="matcher-actions">
+              <span class="note" data-i18n="advisor.privacyNote">文本只在当前浏览器处理，刷新页面后不会自动保留。</span>
+              <div class="matcher-buttons"><button class="button button-secondary" id="advisorClear" type="button" data-i18n="advisor.clear">清空</button><button class="button button-primary" id="advisorAnalyze" type="button" data-i18n="advisor.analyze">生成改进建议</button></div>
+            </div>
+          </section>
+
+          <aside class="card matcher-info">
+            <h2 data-i18n="advisor.principlesTitle">建议如何分类</h2>
+            <p class="matcher-sub" data-i18n="advisor.principlesSub">不把“简历里没写”直接判成“没有能力”。</p>
+            <ul class="matcher-output-list">
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span><strong data-i18n="advisor.principle1Title">表达可加强</strong><span data-i18n="advisor.principle1Desc">已有相关经历，但没有直接使用岗位中的关键词表达。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.3"></circle><path d="M10 6.5v4M10 13.5v.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span><span><strong data-i18n="advisor.principle2Title">需本人核实</strong><span data-i18n="advisor.principle2Desc">英语能力、到岗时间、轮班意愿等需要你本人确认。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="5.5" stroke="currentColor" stroke-width="1.3"></circle><path d="m13 13 3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></span><span><strong data-i18n="advisor.principle3Title">未发现证据</strong><span data-i18n="advisor.principle3Desc">简历中暂时没找到对应内容，不代表一定不具备。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.2"></rect><path d="M6 7h8M6 10h6M6 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><span><strong data-i18n="advisor.principle4Title">已覆盖</strong><span data-i18n="advisor.principle4Desc">已出现明确关键词或同义表达，仍建议补充事实和结果。</span></span></li>
+            </ul>
+            <div class="matcher-method-note"><strong data-i18n="advisor.honestyTitle">真实性原则：</strong><span data-i18n="advisor.honesty">只补充真实发生过的经历、工具和结果。没有证据时，应先补项目或能力，而不是堆砌关键词。</span></div>
+          </aside>
+        </div>
+
+        <div class="advisor-results" id="advisorResults" aria-live="polite">
+          <div class="empty-state advisor-empty"><span class="advisor-empty-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 15.5 5 12l8.5-8.5a1.8 1.8 0 0 1 2.5 2.5L7.5 14.5 4 15.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path><path d="m12.5 5.5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><strong data-i18n="advisor.emptyTitle">输入材料后生成建议</strong><p data-i18n="advisor.emptyDesc">建议会按表达可加强、需本人核实、未发现证据和已覆盖分类展示。</p></div>
+        </div>
+
+        <footer class="site-footer">
+          <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
+          <p class="footer-brand">ROLEPORT · ADVISOR</p>
+        </footer>
+      </div>
+    </section>
 </main>
 
   <div class="guide-backdrop" id="guideBackdrop" hidden></div>
@@ -1272,8 +1349,18 @@
           'footer.disclaimer': '求职信息与外部服务请以官方页面为准。',
           'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制',
           'summary.tools': '{count} 个工具 · {developing} 个开发中', 'summary.resources': '{count} 个资源',
-          'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '找机会', 'page.matcher': 'JD 与简历匹配器',
+          'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '找机会', 'page.matcher': 'JD 与简历匹配器', 'page.advisor': '简历改进建议',
           'matcher.title': 'JD 与简历关键词匹配器', 'matcher.subtitle': '粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。',
+          'advisor.title': '简历改进建议', 'advisor.subtitle': '把 JD 与简历的匹配结果整理成可执行的检查与改写清单，并区分表达问题、待核实信息与暂未发现证据的能力。',
+          'advisor.inputTitle': '输入目标岗位与简历', 'advisor.inputSub': '本地规则分析，不使用 AI，不上传材料。', 'advisor.analyze': '生成改进建议', 'advisor.clear': '清空', 'advisor.privacyNote': '文本只在当前浏览器处理，刷新页面后不会自动保留。',
+          'advisor.principlesTitle': '建议如何分类', 'advisor.principlesSub': '不把「简历里没写」直接判成「没有能力」。',
+          'advisor.principle1Title': '表达可加强', 'advisor.principle1Desc': '已有相关经历，但没有直接使用岗位中的关键词表达。', 'advisor.principle2Title': '需本人核实', 'advisor.principle2Desc': '英语能力、到岗时间、轮班意愿等需要你本人确认。', 'advisor.principle3Title': '未发现证据', 'advisor.principle3Desc': '简历中暂时没找到对应内容，不代表一定不具备。', 'advisor.principle4Title': '已覆盖', 'advisor.principle4Desc': '已出现明确关键词或同义表达，仍建议补充事实和结果。',
+          'advisor.honestyTitle': '真实性原则：', 'advisor.honesty': '只补充真实发生过的经历、工具和结果。没有证据时，应先补项目或能力，而不是堆砌关键词。',
+          'advisor.resultsTitle': '简历改进清单', 'advisor.resultsSub': '优先处理重要度高且你已经真实具备相关经历的内容。', 'advisor.priorityTitle': '优先检查与改写', 'advisor.priorityDesc': '已有相关证据，建议把真实经历写成「关键词 + 具体动作 + 结果」。', 'advisor.verifyTitle': '需本人核实', 'advisor.verifyDesc': '无法由简历文本可靠判断，请确认后再决定是否补充。', 'advisor.gapTitle': '未发现证据', 'advisor.gapDesc': '先确认真实经历；没有证据时，应补项目或能力，而不是堆砌关键词。', 'advisor.coveredTitle': '已覆盖', 'advisor.coveredDesc': '可保留这些表达，并检查是否放在对应经历中。',
+          'advisor.diagnosis': '判断依据', 'advisor.action': '建议动作', 'advisor.resumeEvidence': '简历中的相关原文', 'advisor.noEvidence': '简历中暂未找到可直接引用的原文。', 'advisor.noneInGroup': '这一类暂无项目。', 'advisor.copyMarkdown': '复制改进清单',
+          'advisor.summaryExpression': '可加强表达', 'advisor.summaryVerify': '需核实', 'advisor.summaryGap': '未发现证据', 'advisor.summaryCovered': '已覆盖',
+          'advisor.diagnosis.evidence': '简历中存在相关经历证据，但没有直接使用岗位中的表达。', 'advisor.action.evidence': '把已有真实经历改写为「岗位关键词 + 具体动作 + 结果」，不要新增不存在的经历。', 'advisor.diagnosis.partial': '只找到部分相关证据，还不足以证明完整能力。', 'advisor.action.partial': '检查是否能补充真实的任务范围、工具、频率或结果；找不到事实时就把它保留为待补强项。', 'advisor.diagnosis.unstated': '这类信息无法仅凭简历文本可靠判断，可能涉及个人条件或意愿。', 'advisor.action.unstated': '由本人核实后再决定是否补充；无法确认时不要写入简历。', 'advisor.diagnosis.missing': '简历中没有找到可核对的经历证据，也可能只是尚未写到。', 'advisor.action.missing': '先确认真实能力与经历；有事实就补充，没有则把它列为学习、项目或实践补强项。', 'advisor.diagnosis.covered': '简历中已出现明确关键词或同义表达。', 'advisor.action.covered': '保留表达，并检查是否放在对应经历中，补充动作、规模和结果。',
+          'advisor.emptyTitle': '输入材料后生成建议', 'advisor.emptyDesc': '建议会按表达可加强、需本人核实、未发现证据和已覆盖分类展示。', 'advisor.toastFill': '请先填写 JD 和简历', 'advisor.toastNone': '未从 JD 中识别到词典关键词', 'advisor.toastCopied': '简历改进清单已复制', 'advisor.charCount': '{count} 字',
           'matcher.inputTitle': '输入求职材料', 'matcher.inputSub': '规则匹配，不使用 AI，不上传简历内容。',
           'matcher.jdLabel': '岗位描述 JD', 'matcher.resumeLabel': '简历文本', 'matcher.required': '必填 · 上限 10,000 字',
           'matcher.jdPlaceholder': '粘贴岗位描述原文…', 'matcher.resumePlaceholder': '粘贴简历文本…',
@@ -1345,8 +1432,18 @@
           'footer.disclaimer': 'Verify job and external service information on the official page.',
           'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied',
           'summary.tools': '{count} tools · {developing} in development', 'summary.resources': '{count} resources',
-          'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Find Opportunities', 'page.matcher': 'JD & Resume Matcher',
+          'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Find Opportunities', 'page.matcher': 'JD & Resume Matcher', 'page.advisor': 'Resume Improvement Advisor',
           'matcher.title': 'JD & Resume Keyword Matcher', 'matcher.subtitle': 'Paste a job description and your resume to find covered and missing keywords, then build an actionable checklist.',
+          'advisor.title': 'Resume Improvement Advisor', 'advisor.subtitle': 'Turn JD and resume matches into an actionable review and rewriting list, separating wording opportunities, facts to verify, and capabilities with no evidence yet.',
+          'advisor.inputTitle': 'Enter the target role and resume', 'advisor.inputSub': 'Rule-based analysis in your browser. No AI and no uploads.', 'advisor.analyze': 'Generate advice', 'advisor.clear': 'Clear', 'advisor.privacyNote': 'Text is processed only in this browser and is not kept after refresh.',
+          'advisor.principlesTitle': 'How advice is classified', 'advisor.principlesSub': 'A missing statement does not automatically mean a missing capability.',
+          'advisor.principle1Title': 'Wording can improve', 'advisor.principle1Desc': 'Relevant experience exists, but the resume does not use the role language directly.', 'advisor.principle2Title': 'Verify with yourself', 'advisor.principle2Desc': 'English ability, availability, shift willingness, and similar facts need your confirmation.', 'advisor.principle3Title': 'No evidence found', 'advisor.principle3Desc': 'The resume does not show this yet; that does not prove you lack the capability.', 'advisor.principle4Title': 'Clearly covered', 'advisor.principle4Desc': 'A keyword or synonym is present, but facts and outcomes should still be clear.',
+          'advisor.honestyTitle': 'Honesty rule: ', 'advisor.honesty': 'Only add experiences, tools, and outcomes that actually happened. If evidence is missing, build the capability rather than stuffing keywords.',
+          'advisor.resultsTitle': 'Resume improvement checklist', 'advisor.resultsSub': 'Start with high-importance items that already have real supporting experience.', 'advisor.priorityTitle': 'Review and rewrite first', 'advisor.priorityDesc': 'Related evidence exists. Rewrite real experience as role keyword + concrete action + outcome.', 'advisor.verifyTitle': 'Verify with yourself', 'advisor.verifyDesc': 'The resume alone cannot confirm this. Decide whether to add it after checking the facts.', 'advisor.gapTitle': 'No evidence found', 'advisor.gapDesc': 'Confirm real experience first. If it is absent, build a project or capability instead of adding keywords.', 'advisor.coveredTitle': 'Covered', 'advisor.coveredDesc': 'Keep the wording and check that it appears inside the relevant experience.',
+          'advisor.diagnosis': 'Why it is classified this way', 'advisor.action': 'Suggested action', 'advisor.resumeEvidence': 'Relevant resume text', 'advisor.noEvidence': 'No directly quotable resume text was found.', 'advisor.noneInGroup': 'No items in this group.', 'advisor.copyMarkdown': 'Copy checklist',
+          'advisor.summaryExpression': 'Can improve wording', 'advisor.summaryVerify': 'Needs verification', 'advisor.summaryGap': 'No evidence found', 'advisor.summaryCovered': 'Covered',
+          'advisor.diagnosis.evidence': 'Relevant experience signals were found, but the role language is not used directly.', 'advisor.action.evidence': 'Rewrite the real experience as role keyword + concrete action + outcome. Do not add experience that did not happen.', 'advisor.diagnosis.partial': 'Only partial related evidence was found, which is not enough to demonstrate the full capability.', 'advisor.action.partial': 'Check whether real scope, tools, frequency, or outcomes can be added. If not, keep it as a capability to strengthen.', 'advisor.diagnosis.unstated': 'This cannot be reliably determined from resume text and may depend on personal conditions or preferences.', 'advisor.action.unstated': 'Verify it yourself before adding it. Do not include it if you cannot confirm it.', 'advisor.diagnosis.missing': 'No checkable experience evidence was found, though the resume may simply not mention it.', 'advisor.action.missing': 'Confirm the real capability first. Add facts if they exist; otherwise treat it as a learning, project, or practice gap.', 'advisor.diagnosis.covered': 'An explicit keyword or synonym appears in the resume.', 'advisor.action.covered': 'Keep it and check that it appears inside the relevant experience with action, scope, and outcome.',
+          'advisor.emptyTitle': 'Generate advice after entering your materials', 'advisor.emptyDesc': 'Recommendations are grouped into wording improvements, facts to verify, no-evidence items, and covered items.', 'advisor.toastFill': 'Please enter both the JD and your resume', 'advisor.toastNone': 'No dictionary keywords found in this JD', 'advisor.toastCopied': 'Resume checklist copied', 'advisor.charCount': '{count} chars',
           'matcher.inputTitle': 'Enter your materials', 'matcher.inputSub': 'Rule-based matching, no AI, no upload of your resume.',
           'matcher.jdLabel': 'Job description', 'matcher.resumeLabel': 'Resume text', 'matcher.required': 'Required · up to 10,000 characters',
           'matcher.jdPlaceholder': 'Paste the job description…', 'matcher.resumePlaceholder': 'Paste your resume…',
@@ -1399,7 +1496,7 @@
         { id: 'application-manager', icon: 'manage', category: 'manage', status: 'planned', name: { zh: '求职申请管理器', en: 'Application Tracker' }, desc: { zh: '记录岗位、截止时间和下一步行动。', en: 'Track roles, deadlines, and your next actions.' } },
         { id: 'multi-job-analyzer', icon: 'compare', category: 'analysis', status: 'planned', name: { zh: '多岗位 JD 对比与简历批量匹配器', en: 'Multi-role JD Comparator & Batch Matcher' }, desc: { zh: '对比多个 JD 的共同要求、差异和简历覆盖情况。', en: 'Compare shared requirements, differences, and resume coverage across multiple JDs.' } },
         { id: 'resume-keyword', icon: 'match', category: 'optimize', status: 'available', route: 'matcher', name: { zh: 'JD 与简历关键词匹配器', en: 'Resume Keyword Matcher' }, desc: { zh: '针对一个重点岗位，核对关键词、原文证据和简历缺口。', en: 'Check keywords, source evidence, and resume gaps for one priority role.' } },
-        { id: 'resume-advisor', icon: 'refine', category: 'optimize', status: 'developing', name: { zh: '简历改进建议', en: 'Resume Improvement Advisor' }, desc: { zh: '把匹配诊断整理成可执行的简历修改清单，不虚构用户经历。', en: 'Turn a match diagnosis into an actionable resume checklist without inventing experience.' } },
+        { id: 'resume-advisor', icon: 'refine', category: 'optimize', status: 'available', route: 'advisor', name: { zh: '简历改进建议', en: 'Resume Improvement Advisor' }, desc: { zh: '把匹配诊断整理成可执行的简历修改清单，不虚构用户经历。', en: 'Turn a match diagnosis into an actionable resume checklist without inventing experience.' } },
         { id: 'opportunity-roi', icon: 'roi', category: 'decision', status: 'planned', name: { zh: '机会投入产出计算器', en: 'Opportunity ROI Calculator' }, desc: { zh: '估算时间投入、薪资和机会成本。', en: 'Estimate time investment, salary, and opportunity cost.' } }
       ];
 
@@ -1443,7 +1540,15 @@
           cautions: { zh: ['不要为了覆盖率虚构经历', '英语能力、轮班意愿等信息需要本人确认', '关键词结果用于辅助判断，不替你做最终决策'], en: ['Do not invent experience to improve coverage', 'Confirm personal facts such as English ability or shift availability', 'Use results as decision support, not an automatic verdict'] },
           next: { toolId: 'resume-advisor', label: { zh: '下一步：整理简历改进清单', en: 'Next: build a resume improvement checklist' } }
         },
-        'application-manager': {
+        'resume-advisor': {
+          stage: { zh: '优化阶段', en: 'Optimize' }, duration: { zh: '3～5 分钟', en: '3–5 min' },
+          scenario: { zh: '已经完成一次 JD 与简历匹配，想把结果转成具体修改动作时使用。', en: 'Use this after matching a JD and resume to turn the diagnosis into concrete revision actions.' },
+          whenToUse: { zh: ['已经知道哪些关键词覆盖或缺失', '需要区分表达问题和待核实信息', '想要一份按优先级整理的修改清单'], en: ['You know which keywords are covered or missing', 'You need to separate wording issues from facts to verify', 'You want a prioritized revision checklist'] },
+          preparation: { zh: ['一个完整 JD', '一份当前版本的简历'], en: ['One complete JD', 'Your current resume'] },
+          steps: { zh: ['粘贴或导入 JD 与简历', '生成改进建议', '先处理已有真实证据的表达问题', '本人核实待确认信息', '把未发现证据项转为学习或项目行动'], en: ['Paste or import the JD and resume', 'Generate advice', 'Fix wording issues where real evidence already exists', 'Verify items that need your confirmation', 'Turn no-evidence items into learning or project actions'] },
+          outputs: { zh: ['可加强表达清单', '需本人核实清单', '未发现证据清单', '可复制的 Markdown 改进清单'], en: ['Wording improvements', 'Facts to verify', 'Items with no evidence yet', 'A copyable Markdown checklist'] },
+          cautions: { zh: ['不要为了覆盖关键词虚构经历', '未发现证据只代表简历中没找到，不代表一定不具备', '最终修改必须由本人核对真实性'], en: ['Do not invent experience to cover keywords', 'No evidence means it was not found in the resume, not that the capability is absent', 'You must verify the truth of every final edit'] }
+        },        'application-manager': {
           stage: { zh: '投递管理', en: 'Track' }, duration: { zh: '5～10 分钟', en: '5–10 min' },
           scenario: { zh: '开始集中投递后，需要记录进度、下一步行动和截止日期时使用。', en: 'Use this to track progress, next actions, and deadlines after starting applications.' }
         },
@@ -1460,7 +1565,7 @@
         lang: document.documentElement.dataset.lang === 'en' ? 'en' : 'zh',
         theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
         route: 'home', opportunityView: 'resources', resourceCategory: 'all', resourceQuery: '', roleCategory: 'all', roleQuery: '',
-        feedbackType: 'suggestion', toastTimer: null, matcherResult: null, guideToolId: null, guideReturnFocus: null
+        feedbackType: 'suggestion', toastTimer: null, matcherResult: null, advisorResult: null, guideToolId: null, guideReturnFocus: null
       };
 
       const $ = (selector) => document.querySelector(selector);
@@ -1476,7 +1581,11 @@
         matcherJd: $('#matcherJd'), matcherResume: $('#matcherResume'), matcherJdCount: $('#matcherJdCount'), matcherResumeCount: $('#matcherResumeCount'),
         matcherJdFile: $('#matcherJdFile'), matcherJdImport: $('#matcherJdImport'), matcherJdFileStatus: $('#matcherJdFileStatus'),
         matcherResumeFile: $('#matcherResumeFile'), matcherResumeImport: $('#matcherResumeImport'), matcherResumeFileStatus: $('#matcherResumeFileStatus'),
-        matcherCustomKeywords: $('#matcherCustomKeywords'), matcherAnalyze: $('#matcherAnalyze'), matcherClear: $('#matcherClear'), matcherResults: $('#matcherResults')
+        matcherCustomKeywords: $('#matcherCustomKeywords'), matcherAnalyze: $('#matcherAnalyze'), matcherClear: $('#matcherClear'), matcherResults: $('#matcherResults'),
+        advisorJd: $('#advisorJd'), advisorResume: $('#advisorResume'), advisorJdCount: $('#advisorJdCount'), advisorResumeCount: $('#advisorResumeCount'),
+        advisorJdFile: $('#advisorJdFile'), advisorJdImport: $('#advisorJdImport'), advisorJdFileStatus: $('#advisorJdFileStatus'),
+        advisorResumeFile: $('#advisorResumeFile'), advisorResumeImport: $('#advisorResumeImport'), advisorResumeFileStatus: $('#advisorResumeFileStatus'),
+        advisorAnalyze: $('#advisorAnalyze'), advisorClear: $('#advisorClear'), advisorResults: $('#advisorResults')
       };
 
       const escapeHtml = (value = '') => String(value)
@@ -1573,12 +1682,15 @@
           element.placeholder = t(element.dataset.i18nPlaceholder);
         });
         updateThemeLabel();
+        updateAdvisorCounts();
         updatePageTitle();
         renderHomeTools();
         renderTools();
         renderOpportunityView();
         if (state.guideToolId) renderToolGuide();
         if (state.matcherResult) renderMatcherResults();
+        if (state.advisorResult) renderAdvisorResults();
+        else if (refs.advisorResults) resetAdvisorResults();
       };
 
       function renderHomeTools() {
@@ -2037,14 +2149,10 @@
           .map((sentence) => escapeHtml(sentence))
           .join('<br>');
       };
-      const analyzeMatcher = () => {
-        const jdText = refs.matcherJd.value.trim();
-        const resumeText = refs.matcherResume.value.trim();
-        if (!jdText || !resumeText) { showToast(t('matcher.toastFill')); return; }
-
-        const customTerms = [...new Set(String(refs.matcherCustomKeywords.value || '').split(/\n|,/).map((term) => term.trim()).filter(Boolean))];
+      const analyzeMaterials = (jdText, resumeText, customTerms = []) => {
+        const normalizedCustomTerms = [...new Set((Array.isArray(customTerms) ? customTerms : []).map((term) => String(term).trim()).filter(Boolean))];
         const knownAliasKeys = new Set(KEYWORD_DICTIONARY.flatMap((entry) => entry.aliases.map(compactMatchText)));
-        const customEntries = customTerms
+        const customEntries = normalizedCustomTerms
           .filter((term) => !knownAliasKeys.has(compactMatchText(term)))
           .map((term, index) => ({ id: `custom-${index}`, canonical: { zh: term, en: term }, aliases: [term], category: 'custom', weight: 2, source: 'custom' }));
         const activeDictionary = [...KEYWORD_DICTIONARY, ...customEntries];
@@ -2120,11 +2228,20 @@
           if (!existing || aliasQuality[row.status] > aliasQuality[existing.status]) exactMatchRows.set(key, row);
         });
         rows = [...exactMatchRows.values()];
-        if (!rows.length) { showToast(t('matcher.toastNone')); return; }
 
         const statusRank = { missing: 0, partial: 1, evidence: 2, unstated: 3, covered: 4 };
         const importanceRank = { high: 0, medium: 1, low: 2 };
         rows.sort((a, b) => statusRank[a.status] - statusRank[b.status] || importanceRank[a.importance] - importanceRank[b.importance]);
+        return rows;
+      };
+
+      const analyzeMatcher = () => {
+        const jdText = refs.matcherJd.value.trim();
+        const resumeText = refs.matcherResume.value.trim();
+        if (!jdText || !resumeText) { showToast(t('matcher.toastFill')); return; }
+        const customTerms = String(refs.matcherCustomKeywords.value || '').split(/\n|,/).map((term) => term.trim()).filter(Boolean);
+        const rows = analyzeMaterials(jdText, resumeText, customTerms);
+        if (!rows.length) { showToast(t('matcher.toastNone')); return; }
         state.matcherResult = { jdText, resumeText, rows };
         renderMatcherResults();
         refs.matcherResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2274,9 +2391,96 @@
             </aside>
           </div>`;
       };
+      const advisorRowsByStatus = (rows, statuses) => rows.filter((row) => statuses.includes(row.status));
+      const advisorEvidenceText = (row) => String(row.resumeEvidence || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      const advisorItemMarkup = (row) => {
+        const diagnosis = t(`advisor.diagnosis.${row.status}`);
+        const action = t(`advisor.action.${row.status}`);
+        const separator = state.lang === 'zh' ? '：' : ': ';
+        const evidence = advisorEvidenceText(row);
+        return `<article class="advisor-item">
+          <div class="advisor-item-head">
+            <div class="advisor-item-title"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></div>
+            <div class="advisor-item-meta"><span class="mbadge msource-dictionary">${escapeHtml(categoryLabel(row.entry.category))}</span><span class="mbadge ${row.importance === 'high' ? 'mbadge-missing' : 'mbadge-covered'}">${escapeHtml(importanceLabel(row.importance))}</span></div>
+          </div>
+          <p class="advisor-copy"><strong>${escapeHtml(t('advisor.diagnosis'))}${separator}</strong>${escapeHtml(diagnosis)}</p>
+          <p class="advisor-copy"><strong>${escapeHtml(t('advisor.action'))}${separator}</strong>${escapeHtml(action)}</p>
+          ${evidence ? `<div class="advisor-evidence"><strong>${escapeHtml(t('advisor.resumeEvidence'))}${separator}</strong><br>${row.resumeEvidence}</div>` : ''}
+        </article>`;
+      };
+      const advisorSectionMarkup = (titleKey, descriptionKey, rows) => `<section class="card advisor-section">
+        <div class="advisor-section-head"><div><h3>${escapeHtml(t(titleKey))}</h3><p>${escapeHtml(t(descriptionKey))}</p></div><span class="advisor-count">${rows.length}</span></div>
+        <div class="advisor-items">${rows.length ? rows.map(advisorItemMarkup).join('') : `<p class="advisor-copy">${escapeHtml(t('advisor.noneInGroup'))}</p>`}</div>
+      </section>`;
+      const buildAdvisorMarkdown = () => {
+        if (!state.advisorResult) return '';
+        const { rows } = state.advisorResult;
+        const separator = state.lang === 'zh' ? '：' : ': ';
+        const groups = [
+          ['advisor.priorityTitle', advisorRowsByStatus(rows, ['evidence', 'partial'])],
+          ['advisor.verifyTitle', advisorRowsByStatus(rows, ['unstated'])],
+          ['advisor.gapTitle', advisorRowsByStatus(rows, ['missing'])],
+          ['advisor.coveredTitle', advisorRowsByStatus(rows, ['covered'])]
+        ];
+        const lines = [`# ${t('advisor.resultsTitle')}`, '', t('advisor.honesty'), ''];
+        groups.forEach(([titleKey, groupRows]) => {
+          lines.push(`## ${t(titleKey)}`, '');
+          if (!groupRows.length) lines.push(`- ${t('advisor.noneInGroup')}`);
+          groupRows.forEach((row) => {
+            const evidence = advisorEvidenceText(row);
+            lines.push(`- **${row.entry.canonical[state.lang]}** — ${matcherStatusLabel(row.status)} / ${importanceLabel(row.importance)}`);
+            lines.push(`  - ${t('advisor.diagnosis')}${separator}${t(`advisor.diagnosis.${row.status}`)}`);
+            lines.push(`  - ${t('advisor.action')}${separator}${t(`advisor.action.${row.status}`)}`);
+            if (evidence) lines.push(`  - ${t('advisor.resumeEvidence')}${separator}${evidence}`);
+          });
+          lines.push('');
+        });
+        return lines.join('\n');
+      };
+      const renderAdvisorResults = () => {
+        if (!state.advisorResult || !refs.advisorResults) return;
+        const rows = state.advisorResult.rows;
+        const expressionRows = advisorRowsByStatus(rows, ['evidence', 'partial']).sort((a, b) => ({ high: 0, medium: 1, low: 2 }[a.importance] - { high: 0, medium: 1, low: 2 }[b.importance]));
+        const verifyRows = advisorRowsByStatus(rows, ['unstated']);
+        const gapRows = advisorRowsByStatus(rows, ['missing']);
+        const coveredRows = advisorRowsByStatus(rows, ['covered']);
+        refs.advisorResults.innerHTML = `
+          <div class="advisor-summary">
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('advisor.summaryExpression'))}</span><span class="mstat-value">${expressionRows.length}</span><span class="mstat-desc">${escapeHtml(t('advisor.priorityDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('advisor.summaryVerify'))}</span><span class="mstat-value">${verifyRows.length}</span><span class="mstat-desc">${escapeHtml(t('advisor.verifyDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('advisor.summaryGap'))}</span><span class="mstat-value">${gapRows.length}</span><span class="mstat-desc">${escapeHtml(t('advisor.gapDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('advisor.summaryCovered'))}</span><span class="mstat-value">${coveredRows.length}</span><span class="mstat-desc">${escapeHtml(t('advisor.coveredDesc'))}</span></div>
+          </div>
+          ${advisorSectionMarkup('advisor.priorityTitle', 'advisor.priorityDesc', expressionRows)}
+          ${advisorSectionMarkup('advisor.verifyTitle', 'advisor.verifyDesc', verifyRows)}
+          ${advisorSectionMarkup('advisor.gapTitle', 'advisor.gapDesc', gapRows)}
+          ${advisorSectionMarkup('advisor.coveredTitle', 'advisor.coveredDesc', coveredRows)}
+          <div class="advisor-actions-row"><span class="note">${escapeHtml(t('advisor.honesty'))}</span><div class="matcher-buttons"><button class="button button-primary" type="button" data-advisor-copy>${escapeHtml(t('advisor.copyMarkdown'))}</button></div></div>`;
+        refs.advisorResults.classList.add('is-visible');
+      };
+      const resetAdvisorResults = () => {
+        if (!refs.advisorResults) return;
+        refs.advisorResults.classList.remove('is-visible');
+        refs.advisorResults.innerHTML = `<div class="empty-state advisor-empty"><span class="advisor-empty-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 15.5 5 12l8.5-8.5a1.8 1.8 0 0 1 2.5 2.5L7.5 14.5 4 15.5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path><path d="m12.5 5.5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><strong>${escapeHtml(t('advisor.emptyTitle'))}</strong><p>${escapeHtml(t('advisor.emptyDesc'))}</p></div>`;
+      };
+      const analyzeAdvisor = () => {
+        const jdText = refs.advisorJd.value.trim();
+        const resumeText = refs.advisorResume.value.trim();
+        if (!jdText || !resumeText) { showToast(t('advisor.toastFill')); return; }
+        const rows = analyzeMaterials(jdText, resumeText, []);
+        if (!rows.length) { showToast(t('advisor.toastNone')); return; }
+        state.advisorResult = { jdText, resumeText, rows };
+        renderAdvisorResults();
+        refs.advisorResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      const updateAdvisorCounts = () => {
+        if (!refs.advisorJdCount || !refs.advisorResumeCount) return;
+        refs.advisorJdCount.textContent = t('advisor.charCount').replace('{count}', refs.advisorJd.value.length);
+        refs.advisorResumeCount.textContent = t('advisor.charCount').replace('{count}', refs.advisorResume.value.length);
+      };
       const getRouteFromHash = () => {
         const route = window.location.hash.replace('#', '');
-        return ['home', 'tools', 'resources', 'about', 'matcher'].includes(route) ? route : 'home';
+        return ['home', 'tools', 'resources', 'about', 'matcher', 'advisor'].includes(route) ? route : 'home';
       };
 
       const renderRoute = (route) => {
@@ -2409,12 +2613,7 @@
         if (code === 'UNSUPPORTED_TYPE') return 'matcher.importUnsupported';
         return 'matcher.importFailed';
       };
-      const importIntoMatcher = async (file, target) => {
-        const isJd = target === 'jd';
-        const textarea = isJd ? refs.matcherJd : refs.matcherResume;
-        const status = isJd ? refs.matcherJdFileStatus : refs.matcherResumeFileStatus;
-        const button = isJd ? refs.matcherJdImport : refs.matcherResumeImport;
-        const input = isJd ? refs.matcherJdFile : refs.matcherResumeFile;
+      const importIntoField = async (file, textarea, status, button, input) => {
         if (!file) return;
         status.hidden = false; status.className = 'matcher-file-status'; status.textContent = t('matcher.importExtracting');
         button.disabled = true; button.textContent = t('matcher.importExtracting');
@@ -2434,6 +2633,14 @@
           input.value = '';
         }
       };
+      const importIntoMatcher = async (file, target) => {
+        const isJd = target === 'jd';
+        return importIntoField(file, isJd ? refs.matcherJd : refs.matcherResume, isJd ? refs.matcherJdFileStatus : refs.matcherResumeFileStatus, isJd ? refs.matcherJdImport : refs.matcherResumeImport, isJd ? refs.matcherJdFile : refs.matcherResumeFile);
+      };
+      const importIntoAdvisor = async (file, target) => {
+        const isJd = target === 'jd';
+        return importIntoField(file, isJd ? refs.advisorJd : refs.advisorResume, isJd ? refs.advisorJdFileStatus : refs.advisorResumeFileStatus, isJd ? refs.advisorJdImport : refs.advisorResumeImport, isJd ? refs.advisorJdFile : refs.advisorResumeFile);
+      };
       refs.matcherJd.addEventListener('input', updateMatcherCounts);
       refs.matcherResume.addEventListener('input', updateMatcherCounts);
       refs.matcherJdImport.addEventListener('click', () => refs.matcherJdFile.click());
@@ -2452,6 +2659,37 @@
         });
       });
       refs.matcherAnalyze.addEventListener('click', analyzeMatcher);
+      refs.advisorJd.addEventListener('input', updateAdvisorCounts);
+      refs.advisorResume.addEventListener('input', updateAdvisorCounts);
+      refs.advisorJdImport.addEventListener('click', () => refs.advisorJdFile.click());
+      refs.advisorResumeImport.addEventListener('click', () => refs.advisorResumeFile.click());
+      refs.advisorJdFile.addEventListener('change', () => importIntoAdvisor(refs.advisorJdFile.files[0], 'jd'));
+      refs.advisorResumeFile.addEventListener('change', () => importIntoAdvisor(refs.advisorResumeFile.files[0], 'resume'));
+      document.querySelectorAll('[data-advisor-drop-target]').forEach((dropArea) => {
+        ['dragenter', 'dragover'].forEach((eventName) => dropArea.addEventListener(eventName, (event) => {
+          event.preventDefault(); dropArea.classList.add('is-dragover');
+        }));
+        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('is-dragover'));
+        dropArea.addEventListener('drop', (event) => {
+          event.preventDefault(); dropArea.classList.remove('is-dragover');
+          importIntoAdvisor(event.dataTransfer.files[0], dropArea.dataset.advisorDropTarget);
+        });
+      });
+      refs.advisorAnalyze.addEventListener('click', analyzeAdvisor);
+      refs.advisorClear.addEventListener('click', () => {
+        refs.advisorJd.value = ''; refs.advisorResume.value = '';
+        refs.advisorJdFile.value = ''; refs.advisorResumeFile.value = '';
+        refs.advisorJdFileStatus.hidden = true; refs.advisorResumeFileStatus.hidden = true;
+        refs.advisorJdFileStatus.textContent = ''; refs.advisorResumeFileStatus.textContent = '';
+        refs.advisorJdImport.textContent = t('matcher.importFile'); refs.advisorResumeImport.textContent = t('matcher.importFile');
+        refs.advisorJdImport.disabled = false; refs.advisorResumeImport.disabled = false;
+        state.advisorResult = null; resetAdvisorResults(); updateAdvisorCounts();
+      });
+      refs.advisorResults.addEventListener('click', async (event) => {
+        if (event.target.closest('[data-advisor-copy]')) {
+          await copyText(buildAdvisorMarkdown()); showToast(t('advisor.toastCopied'));
+        }
+      });
       refs.matcherClear.addEventListener('click', () => {
         refs.matcherJd.value = ''; refs.matcherResume.value = ''; refs.matcherCustomKeywords.value = '';
         refs.matcherJdFile.value = ''; refs.matcherResumeFile.value = '';
@@ -2470,6 +2708,7 @@
         }
       });
       updateMatcherCounts();
+      updateAdvisorCounts();
       window.addEventListener('hashchange', () => renderRoute(getRouteFromHash()));
 
       setTheme(state.theme, false);
