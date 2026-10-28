@@ -754,6 +754,26 @@
 
     [data-theme="light"] .home-v9-title .grad { background:linear-gradient(105deg,#875ff2 6%,#1aa5b6 88%); -webkit-background-clip:text; background-clip:text; color:transparent; }
     [data-theme="dark"] .home-v9-title .grad { background:linear-gradient(105deg,#c4b8ff 6%,#b5f6ff 88%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+    [data-theme="light"] #homeRouteA stop:nth-child(1) { stop-color:#6c4be7; stop-opacity:.28; }
+    [data-theme="light"] #homeRouteA stop:nth-child(2) { stop-color:#875ff2; stop-opacity:.95; }
+    [data-theme="light"] #homeRouteA stop:nth-child(3) { stop-color:#0d8999; stop-opacity:.95; }
+    [data-theme="light"] #homeRouteB stop:nth-child(1) { stop-color:#0d8999; stop-opacity:.12; }
+    [data-theme="light"] #homeRouteB stop:nth-child(2) { stop-color:#0f95a6; stop-opacity:.82; }
+    [data-theme="light"] #homeRouteB stop:nth-child(3) { stop-color:#6c4be7; stop-opacity:.35; }
+    [data-theme="light"] .home-v9-node { fill:#6c4be7; }
+    [data-theme="light"] .home-v9-node:nth-child(2) { fill:#0d8999; }
+    [data-theme="light"] .home-v9-node:nth-child(4) { fill:#1aa5b6; }
+    [data-theme="light"] .home-v9-route.faint { stroke:#3b2850; stroke-opacity:.18; }
+    [data-theme="light"] .home-v9-art-orbit { border-color:rgba(108,75,231,.28); }
+    [data-theme="light"] .home-v9-art-orbit.right { border-color:rgba(13,137,153,.24); }
+    [data-theme="light"] .home-v9-art-scan { background:conic-gradient(from 210deg,transparent 0 78%,rgba(13,137,153,.45) 84%,transparent 90%); }
+    [data-theme="light"] .home-v9-art-grid { background-image:linear-gradient(rgba(45,24,78,.085) 1px,transparent 1px),linear-gradient(90deg,rgba(45,24,78,.085) 1px,transparent 1px); }
+    [data-theme="light"] .home-v9-terminal-ring { stroke:#0d8999; }
+    [data-theme="light"] .home-v9-terminal-ring.outer { stroke-opacity:.3; }
+    [data-theme="light"] .home-v9-terminal-ring.inner { stroke-opacity:.55; }
+    [data-theme="light"] .home-v9-terminal-dot { fill:#0d8999; }
+    [data-theme="light"] .home-v9-art-tag i { background:#0d8999; box-shadow:0 0 12px rgba(13,137,153,.7); }
 </style>
 </head>
 <body>
@@ -820,7 +840,7 @@
                 <path class="home-v9-route faint second" d="M112 510C198 467 241 481 298 433C352 388 398 392 452 345C501 302 547 302 604 302" stroke="#fff"/>
                 <path d="M217 344L247 222M371 240L393 306M225 379L217 344M393 306L449 171M452 345L393 306" stroke="#9b87f5" stroke-opacity=".14" stroke-dasharray="2 7"/>
                 <g><circle class="home-v9-node" cx="217" cy="344" r="5"/><circle class="home-v9-node" cx="371" cy="240" r="6"/><circle class="home-v9-node" cx="393" cy="306" r="5"/><circle class="home-v9-node" cx="449" cy="171" r="4"/><circle class="home-v9-node" cx="452" cy="345" r="4"/></g>
-                <g><circle cx="590" cy="132" r="26" stroke="#67e8f9" stroke-opacity=".2"/><circle cx="590" cy="132" r="14" stroke="#67e8f9" stroke-opacity=".4"/><circle cx="590" cy="132" r="4" fill="#67e8f9"/></g>
+                <g class="home-v9-terminal"><circle class="home-v9-terminal-ring outer" cx="590" cy="132" r="26" stroke="#67e8f9" stroke-opacity=".2"/><circle class="home-v9-terminal-ring inner" cx="590" cy="132" r="14" stroke="#67e8f9" stroke-opacity=".4"/><circle class="home-v9-terminal-dot" cx="590" cy="132" r="4" fill="#67e8f9"/></g>
               </svg>
               <span class="home-v9-art-label one">DISCOVER</span><span class="home-v9-art-label two">COMPARE</span><span class="home-v9-art-label three">MATCH</span><span class="home-v9-art-label four">DECIDE</span><span class="home-v9-art-tag"><i></i>ROUTING THE NEXT MOVE</span>
             </div>
