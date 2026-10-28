@@ -18,7 +18,7 @@
  * 修改后打开 tests/keyword-maintenance-test.html 一键检查。
  */
 window.ROLEPORT_KEYWORD_MAINTENANCE = {
-  version: '2026.10.28.2',
+  version: '2026.10.28.3',
 
   // 保留空行或 # 开头的注释行不会被解析。
   keywordLines: `
@@ -28,6 +28,7 @@ data|数据敏感度|Data Sensitivity|数据敏感度;数据敏感;对数据敏�
 data|数据驱动问题解决|Data-driven Problem Solving|通过数据发现并解决问题;数据驱动决策;数据驱动;data-driven problem solving;data-driven decision making|3
 business|上线验收|Launch Acceptance|上线验收;产品验收;上线测试;需求验收;launch acceptance;go-live acceptance;release acceptance|3
 business|全职实习期限|Full-time Internship Availability|全职实习;实习期限;实习时长;每周到岗;每周实习;可实习;full-time internship;internship availability|3
+tech|钱包连接|Wallet Connection|钱包连接;钱包集成;集成钱包;MetaMask;WalletConnect;wallet integration;wallet connection|2
   `,
 
   aliasAdditions: {
@@ -89,6 +90,27 @@ business|全职实习期限|Full-time Internship Availability|全职实习;实�
       groups: [
         { label: { zh: '实习或到岗', en: 'Internship or availability' }, any: ['全职实习', '实习期', '实习时长', '每周到岗', '每周实习', '可实习', 'internship', 'available'], required: true },
         { label: { zh: '期限或频率', en: 'Duration or frequency' }, any: ['六个月', '6个月', '半年', '三个月', '3个月', '长期', '每周', '每周天数', 'months', 'weeks'] }
+      ]
+    },
+    'editing': {
+      minimumGroups: 2,
+      groups: [
+        { label: { zh: '编辑内容场景', en: 'Editorial context' }, any: ['编辑', '文章', '稿件', '文案', '公告', '推文', 'editing'] },
+        { label: { zh: '写作或编辑动作', en: 'Writing or editing actions' }, any: ['修改', '润色', '校对', '审核', '发布', '撰写', 'write', 'writing'] }
+      ]
+    },
+    'social-media-platforms': {
+      minimumGroups: 2,
+      groups: [
+        { label: { zh: '社交平台', en: 'Social platforms' }, any: ['X', 'Twitter', 'Telegram', 'Reddit', 'Discord', 'Binance', '币安', 'Instagram', 'YouTube', 'TikTok', 'LinkedIn', 'Facebook'], required: true },
+        { label: { zh: '平台使用场景', en: 'Platform use context' }, any: ['账号', '运营', '内容', '社群', '社区', '群', '频道', '推文', '公告', '发帖', 'social media'] }
+      ]
+    },
+    'wallet-connection': {
+      minimumGroups: 2,
+      groups: [
+        { label: { zh: '钱包或 Web3 工具', en: 'Wallet or Web3 tooling' }, any: ['MetaMask', 'WalletConnect', 'wagmi', 'ethers', 'web3.js', '钱包', 'wallet'], required: true },
+        { label: { zh: '连接或集成动作', en: 'Connection or integration action' }, any: ['集成', '接入', '连接', 'connect', 'connection', 'integration', 'integrate'] }
       ]
     }
   }

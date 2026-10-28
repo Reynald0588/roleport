@@ -3,7 +3,7 @@
  * Duplicate canonical names are merged automatically, including aliases.
  * Add new rows below to expand the dictionary.
  */
-window.KEYWORD_DICTIONARY_VERSION = '2026.10.28.2';
+window.KEYWORD_DICTIONARY_VERSION = '2026.10.28.3';
 
 window.KEYWORD_DICTIONARY = (() => {
   'use strict';

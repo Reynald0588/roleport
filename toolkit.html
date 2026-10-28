@@ -872,6 +872,9 @@
     .advisor-context h2 { margin:5px 0 5px; color:var(--text); font-size:18px; letter-spacing:-.02em; }
     .advisor-context p { margin:0; color:var(--muted); font-size:12px; line-height:1.65; }
     .advisor-context-kicker { color:var(--accent); font-size:11px; font-weight:750; letter-spacing:.08em; }
+    .matcher-status-filter { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:16px; }
+    .matcher-status-filter-label { color:var(--muted); font-size:11.5px; font-weight:700; }
+    .matcher-status-filter .filter-chip:disabled { cursor:default; opacity:.48; }
     .matcher-next { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:16px; padding:18px 20px; border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow-card); }
     .matcher-next h3 { margin:4px 0 5px; color:var(--text); font-size:16px; }
     .matcher-next p { margin:0; color:var(--muted); font-size:12px; line-height:1.6; }
@@ -1307,8 +1310,8 @@
   <script src="file-import.js?v=2.2"></script>
   <script src="resources.js?v=20261024.1"></script>
   <script src="role-guides.js?v=20261028.1"></script>
-  <script src="keyword-maintenance.js?v=20261028.2"></script>
-  <script src="keywords.js?v=20261028.2"></script>
+  <script src="keyword-maintenance.js?v=20261028.3"></script>
+  <script src="keywords.js?v=20261028.3"></script>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     (() => {
@@ -1402,7 +1405,7 @@
           'matcher.charCount': '{count} 字', 'matcher.yes': '是', 'matcher.no': '否', 'matcher.partialShort': '部分', 'matcher.notStatedShort': '—',
           'matcher.markdownTitle': 'JD 与简历匹配结果', 'matcher.detailsHeading': '岗位要求匹配明细', 'matcher.adviceHeading': '简历优化建议', 'matcher.allCovered': '所有要求均有明确覆盖。', 'matcher.honestyShort': '仅补充真实经历，不为了关键词覆盖率虚构内容。',
           'matcher.advice.evidence': '已有相关经历，建议直接用岗位关键词强化表达。', 'matcher.advice.unstated': '简历未说明，请确认是否具备并决定是否补充。', 'matcher.advice.partial': '已有部分证据，建议补充完整案例、规模或结果。', 'matcher.advice.missing': '未找到对应证据，仅在有真实经历时补充。',
-          'matcher.hardCondition': '硬性条件', 'matcher.statsHard': '硬性条件待核实', 'matcher.statsHardDesc': '实习期限、英语、轮班等情况需要本人确认', 'matcher.reasonLabel': '判断理由', 'matcher.reason.covered': '简历直接出现相关关键词或同义表达，且找到对应原文。', 'matcher.reason.evidence': '命中多条相关经历证据，但未直接使用要求中的原词。', 'matcher.reason.partial': '只找到部分相关证据，尚不足以证明完整满足要求。', 'matcher.reason.unstated': '简历未提供足够信息，需要本人确认；这不代表不符合要求。', 'matcher.reason.missing': '简历中未找到足够的相关证据，这不代表一定不具备该能力。',
+          'matcher.hardCondition': '硬性条件', 'matcher.filterLabel': '筛选状态', 'matcher.filter.all': '全部', 'matcher.statsHard': '硬性条件待核实', 'matcher.statsHardDesc': '实习期限、英语、轮班等情况需要本人确认', 'matcher.reasonLabel': '判断理由', 'matcher.reason.covered': '简历直接出现相关关键词或同义表达，且找到对应原文。', 'matcher.reason.evidence': '命中多条相关经历证据，但未直接使用要求中的原词。', 'matcher.reason.partial': '只找到部分相关证据，尚不足以证明完整满足要求。', 'matcher.reason.unstated': '简历未提供足够信息，需要本人确认；这不代表不符合要求。', 'matcher.reason.missing': '简历中未找到足够的相关证据，这不代表一定不具备该能力。',
         },
         en: {
           skip: 'Skip to main content',
@@ -1491,7 +1494,7 @@
           'matcher.charCount': '{count} chars', 'matcher.yes': 'Yes', 'matcher.no': 'No', 'matcher.partialShort': 'Partial', 'matcher.notStatedShort': '—',
           'matcher.markdownTitle': 'JD and Resume Match Results', 'matcher.detailsHeading': 'Requirement match details', 'matcher.adviceHeading': 'Resume improvement notes', 'matcher.allCovered': 'All requirements have clear coverage.', 'matcher.honestyShort': 'Only add real experience. Do not invent content to improve keyword coverage.',
           'matcher.advice.evidence': 'Relevant experience exists. Use the role keyword to strengthen the real evidence.', 'matcher.advice.unstated': 'The resume does not state this. Confirm whether it applies and decide whether to add it.', 'matcher.advice.partial': 'Some related evidence exists. Add the full case, scale, or outcome.', 'matcher.advice.missing': 'No matching evidence was found. Add it only if you genuinely have that experience.',
-          'matcher.hardCondition': 'Hard condition', 'matcher.statsHard': 'Hard conditions to verify', 'matcher.statsHardDesc': 'Confirm internship duration, English ability, shift availability, or similar facts', 'matcher.reasonLabel': 'Why this result', 'matcher.reason.covered': 'The resume contains a relevant keyword or synonym and matching source evidence.', 'matcher.reason.evidence': 'Multiple related experience signals match, but the exact requirement wording does not appear.', 'matcher.reason.partial': 'Only partial related evidence was found, which is not enough to prove full coverage.', 'matcher.reason.unstated': 'The resume does not provide enough information. Confirm it yourself; this does not mean you fail the requirement.', 'matcher.reason.missing': 'No sufficient evidence was found in the resume. This does not prove the capability is absent.',
+          'matcher.hardCondition': 'Hard condition', 'matcher.filterLabel': 'Filter status', 'matcher.filter.all': 'All', 'matcher.statsHard': 'Hard conditions to verify', 'matcher.statsHardDesc': 'Confirm internship duration, English ability, shift availability, or similar facts', 'matcher.reasonLabel': 'Why this result', 'matcher.reason.covered': 'The resume contains a relevant keyword or synonym and matching source evidence.', 'matcher.reason.evidence': 'Multiple related experience signals match, but the exact requirement wording does not appear.', 'matcher.reason.partial': 'Only partial related evidence was found, which is not enough to prove full coverage.', 'matcher.reason.unstated': 'The resume does not provide enough information. Confirm it yourself; this does not mean you fail the requirement.', 'matcher.reason.missing': 'No sufficient evidence was found in the resume. This does not prove the capability is absent.',
         }
       };
 
@@ -1588,7 +1591,7 @@
         lang: document.documentElement.dataset.lang === 'en' ? 'en' : 'zh',
         theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
         route: 'home', opportunityView: 'resources', resourceCategory: 'all', resourceQuery: '', roleCategory: 'all', roleQuery: '',
-        feedbackType: 'suggestion', toastTimer: null, matcherResult: null, guideToolId: null, guideReturnFocus: null
+        feedbackType: 'suggestion', toastTimer: null, matcherResult: null, matcherStatusFilter: 'all', guideToolId: null, guideReturnFocus: null
       };
 
       const $ = (selector) => document.querySelector(selector);
@@ -2203,6 +2206,7 @@
         activeDictionary.forEach((entry) => {
           const stats = collectLineStats(jdText, entry);
           if (!stats.jdCount) return;
+          if (entry.id === 'recruiting' && !/(招聘流程|招聘渠道|候选人|人才库|面试安排|入职|雇主品牌|talent acquisition|recruiting operations|recruitment process|hiring pipeline)/i.test(normalizeText(jdText))) return;
           const jdMatchedAlias = entry.aliases.filter((alias) => matchesTerm(jdText, alias)).sort((a, b) => b.length - a.length)[0] || '';
           const resumeMatchedAlias = entry.aliases.filter((alias) => matchesTerm(resumeText, alias)).sort((a, b) => b.length - a.length)[0] || '';
           const evidenceMatch = matchEvidenceGroups(resumeText, entry);
@@ -2286,6 +2290,7 @@
         const rows = analyzeMaterials(jdText, resumeText, customTerms);
         if (!rows.length) { showToast(t('matcher.toastNone')); return; }
         state.matcherResult = { jdText, resumeText, rows };
+        state.matcherStatusFilter = 'all';
         renderMatcherResults();
         refs.matcherResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
@@ -2377,20 +2382,21 @@
 
       const renderMatcherResults = () => {
         if (!state.matcherResult || !refs.matcherResults) return;
-        const { rows } = state.matcherResult;
+        const allRows = state.matcherResult.rows;
+        const rows = state.matcherStatusFilter === 'all' ? allRows : allRows.filter((row) => row.status === state.matcherStatusFilter);
         const counts = {
-          covered: rows.filter((row) => row.status === 'covered').length,
-          evidence: rows.filter((row) => row.status === 'evidence').length,
-          partial: rows.filter((row) => row.status === 'partial').length,
-          missing: rows.filter((row) => row.status === 'missing').length,
-          unstated: rows.filter((row) => row.status === 'unstated').length
+          covered: allRows.filter((row) => row.status === 'covered').length,
+          evidence: allRows.filter((row) => row.status === 'evidence').length,
+          partial: allRows.filter((row) => row.status === 'partial').length,
+          missing: allRows.filter((row) => row.status === 'missing').length,
+          unstated: allRows.filter((row) => row.status === 'unstated').length
         };
-        const autoCount = rows.filter((row) => row.source === 'auto').length;
-        const dictionaryCount = rows.filter((row) => row.source === 'dictionary').length;
-        const customCount = rows.filter((row) => row.source === 'custom').length;
-        const coverage = buildCategoryCoverage(rows);
+        const autoCount = allRows.filter((row) => row.source === 'auto').length;
+        const dictionaryCount = allRows.filter((row) => row.source === 'dictionary').length;
+        const customCount = allRows.filter((row) => row.source === 'custom').length;
+        const coverage = buildCategoryCoverage(allRows);
         const attentionRows = rows.filter((row) => row.status !== 'covered');
-        const hardPending = rows.filter((row) => isHardCondition(row) && ['partial', 'missing', 'unstated'].includes(row.status)).length;
+        const hardPending = allRows.filter((row) => isHardCondition(row) && ['partial', 'missing', 'unstated'].includes(row.status)).length;
         const sourceSummary = t('matcher.sourceSummary').replace('{dictionary}', dictionaryCount).replace('{auto}', autoCount).replace('{custom}', customCount);
         const separator = state.lang === 'zh' ? '：' : ': ';
         const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
@@ -2407,13 +2413,22 @@
         refs.matcherResults.classList.add('is-visible');
         refs.matcherResults.innerHTML = `
           <div class="matcher-stats">
-            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsTotal'))}</span><span class="mstat-value">${rows.length}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsTotalDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsTotal'))}</span><span class="mstat-value">${allRows.length}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsTotalDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsCovered'))}</span><span class="mstat-value">${counts.covered}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsCoveredDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsEvidence'))}</span><span class="mstat-value">${counts.evidence}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsEvidenceDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsPartial'))}</span><span class="mstat-value">${counts.partial}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsPartialDesc'))}</span></div>
             <div class="mstat-card is-alert"><span class="mstat-label">${escapeHtml(t('matcher.statsMissing'))}</span><span class="mstat-value">${counts.missing}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsMissingDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsUnstated'))}</span><span class="mstat-value">${counts.unstated}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsUnstatedDesc'))}</span></div>
             ${hardPending ? `<div class="mstat-card is-alert"><span class="mstat-label">${escapeHtml(t('matcher.statsHard'))}</span><span class="mstat-value">${hardPending}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsHardDesc'))}</span></div>` : ''}
+          </div>
+          <div class="matcher-status-filter" role="group" aria-label="${escapeHtml(t('matcher.filterLabel'))}">
+            <span class="matcher-status-filter-label">${escapeHtml(t('matcher.filterLabel'))}${separator}</span>
+            ${[['all', allRows.length], ['covered', counts.covered], ['evidence', counts.evidence], ['partial', counts.partial], ['missing', counts.missing], ['unstated', counts.unstated]].map(([status, count]) => {
+              const active = state.matcherStatusFilter === status;
+              const disabled = count === 0 && !active;
+              const label = status === 'all' ? t('matcher.filter.all') : matcherStatusLabel(status);
+              return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-matcher-status-filter="${status}" aria-pressed="${active}"${disabled ? ' disabled' : ''}>${escapeHtml(label)} ${count}</button>`;
+            }).join('')}
           </div>
           <div class="matcher-next">
             <div><span class="matcher-next-kicker">${escapeHtml(t('workflow.nextKicker'))}</span><h3>${escapeHtml(t('workflow.continue'))}</h3><p>${escapeHtml(t('workflow.continueDesc'))}</p></div>
@@ -2708,11 +2723,17 @@
         refs.matcherJdFileStatus.textContent = ''; refs.matcherResumeFileStatus.textContent = '';
         refs.matcherJdImport.textContent = t('matcher.importFile'); refs.matcherResumeImport.textContent = t('matcher.importFile');
         refs.matcherJdImport.disabled = false; refs.matcherResumeImport.disabled = false;
-        state.matcherResult = null; refs.matcherResults.classList.remove('is-visible'); refs.matcherResults.innerHTML = '';
+        state.matcherResult = null; state.matcherStatusFilter = 'all'; refs.matcherResults.classList.remove('is-visible'); refs.matcherResults.innerHTML = '';
         resetAdvisorResults();
         updateMatcherCounts();
       });
       refs.matcherResults.addEventListener('click', async (event) => {
+        const statusFilter = event.target.closest('[data-matcher-status-filter]');
+        if (statusFilter) {
+          state.matcherStatusFilter = statusFilter.dataset.matcherStatusFilter;
+          renderMatcherResults();
+          return;
+        }
         if (event.target.closest('[data-matcher-copy]')) {
           await copyText(buildMarkdown()); showToast(t('matcher.toastCopied'));
         } else if (event.target.closest('[data-matcher-export]')) {

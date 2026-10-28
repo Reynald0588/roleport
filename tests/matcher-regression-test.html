@@ -92,6 +92,10 @@
     const userOps = findRow(t2, '用户运营');
     add('用户运营要求可通过经历证据覆盖', !!userOps && ['证据覆盖', '部分覆盖'].includes(userOps.status), userOps ? `${userOps.status}；${userOps.resumeEvidence}` : '未找到用户运营记录');
     add('用户运营证据保留原文', !!userOps && /社群维护|成员答疑/.test(userOps.resumeEvidence), userOps?.resumeEvidence || '缺少简历证据');
+    const activity = await analyze(doc, '负责活动执行。', '参与校园活动落地与现场执行，协助签到和物料准备。');
+    const activityRow = findRow(activity, '活动');
+    add('活动执行可识别活动落地与现场执行', !!activityRow && ['证据覆盖', '部分覆盖'].includes(activityRow.status), activityRow ? `${activityRow.status}；${activityRow.resumeEvidence}` : '未找到活动执行记录');
+    add('活动执行保留简历原始证据', !!activityRow && /活动落地|现场执行/.test(activityRow.resumeEvidence), activityRow?.resumeEvidence || '缺少活动执行证据');
 
     const t3 = await analyze(doc, '监控数据看板，挖掘数据异常点与业务机会点。', '使用表格整理项目进度、任务记录及参与结果。');
     const dataVisual = findRow(t3, '数据可视化');
@@ -120,6 +124,53 @@
     add('所有匹配项可追溯到 JD 原文', t7.rows.every((row) => row.jdEvidence && !row.jdEvidence.includes('未发现相关表达')), t7.rows.filter((row) => !row.jdEvidence || row.jdEvidence.includes('未发现相关表达')).map((row) => row.keyword).join('、') || '全部有 JD 原文');
     const matchedRows = t7.rows.filter((row) => ['明确覆盖', '证据覆盖', '部分覆盖'].includes(row.status));
     add('已匹配项保留简历证据', matchedRows.every((row) => row.resumeEvidence && !row.resumeEvidence.includes('未发现相关表达')), matchedRows.filter((row) => !row.resumeEvidence || row.resumeEvidence.includes('未发现相关表达')).map((row) => row.keyword).join('、') || '全部有简历原文');
+    const extraSamples = [
+      { name: '社媒与内容运营', jd: '负责 Web3 项目 X 与 Telegram 内容运营，编辑英文公告并跟踪内容表现。', resume: '运营 Web3 项目 X 账号，撰写英文推文和活动公告，使用 Notion 规划内容日历。' },
+      { name: '前端开发', jd: '招聘前端工程师，要求 React、TypeScript、钱包连接和响应式开发经验。', resume: '使用 React 和 TypeScript 开发 dApp，集成 MetaMask 钱包并完成移动端适配。' },
+      { name: '数据分析', jd: '数据分析师，使用 SQL 和 Tableau 构建看板并监控核心指标。', resume: '使用 SQL 分析链上数据，通过 Tableau 制作周报看板并跟踪指标变化。' },
+      { name: '产品设计', jd: '产品设计师，使用 Figma 设计用户流程、高保真原型并维护设计系统。', resume: '使用 Figma 完成钱包用户流程和高保真原型，整理可复用组件库。' },
+      { name: '客户支持', jd: '客户支持岗位，负责英文邮件答疑、问题记录和跨团队跟进。', resume: '负责 Web3 社群成员答疑，整理英文问题记录并跟进产品团队。' }
+    ];
+    const extraResults = {};
+    for (const sample of extraSamples) {
+      const result = await analyze(doc, sample.jd, sample.resume);
+      extraResults[sample.name] = result;
+      const statusSum = statusLabels.reduce((sum, label) => sum + Number(result.counts[label] || 0), 0);
+      add(`${sample.name}基础流程`, result.rows.length > 0 && result.rows.every((row) => statusLabels.includes(row.status)) && statusSum === result.rows.length, `${result.rows.length} 项；${result.rows.slice(0, 5).map((row) => `${row.keyword}:${row.status}`).join('；')}`);
+    }
+    const frontendKeywords = extraResults['前端开发'].rows.map((row) => row.keyword);
+    add('岗位标题中的“招聘”不生成噪声', !frontendKeywords.includes('招聘'), frontendKeywords.join('、'));
+    const walletRow = findRow(extraResults['前端开发'], '钱包连接');
+    add('钱包连接可识别 MetaMask 集成证据', !!walletRow && walletRow.status !== '未发现', walletRow ? `${walletRow.status}；${walletRow.resumeEvidence}` : '未找到钱包连接记录');
+    const filterButton = doc.querySelector('[data-matcher-status-filter="evidence"]');
+    const expectedEvidence = Number(extraResults['客户支持'].counts['证据覆盖'] || 0);
+    filterButton?.click();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const filteredRows = doc.querySelectorAll('#matcherResults .matcher-table tbody tr').length;
+    add('状态筛选只过滤明细且计数正确', !!filterButton && filteredRows === expectedEvidence, `筛选后 ${filteredRows} 条 / 证据覆盖 ${expectedEvidence} 条`);
+    doc.querySelector('[data-matcher-status-filter="all"]')?.click();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    let copiedText = '';
+    try {
+      Object.defineProperty(frame.contentWindow.navigator, 'clipboard', { configurable: true, value: { writeText: async (text) => { copiedText = text; } } });
+    } catch (_) {}
+    doc.querySelector('[data-matcher-copy]')?.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    add('Markdown 复制可执行', copiedText.includes('# JD 与简历匹配结果') && !copiedText.includes('通过数'), copiedText ? copiedText.slice(0, 120) : '未捕获复制文本');
+    let csvBlob = null;
+    const originalCreateObjectURL = frame.contentWindow.URL.createObjectURL;
+    const originalAnchorClick = frame.contentWindow.HTMLAnchorElement.prototype.click;
+    frame.contentWindow.URL.createObjectURL = (blob) => { csvBlob = blob; return 'blob:roleport-test'; };
+    frame.contentWindow.HTMLAnchorElement.prototype.click = function () {};
+    doc.querySelector('[data-matcher-export]')?.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    const csvText = csvBlob ? await csvBlob.text() : '';
+    add('CSV 导出包含判断理由与硬性条件', csvText.includes('判断理由') && csvText.includes('硬性条件'), csvText ? csvText.slice(0, 160) : '未生成 CSV');
+    frame.contentWindow.URL.createObjectURL = originalCreateObjectURL;
+    frame.contentWindow.HTMLAnchorElement.prototype.click = originalAnchorClick;
+    doc.querySelector('#matcherClear')?.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    add('清空后结果和统计消失', doc.querySelectorAll('#matcherResults .matcher-table tbody tr').length === 0 && !doc.querySelector('#matcherResults').classList.contains('is-visible'), '结果区已清空');
     const uniqueKeywords = new Set(t7.rows.map((row) => row.keyword));
     add('匹配明细没有重复关键词', uniqueKeywords.size === t7.rows.length, `${uniqueKeywords.size} 个唯一关键词 / ${t7.rows.length} 条明细`);
 
