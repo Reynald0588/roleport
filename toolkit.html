@@ -1653,7 +1653,7 @@
         const guide = TOOL_GUIDES[tool.id];
         const guideContext = guide ? `<div class="tool-context"><span>${escapeHtml(guide.stage[state.lang])}</span><span>${escapeHtml(guide.duration[state.lang])}</span></div><p class="tool-scenario"><strong>${escapeHtml(t('guide.useCase'))}${state.lang === 'zh' ? '：' : ': '}</strong>${escapeHtml(guide.scenario[state.lang])}</p>` : '';
         const availability = available ? '' : `<p class="tool-availability">${escapeHtml(t('tools.availability.' + tool.status))}</p>`;
-        const cta = available ? `<span class="tool-card-cta">${tool.route === 'matcher' ? t('matcher.cta') : t('nav.resources')} →</span>` : '';
+        const cta = available ? `<span class="tool-card-cta">${['matcher', 'advisor'].includes(tool.route) ? t('matcher.cta') : t('nav.resources')} →</span>` : '';
         return `<${tag}${attrs} data-tool-id="${escapeHtml(tool.id)}">
           <div class="tool-card-top">
             <span class="icon-box" aria-hidden="true">${iconSvg(tool.icon)}</span>
