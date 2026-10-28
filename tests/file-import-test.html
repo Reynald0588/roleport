@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleport · 文件导入测试</title>
+  <style>
+    :root { --bg:#f5f5f1; --surface:#fff; --line:#e4e5df; --text:#171916; --muted:#74766f; --soft:#92948e; --accent:#b9f24b; --green:#277444; --green-bg:#eaf7ee; --red:#a04d49; --red-bg:#fff0ef; --amber:#8d6811; --amber-bg:#fff6dd; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    .wrap { width:min(1120px,calc(100% - 32px)); margin:0 auto; padding:38px 0 60px; }
+    .eyebrow { color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.1em; }
+    h1 { margin:12px 0 8px; font-size:32px; letter-spacing:-.035em; }
+    .lead { margin:0; color:var(--muted); font-size:13px; line-height:1.7; }
+    .bar { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:24px 0 18px; }
+    .button { min-height:40px; padding:0 16px; border:1px solid var(--line); border-radius:9px; background:var(--surface); color:var(--text); font:inherit; font-size:12px; font-weight:650; cursor:pointer; }
+    .button.primary { border-color:#171916; background:#171916; color:#fff; }
+    .meta { margin-left:auto; color:var(--soft); font-size:10px; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .stat { padding:15px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+    .stat span { display:block; color:var(--muted); font-size:9.5px; }
+    .stat strong { display:block; margin-top:8px; font-size:24px; }
+    .panel { margin-top:18px; overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .panel-head h2 { margin:0; font-size:16px; }
+    .panel-head p { margin:4px 0 0; color:var(--muted); font-size:10px; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th,td { padding:11px 14px; border-bottom:1px solid #eeeeea; text-align:left; font-size:10.5px; vertical-align:top; }
+    th { background:#fafaf8; color:var(--soft); font-size:9px; letter-spacing:.06em; }
+    tr:last-child td { border-bottom:0; }
+    .badge { display:inline-flex; min-height:22px; align-items:center; padding:0 8px; border-radius:11px; font-size:8.5px; font-weight:700; }
+    .pass { background:var(--green-bg); color:var(--green); }
+    .fail { background:var(--red-bg); color:var(--red); }
+    .warn { background:var(--amber-bg); color:var(--amber); }
+    .detail { color:var(--muted); line-height:1.55; overflow-wrap:anywhere; }
+    .manual { margin-top:18px; padding:18px; border:1px dashed var(--line); border-radius:14px; background:rgba(255,255,255,.55); }
+    .manual h2 { margin:0 0 8px; font-size:15px; }
+    .manual p { margin:0 0 13px; color:var(--muted); font-size:10.5px; line-height:1.6; }
+    input[type=file] { max-width:100%; color:var(--muted); font:inherit; font-size:11px; }
+    .note { margin-top:14px; color:var(--soft); font-size:10px; line-height:1.6; }
+    code { padding:2px 5px; border-radius:4px; background:#f0f1ed; color:#41443d; }
+    @media (max-width:760px) { .grid{grid-template-columns:1fr} .meta{width:100%;margin-left:0} th:nth-child(2),td:nth-child(2){display:none} }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow">ROLEPORT / DEVELOPER TEST</div>
+    <h1>文件导入自动测试</h1>
+    <p class="lead">一键运行内置样品，验证 PDF、DOCX、TXT、Markdown、扫描 PDF、损坏文件和格式限制。也可以一次选择多份自己的文件查看解析结果。</p>
+    <div class="bar"><button class="button primary" id="runTests">重新运行全部测试</button><button class="button" id="clearResults">清空</button><span class="meta" id="runtimeMeta">正在初始化…</span></div>
+    <section class="grid">
+      <div class="stat"><span>自动测试</span><strong id="testTotal">0</strong></div>
+      <div class="stat"><span>通过</span><strong id="testPassed">0</strong></div>
+      <div class="stat"><span>失败</span><strong id="testFailed">0</strong></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2>内置测试结果</h2><p>通过本地服务器打开页面后，测试会自动开始。</p></div><span class="badge warn" id="runState">等待运行</span></div>
+      <table><thead><tr><th style="width:24%">测试项</th><th style="width:12%">状态</th><th style="width:18%">文件结果</th><th>详情</th></tr></thead><tbody id="results"></tbody></table>
+    </section>
+    <section class="manual">
+      <h2>测试自己的文件</h2>
+      <p>一次选择多份文件即可批量解析。这里只检查能否读取、字符数、中文字符数和错误信息，不会上传文件。</p>
+      <input type="file" id="manualFiles" multiple accept=".pdf,.docx,.txt,.md,.doc,.xlsx">
+      <table style="margin-top:14px"><thead><tr><th style="width:30%">文件</th><th style="width:14%">状态</th><th style="width:16%">字符数</th><th>结果</th></tr></thead><tbody id="manualResults"></tbody></table>
+    </section>
+    <p class="note">自动测试需要本地服务器，例如在项目目录运行 <code>python -m http.server 8000</code>，再访问 <code>http://localhost:8000/tests/file-import-test.html</code>。</p>
+  </main>
+
+  <script src="../vendor/fflate.min.js?v=0.8.2"></script>
+  <script src="../vendor/pdf.min.js?v=3.11.174"></script>
+  <script src="../vendor/pdf-cmaps-data.js?v=2.1"></script>
+  <script src="../file-import.js?v=2.2"></script>
+  <script>
+    (() => {
+      const tests = [
+        { name:'UTF-8 TXT', file:'fixtures/sample-utf8.txt', marker:'TXT_MARKER_2026' },
+        { name:'Markdown', file:'fixtures/sample-markdown.md', marker:'MD_MARKER_2026' },
+        { name:'DOCX 正文', file:'fixtures/sample.docx', marker:'DOCX_MARKER_2026', minCjk:5 },
+        { name:'文本型 PDF', file:'fixtures/sample-text.pdf', marker:'PDF_MARKER_2026', minCjk:5 },
+        { name:'双栏 PDF', file:'fixtures/sample-two-column.pdf', markers:['LEFT_COLUMN_MARKER','RIGHT_COLUMN_MARKER'] },
+        { name:'大写扩展名 PDF', file:'fixtures/sample-uppercase.PDF', marker:'PDF_MARKER_2026' },
+        { name:'扫描型 PDF', file:'fixtures/sample-scanned.pdf', expectError:'PDF_NO_TEXT' },
+        { name:'加密 PDF', file:'fixtures/sample-encrypted.pdf', expectAnyError:true },
+        { name:'损坏 PDF', file:'fixtures/corrupt.pdf', expectAnyError:true },
+        { name:'伪造 DOCX', file:'fixtures/fake.docx', expectAnyError:true },
+        { name:'旧版 DOC', file:'fixtures/sample.doc', expectError:'DOC_NOT_SUPPORTED' },
+        { name:'不支持的 XLSX', file:'fixtures/sample.xlsx', expectError:'UNSUPPORTED_TYPE' },
+        { name:'空 TXT', file:'fixtures/empty.txt', expectEmpty:true },
+        { name:'超过 12 MB', virtual:true, expectError:'FILE_TOO_LARGE' }
+      ];
+      const $ = (selector) => document.querySelector(selector);
+      const runtime = $('#runtimeMeta');
+      const results = $('#results');
+      runtime.textContent = `解析器 v${window.ROLEPORT_FILE_IMPORT_VERSION || '?'} · PDF.js ${window.pdfjsLib?.version || '?'}`;
+
+      const createFile = async (test) => {
+        if (test.virtual) return new File([new Uint8Array(12 * 1024 * 1024 + 1)], 'oversize.txt', { type:'text/plain' });
+        const response = await fetch(test.file);
+        if (!response.ok) throw new Error(`Fixture fetch failed: ${response.status} ${test.file}`);
+        const blob = await response.blob();
+        const name = test.file.split('/').pop();
+        return new File([blob], name);
+      };
+
+      const runOne = async (test) => {
+        const start = performance.now();
+        try {
+          const file = await createFile(test);
+          const result = await window.RoleportFileImport.extractFile(file);
+          const checks = [];
+          if (test.expectEmpty) checks.push(result.text.trim() === '');
+          if (test.marker) checks.push(result.text.includes(test.marker));
+          (test.markers || []).forEach((marker) => checks.push(result.text.includes(marker)));
+          if (test.minCjk) checks.push(result.cjkCount >= test.minCjk);
+          const passed = checks.every(Boolean);
+          return { ...test, passed, status: passed ? '通过' : '失败', result, detail: `提取 ${result.originalLength} 字，中文 ${result.cjkCount} 字${result.truncated ? '，已截取' : ''}`, ms: Math.round(performance.now() - start) };
+        } catch (error) {
+          const code = error?.code || '';
+          const passed = test.expectAnyError ? true : test.expectError ? code === test.expectError : false;
+          return { ...test, passed, status: passed ? '通过' : '失败', error, detail: `${code || 'ERROR'}: ${error?.message || error}`, ms: Math.round(performance.now() - start) };
+        }
+      };
+
+      const render = (items) => {
+        results.innerHTML = items.map((item) => `<tr><td>${item.name}</td><td><span class="badge ${item.passed ? 'pass' : 'fail'}">${item.status}</span></td><td>${item.result ? `${item.result.originalLength} 字<br><span class="detail">中文 ${item.result.cjkCount}</span>` : '—'}</td><td class="detail">${item.detail}<br>${item.ms}ms</td></tr>`).join('');
+        const passed = items.filter((item) => item.passed).length;
+        $('#testTotal').textContent = items.length;
+        $('#testPassed').textContent = passed;
+        $('#testFailed').textContent = items.length - passed;
+        $('#runState').textContent = passed === items.length ? '全部通过' : '存在失败';
+        $('#runState').className = `badge ${passed === items.length ? 'pass' : 'fail'}`;
+      };
+
+      const runAll = async () => {
+        $('#runState').textContent = '运行中…'; $('#runState').className = 'badge warn';
+        const items = [];
+        for (const test of tests) {
+          const item = await runOne(test);
+          items.push(item);
+          render(items.concat(tests.slice(items.length).map((pending) => ({ ...pending, passed:false, status:'等待', detail:'等待运行', ms:0 }))));
+        }
+        render(items);
+      };
+
+      $('#runTests').addEventListener('click', runAll);
+      $('#clearResults').addEventListener('click', () => { results.innerHTML=''; $('#testTotal').textContent='0'; $('#testPassed').textContent='0'; $('#testFailed').textContent='0'; $('#runState').textContent='等待运行'; $('#runState').className='badge warn'; });
+      $('#manualFiles').addEventListener('change', async (event) => {
+        const body = $('#manualResults'); body.innerHTML = '';
+        for (const file of [...event.target.files]) {
+          const row = document.createElement('tr');
+          row.innerHTML = `<td>${file.name}</td><td><span class="badge warn">读取中</span></td><td>—</td><td class="detail">${Math.round(file.size/1024)} KB</td>`;
+          body.appendChild(row);
+          try {
+            const result = await window.RoleportFileImport.extractFile(file);
+            row.innerHTML = `<td>${file.name}</td><td><span class="badge pass">成功</span></td><td>${result.originalLength} 字</td><td class="detail">中文 ${result.cjkCount} 字${result.truncated ? '，已截取前 10,000 字' : ''}</td>`;
+          } catch (error) {
+            row.innerHTML = `<td>${file.name}</td><td><span class="badge fail">失败</span></td><td>—</td><td class="detail">${error?.code || 'ERROR'}: ${error?.message || error}</td>`;
+          }
+        }
+      });
+
+      setTimeout(runAll, 300);
+    })();
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleport · 词库维护检查</title>
+  <style>
+    :root { --bg:#f5f5f1; --surface:#fff; --line:#e4e5df; --text:#171916; --muted:#74766f; --soft:#92948e; --green:#277444; --green-bg:#eaf7ee; --red:#a04d49; --red-bg:#fff0ef; --amber:#8d6811; --amber-bg:#fff6dd; --dark:#171916; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+    .wrap { width:min(980px,calc(100% - 32px)); margin:0 auto; padding:38px 0 60px; }
+    .eyebrow { color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.1em; }
+    h1 { margin:12px 0 8px; font-size:32px; letter-spacing:-.035em; }
+    h2 { margin:0 0 6px; font-size:16px; }
+    p { color:var(--muted); font-size:12px; line-height:1.7; }
+    .lead { margin:0; max-width:760px; }
+    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:24px 0 16px; }
+    .stat { padding:15px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); }
+    .stat span { display:block; color:var(--muted); font-size:9.5px; }
+    .stat strong { display:block; margin-top:8px; font-size:23px; }
+    .panel { overflow:hidden; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .panel-head p { margin:3px 0 0; font-size:10px; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th,td { padding:11px 14px; border-bottom:1px solid #eeeeea; text-align:left; font-size:10.5px; vertical-align:top; }
+    th { background:#fafaf8; color:var(--soft); font-size:9px; letter-spacing:.06em; }
+    th:first-child { width:34%; } th:nth-child(2) { width:12%; }
+    tr:last-child td { border-bottom:0; }
+    .badge { display:inline-flex; min-height:22px; align-items:center; padding:0 8px; border-radius:11px; font-size:8.5px; font-weight:700; }
+    .pass { background:var(--green-bg); color:var(--green); }
+    .fail { background:var(--red-bg); color:var(--red); }
+    .warn { background:var(--amber-bg); color:var(--amber); }
+    .detail { color:var(--muted); line-height:1.55; overflow-wrap:anywhere; }
+    .checker { margin-top:18px; padding:18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .checker p { margin:5px 0 13px; font-size:10.5px; }
+    .check-row { display:flex; gap:9px; }
+    input { width:100%; min-height:40px; padding:0 12px; border:1px solid var(--line); border-radius:9px; outline:0; background:#fff; color:var(--text); font:inherit; font-size:12px; }
+    input:focus { border-color:var(--green); box-shadow:0 0 0 3px rgba(39,116,68,.1); }
+    button { flex:0 0 auto; min-height:40px; padding:0 16px; border:1px solid var(--dark); border-radius:9px; background:var(--dark); color:#fff; font:inherit; font-size:11px; font-weight:700; cursor:pointer; }
+    #checkResult { margin-top:13px; padding:12px 13px; border-radius:9px; background:#f7f7f3; color:var(--muted); font-size:11px; line-height:1.7; }
+    #checkResult strong { color:var(--text); }
+    code { padding:2px 5px; border-radius:4px; background:#f0f1ed; color:#41443d; }
+    .note { margin-top:14px; color:var(--soft); font-size:10px; line-height:1.65; }
+    @media(max-width:700px) { .stats { grid-template-columns:repeat(2,1fr); } table { table-layout:auto; } th:first-child { width:45%; } .check-row { flex-direction:column; } button { width:100%; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="eyebrow">ROLEPORT / KEYWORD MAINTENANCE</div>
+    <h1>词库维护检查</h1>
+    <p class="lead">改完 <code>keyword-maintenance.js</code> 后打开本页。页面会自动检查词典能否加载、词条 ID、别名、证据规则和本次维护配置；全部通过后再刷新正式工具。</p>
+    <section class="stats">
+      <div class="stat"><span>规范关键词</span><strong id="dictTotal">—</strong></div>
+      <div class="stat"><span>别名总数</span><strong id="aliasTotal">—</strong></div>
+      <div class="stat"><span>证据规则</span><strong id="groupTotal">—</strong></div>
+      <div class="stat"><span>检查结果</span><strong id="checkState">—</strong></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head"><div><h2>自动检查</h2><p>本页不需要服务器接口，只读取同目录下的本地脚本。</p></div><span class="badge warn" id="runBadge">运行中</span></div>
+      <table><thead><tr><th>检查项</th><th>状态</th><th>详情</th></tr></thead><tbody id="results"></tbody></table>
+    </section>
+    <section class="checker">
+      <h2>快速查词</h2>
+      <p>输入一个新词，先确认是否已经在词典里，避免重复添加。</p>
+      <div class="check-row"><input id="keywordInput" type="text" placeholder="例如：舆情监测、Social Listening、BD" autocomplete="off"><button id="checkKeyword" type="button">检查</button></div>
+      <div id="checkResult">等待输入。</div>
+    </section>
+    <p class="note">若检查失败，先查看本页“详情”列；常见原因是新增行分隔符不足、别名数组写错，或证据组 key 与英文名生成的 ID 不一致。</p>
+  </main>
+  <script src="../keyword-maintenance.js?v=20261024.1"></script>
+  <script src="../keywords.js?v=20261024.5"></script>
+  <script>
+    (() => {
+      'use strict';
+      const dictionary = Array.isArray(window.KEYWORD_DICTIONARY) ? window.KEYWORD_DICTIONARY : [];
+      const groups = window.KEYWORD_EVIDENCE_GROUPS || {};
+      const maintenanceErrors = window.ROLEPORT_KEYWORD_MAINTENANCE_ERRORS || [];
+      const aliases = dictionary.reduce((sum, entry) => sum + entry.aliases.length, 0);
+      const ids = dictionary.map((entry) => entry.id);
+      const uniqueIds = new Set(ids);
+      const orphanGroups = Object.keys(groups).filter((id) => !ids.includes(id));
+      const badAliases = dictionary.filter((entry) => !entry.aliases.length || entry.aliases.some((alias) => !String(alias).trim()));
+      const tests = [];
+      const add = (name, passed, detail) => tests.push({ name, passed, detail });
+      add('词典可加载', dictionary.length > 0, dictionary.length + ' 个规范词条');
+      add('词条 ID 唯一', uniqueIds.size === ids.length, uniqueIds.size === ids.length ? '未发现重复 ID' : '重复 ' + (ids.length - uniqueIds.size) + ' 个');
+      add('别名完整', badAliases.length === 0, badAliases.length ? badAliases.map((entry) => entry.id).join(', ') : aliases + ' 条别名均非空');
+      add('证据规则均有对应词条', orphanGroups.length === 0, orphanGroups.length ? orphanGroups.join(', ') : Object.keys(groups).length + ' 条映射全部有效');
+      add('维护文件无配置错误', maintenanceErrors.length === 0, maintenanceErrors.length ? maintenanceErrors.join('；') : '配置解析正常');
+      const recruitingOps = dictionary.find((entry) => entry.id === 'recruiting-operations');
+      const community = dictionary.find((entry) => entry.id === 'community-management');
+      add('维护关键词已生效', !!recruitingOps, recruitingOps ? '招聘运营 -> recruiting-operations' : '未找到 recruiting-operations');
+      add('维护同义词已生效', !!community && community.aliases.includes('社群运营专员'), community && community.aliases.includes('社群运营专员') ? '社群运营专员 已加入 community-management' : '未找到新增同义词');
+      add('维护证据规则已生效', !!recruitingOps?.evidenceGroups?.length, recruitingOps?.evidenceGroups?.length ? recruitingOps.evidenceGroups.length + ' 个证据组' : '未关联证据组');
+      document.getElementById('results').innerHTML = tests.map((test) => '<tr><td>' + test.name + '</td><td><span class="badge ' + (test.passed ? 'pass' : 'fail') + '">' + (test.passed ? '通过' : '失败') + '</span></td><td class="detail">' + test.detail + '</td></tr>').join('');
+      const passed = tests.filter((test) => test.passed).length;
+      document.getElementById('dictTotal').textContent = dictionary.length;
+      document.getElementById('aliasTotal').textContent = aliases.toLocaleString('zh-CN');
+      document.getElementById('groupTotal').textContent = Object.keys(groups).length;
+      document.getElementById('checkState').textContent = passed + '/' + tests.length;
+      const badge = document.getElementById('runBadge');
+      badge.textContent = passed === tests.length ? '全部通过' : '存在失败';
+      badge.className = 'badge ' + (passed === tests.length ? 'pass' : 'fail');
+      const normalize = (value) => String(value || '').normalize('NFKC').toLowerCase().replace(/[\s\p{P}\p{S}]+/gu, '');
+      const check = () => {
+        const query = document.getElementById('keywordInput').value.trim();
+        const result = document.getElementById('checkResult');
+        if (!query) { result.textContent = '请输入一个关键词。'; return; }
+        const key = normalize(query);
+        const exact = dictionary.filter((entry) => entry.aliases.some((alias) => normalize(alias) === key));
+        if (exact.length) {
+          result.innerHTML = '<strong>已收录：</strong>' + exact.map((entry) => entry.canonical.zh + '（' + entry.id + '）').join('、');
+          return;
+        }
+        const related = dictionary.filter((entry) => entry.aliases.some((alias) => normalize(alias).includes(key) || key.includes(normalize(alias)))).slice(0, 8);
+        result.innerHTML = related.length
+          ? '<strong>没有完全匹配，但可能相关：</strong>' + related.map((entry) => entry.canonical.zh + '（' + entry.id + '）').join('、')
+          : '<strong>词库中未找到。</strong> 如确认是常见岗位表达，可加入 keyword-maintenance.js。';
+      };
+      document.getElementById('checkKeyword').addEventListener('click', check);
+      document.getElementById('keywordInput').addEventListener('keydown', (event) => { if (event.key === 'Enter') check(); });
+    })();
+  </script>
+</body>
+</html>

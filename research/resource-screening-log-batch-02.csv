@@ -1,0 +1,11 @@
+﻿candidate_id,candidate_name,url,decision,reason,checked_at
+"blockchain-works","Blockchain Works","https://blockchain.works-hub.com/","排除","返回404，当前不可用","2026-10-24"
+"bitjob-wechat","BitJob 求职公众号","https://mp.weixin.qq.com/","需补链接","当前只是微信公众平台首页，不能定位具体公众号或文章","2026-10-24"
+"smartdeer-wechat","SmartDeer 中文公众号","https://mp.weixin.qq.com/","需补链接","当前只是微信公众平台首页，不能定位具体公众号或文章","2026-10-24"
+"linkedin","LinkedIn 领英","https://www.linkedin.com/","合并处理","已有 LinkedIn Jobs 正式资源，无需重复添加","2026-10-24"
+"cryptojobslist","CryptoJobsList","https://cryptojobslist.com/","合并处理","已有正式资源","2026-10-24"
+"web3-career","Web3.career","https://web3.career/","合并处理","已有正式资源","2026-10-24"
+"remoteok","Remote OK","https://remoteok.com/","合并处理","已有正式资源","2026-10-24"
+"wellfound","Wellfound","https://wellfound.com/","合并处理","已有正式资源","2026-10-24"
+"remote3","Remote3","https://remote3.co/","合并处理","已有正式资源","2026-10-24"
+"cryptocurrency-engineering","Cryptocurrency Engineering Jobs","https://cryptocurrencyjobs.co/engineering/","合并处理","是已有 Cryptocurrency Jobs 的技术子页面，不单独重复收录","2026-10-24"

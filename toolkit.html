@@ -1,0 +1,2168 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark" data-lang="zh"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="Roleport 面向求职新手，整合轻量求职工具与官方求职资源导航。">
+  <meta name="theme-color" content="#0b0d0a">
+  <title>Roleport · 求职工具箱</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>
+    (() => {
+      try {
+        const theme = localStorage.getItem('roleport-theme');
+        const language = localStorage.getItem('roleport-language');
+        document.documentElement.dataset.theme = theme === 'dark' ? 'dark' : 'light';
+        document.documentElement.dataset.lang = language === 'en' ? 'en' : 'zh';
+        document.documentElement.lang = language === 'en' ? 'en' : 'zh-CN';
+      } catch (_) {
+        document.documentElement.dataset.theme = 'light';
+        document.documentElement.dataset.lang = 'zh';
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --canvas: #f5f5f1;
+      --surface: #ffffff;
+      --surface-soft: #fafaf8;
+      --surface-raised: #f0f1ed;
+      --input: #fcfcfa;
+      --line: #e8e8e3;
+      --line-soft: #eeeeea;
+      --text: #171916;
+      --muted: #74766f;
+      --soft: #92948e;
+      --accent: #b9f24b;
+      --primary-bg: #171916;
+      --primary-text: #ffffff;
+      --link: #315fa9;
+      --hero: #0b0d0a;
+      --hero-text: #f3f5ef;
+      --hero-muted: #a6ad9f;
+      --header-bg: var(--canvas);
+      --header-text: var(--text);
+      --header-muted: var(--muted);
+      --header-soft: var(--soft);
+      --header-control: #ecece8;
+      --header-border: #dedfd9;
+      --header-thumb: #ffffff;
+      --mark-bg: #171916;
+      --mark-border: #dedfd9;
+      --mark-fg: #ffffff;
+      --status-neutral-bg: #f0f1ee;
+      --status-neutral-text: #62645e;
+      --status-amber-bg: #fff6dd;
+      --status-amber-text: #8d6811;
+      --status-green-bg: #eaf7ee;
+      --status-green-text: #277444;
+      --shadow-card: 0 10px 30px rgba(20, 22, 18, 0.045);
+      --shadow-float: 0 16px 45px rgba(12, 14, 10, 0.14);
+      --font-sans: "Inter", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --canvas: #0b0d0a;
+      --surface: #181b17;
+      --surface-soft: #1c201a;
+      --surface-raised: #2a2f27;
+      --input: #1b1f19;
+      --line: #2a2f27;
+      --line-soft: #242920;
+      --text: #f2f4ee;
+      --muted: #a0a79a;
+      --soft: #7d8478;
+      --primary-bg: #b9f24b;
+      --primary-text: #171916;
+      --link: #9db9f0;
+      --header-bg: var(--canvas);
+      --header-text: var(--text);
+      --header-muted: var(--muted);
+      --header-soft: var(--soft);
+      --header-control: #22261f;
+      --header-border: #373d32;
+      --header-thumb: #343a30;
+      --mark-bg: #23271f;
+      --mark-border: #3a4135;
+      --mark-fg: #f7f8f4;
+      --status-neutral-bg: #242721;
+      --status-neutral-text: #aab0a3;
+      --status-amber-bg: #342c16;
+      --status-amber-text: #f2cb68;
+      --status-green-bg: #1d3024;
+      --status-green-text: #82d39f;
+      --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.14);
+      --shadow-float: 0 16px 45px rgba(0, 0, 0, 0.36);
+    }
+
+    body.dark-header {
+      --header-bg: var(--hero);
+      --header-text: var(--hero-text);
+      --header-muted: #959c8f;
+      --header-soft: #899184;
+      --header-control: #22261f;
+      --header-border: #373d32;
+      --header-thumb: #343a30;
+      --mark-bg: #23271f;
+      --mark-border: #3a4135;
+      --mark-fg: #f7f8f4;
+    }
+
+    * { box-sizing: border-box; }
+    html { min-width: 320px; background: var(--canvas); scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--canvas);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+    button, input, select, textarea { font: inherit; }
+    button, select { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    [hidden] { display: none !important; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: fixed; z-index: 200; top: 10px; left: 10px; padding: 10px 14px;
+      border-radius: 8px; background: var(--primary-bg); color: var(--primary-text);
+      font-size: 12px; font-weight: 700; transform: translateY(-150%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+    .shell { width: min(1312px, calc(100% - 48px)); margin: 0 auto; }
+
+    .site-header {
+      position: relative;
+      z-index: 20;
+      background: var(--header-bg);
+      color: var(--header-text);
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      min-height: 76px;
+      gap: 28px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 13px; min-width: 0; border-radius: 12px; }
+    .brand-mark { flex: 0 0 auto; color: var(--mark-fg); filter: drop-shadow(0 5px 12px rgba(17, 18, 15, 0.13)); }
+    .brand-mark-bg { fill: var(--mark-bg); stroke: var(--mark-border); stroke-width: 1; }
+    .brand-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .brand-name { color: var(--header-text); font-size: 17px; font-weight: 760; letter-spacing: -0.025em; line-height: 1.15; }
+    .brand-tagline { color: var(--header-soft); font-size: 8.5px; font-weight: 700; letter-spacing: 0.13em; line-height: 1.2; white-space: nowrap; }
+
+    .primary-nav { display: flex; align-items: stretch; align-self: stretch; gap: 28px; margin-left: 34px; }
+    .nav-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      color: var(--header-muted);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: color 150ms ease;
+    }
+    .nav-link:hover, .nav-link[aria-current="page"] { color: var(--header-text); }
+    .nav-link[aria-current="page"]::after {
+      position: absolute;
+      right: 0; bottom: 12px; left: 0; height: 2px; border-radius: 2px;
+      background: var(--accent); content: "";
+    }
+    .header-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+    .language-toggle {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100px;
+      height: 36px;
+      padding: 3px;
+      border: 1px solid var(--header-border);
+      border-radius: 18px;
+      background: var(--header-control);
+    }
+    .language-thumb {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 46px; height: 28px;
+      border-radius: 14px;
+      background: var(--header-thumb);
+      box-shadow: 0 1px 4px rgba(20, 22, 18, 0.13);
+      transition: transform 180ms ease;
+    }
+    [data-lang="en"] .language-thumb { transform: translateX(46px); }
+    .language-option {
+      position: relative; z-index: 1; border: 0; border-radius: 14px; background: transparent;
+      color: var(--header-muted); font-size: 11px; font-weight: 700;
+    }
+    .language-option.is-active { color: var(--header-text); }
+
+    .theme-toggle {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 68px;
+      height: 36px;
+      padding: 4px;
+      border: 1px solid var(--header-border);
+      border-radius: 18px;
+      background: var(--header-control);
+      color: var(--header-soft);
+    }
+    .theme-thumb {
+      position: absolute; z-index: 0; top: 3px; left: 3px;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--header-thumb);
+      box-shadow: 0 1px 4px rgba(20, 22, 18, 0.13);
+      transition: transform 180ms ease;
+    }
+    [data-theme="dark"] .theme-thumb { transform: translateX(32px); }
+    .theme-icon { position: relative; z-index: 1; display: grid; place-items: center; width: 28px; height: 28px; }
+    [data-theme="light"] .sun-icon, [data-theme="dark"] .moon-icon { color: var(--header-text); }
+    .theme-toggle:hover .theme-icon { color: var(--header-text); }
+
+    .home-hero {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      background: var(--hero);
+      color: var(--hero-text);
+    }
+    .hero-network { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.7; }
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(380px, 0.82fr);
+      gap: 72px;
+      padding: 62px 0 64px;
+    }
+    .eyebrow {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    }
+    .eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(185, 242, 75, 0.18); }
+    .hero-copy h1 {
+      max-width: 760px; margin: 16px 0 16px;
+      color: var(--hero-text); font-size: clamp(36px, 4vw, 48px);
+      font-weight: 720; letter-spacing: -0.045em; line-height: 1.16;
+    }
+    .hero-copy p { max-width: 720px; margin: 0; color: var(--hero-muted); font-size: 15px; line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+      gap: 8px; padding: 0 18px; border-radius: 10px;
+      border: 1px solid transparent; font-size: 13px; font-weight: 700;
+    }
+    .button-primary { border-color: var(--primary-bg); background: var(--primary-bg); color: var(--primary-text); }
+    .button-primary:hover { filter: brightness(1.06); }
+    .home-hero .button-primary { border-color: var(--accent); background: var(--accent); color: #171916; }
+    .button-secondary { border-color: var(--line); background: var(--surface-raised); color: var(--text); }
+    .button-secondary:hover { border-color: var(--soft); background: var(--surface-soft); }
+    .button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .home-hero .button-secondary { border-color: #3b4234; background: transparent; color: var(--hero-text); }
+    .home-hero .button-secondary:hover { background: rgba(255, 255, 255, 0.06); }
+    .button-ghost { border-color: var(--line); background: var(--surface); color: var(--text); }
+    .button-ghost:hover { background: var(--surface-raised); }
+
+    .journey { align-self: center; padding-top: 6px; }
+    .journey-kicker { margin: 0 0 8px; color: #8a9384; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; }
+    .journey h2 { margin: 0 0 28px; color: var(--hero-text); font-size: 18px; font-weight: 680; }
+    .journey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 24px; }
+    .journey-step { min-width: 0; }
+    .journey-index { display: block; margin-bottom: 5px; color: var(--accent); font-size: 9px; font-weight: 800; letter-spacing: 0.08em; }
+    .journey-step strong { display: block; color: var(--hero-text); font-size: 13px; font-weight: 650; }
+    .journey-step span:last-child { display: block; margin-top: 6px; color: #899184; font-size: 10px; line-height: 1.55; }
+
+    .home-content { padding: 44px 0 52px; }
+    .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .section-heading h2 { margin: 0; color: var(--text); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .text-link { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; font-weight: 650; }
+    .text-link:hover { color: var(--text); }
+    .tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--surface);
+      box-shadow: var(--shadow-card);
+    }
+    .tool-card { position: relative; min-height: 146px; padding: 18px; }
+    .tool-card-top { display: flex; align-items: flex-start; gap: 12px; padding-right: 84px; }
+    .icon-box { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; border-radius: 12px; background: var(--surface-raised); color: var(--text); }
+    .tool-category { padding-top: 3px; color: var(--soft); font-size: 9px; font-weight: 700; letter-spacing: 0.04em; }
+    .status-badge { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .status-neutral { background: var(--status-neutral-bg); color: var(--status-neutral-text); }
+    .status-amber { background: var(--status-amber-bg); color: var(--status-amber-text); }
+    .status-green { background: var(--status-green-bg); color: var(--status-green-text); }
+    .tool-card .status-badge { position: absolute; top: 16px; right: 16px; }
+    .tool-card h3 { margin: 14px 0 0; color: var(--text); font-size: 15px; font-weight: 700; letter-spacing: -0.015em; }
+    .tool-card p { margin: 8px 0 0; color: var(--muted); font-size: 11.5px; line-height: 1.65; }
+    .tool-card.is-available { cursor: pointer; }
+    .tool-card.is-available:hover { border-color: var(--soft); transform: translateY(-1px); }
+    .tool-card-cta { position: absolute; right: 18px; bottom: 16px; color: var(--link); font-size: 10.5px; font-weight: 700; }
+
+    .stage-section { margin-top: 34px; }
+    .stage-row { display: flex; flex-wrap: wrap; gap: 10px; }
+    .stage-button {
+      min-height: 34px; padding: 0 15px; border: 1px solid var(--line); border-radius: 17px;
+      background: var(--surface-soft); color: var(--muted); font-size: 11px;
+    }
+    .stage-button:hover { border-color: var(--soft); color: var(--text); }
+    .home-note { margin: 36px 0 0; color: var(--soft); font-size: 11px; }
+
+    .page-view { min-height: calc(100vh - 76px); }
+    .page-shell { padding: 46px 0 58px; }
+    .page-heading { margin-bottom: 28px; }
+    .page-heading .eyebrow { color: var(--muted); }
+    .page-heading h1 { margin: 14px 0 10px; color: var(--text); font-size: 34px; font-weight: 700; letter-spacing: -0.04em; line-height: 1.2; }
+    .page-heading p { max-width: 760px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .filter-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-bottom: 24px; }
+    .filter-chip {
+      min-height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--surface-soft); color: var(--muted); font-size: 10.5px; font-weight: 650;
+    }
+    .filter-chip:hover { border-color: var(--soft); color: var(--text); }
+    .filter-chip.is-active { border-color: var(--accent); background: var(--accent); color: #171916; }
+    .filter-summary { margin-left: auto; color: var(--soft); font-size: 10.5px; white-space: nowrap; }
+    .tools-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .tools-grid .tool-card { min-height: 150px; padding: 20px; }
+    .tools-grid .tool-card h3 { margin-top: 16px; font-size: 16px; }
+    .tools-grid .tool-card p { max-width: 540px; font-size: 12px; }
+    .tools-grid .tool-card .tool-card-top { padding-right: 92px; }
+    .tools-status-note { margin: 26px 0 0; color: var(--soft); font-size: 10.5px; }
+
+    .resource-search-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .resource-search { display: flex; align-items: center; gap: 10px; width: 366px; flex: 0 0 366px; }
+    .search-box {
+      display: flex; align-items: center; flex: 1 1 auto; min-width: 0; height: 42px; gap: 9px;
+      padding: 0 13px; border: 1px solid var(--line); border-radius: 10px;
+      background: var(--input); color: var(--soft);
+    }
+    .search-box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(185, 242, 75, 0.12); }
+    .search-box input { width: 100%; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: var(--text); font-size: 12.5px; }
+    .search-box input::placeholder { color: var(--soft); opacity: 1; }
+    .search-box input::-webkit-search-cancel-button { -webkit-appearance: none; }
+    .search-button { height: 42px; padding: 0 17px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-raised); color: var(--text); font-size: 12px; font-weight: 700; }
+    .search-button:hover { border-color: var(--soft); }
+    .resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .resource-grid > * { min-width: 0; }
+    .resource-card { position: relative; display: flex; gap: 14px; min-width: 0; min-height: 112px; padding: 18px; }
+    .resource-icon { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border-radius: 11px; font-size: 13px; font-weight: 800; }
+    .tone-blue { background: #e6efff; color: #3569c9; }
+    .tone-violet { background: #eee9ff; color: #6d4dd2; }
+    .tone-orange { background: #fff0e4; color: #c66b20; }
+    .tone-green { background: #e7f5ec; color: #2f7d4c; }
+    .tone-yellow { background: #fff7d9; color: #9a7700; }
+    [data-theme="dark"] .tone-blue { background: #26364f; color: #91b8ff; }
+    [data-theme="dark"] .tone-violet { background: #332d4f; color: #b5a3f0; }
+    [data-theme="dark"] .tone-orange { background: #493323; color: #f0b47d; }
+    [data-theme="dark"] .tone-green { background: #263b2e; color: #94d5aa; }
+    [data-theme="dark"] .tone-yellow { background: #453d22; color: #e8cb70; }
+    .resource-body { min-width: 0; flex: 1 1 auto; }
+    .resource-title-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; min-width: 0; padding-right: 92px; }
+    .resource-title-row h3 { margin: 0; color: var(--text); font-size: 14px; font-weight: 700; }
+    .category-badge { display: inline-flex; align-items: center; min-height: 21px; max-width:100%; padding: 3px 8px; border-radius: 11px; background: var(--surface-soft); color: var(--soft); font-size: 8.5px; font-weight: 650; line-height:1.35; white-space: normal; }
+    .resource-card p { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .resource-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:10px; }
+    .resource-meta > span:not(.resource-domain) { display:inline-flex; align-items:center; min-height:20px; padding:0 7px; border:1px solid var(--line); border-radius:10px; color:var(--soft); font-size:8.5px; font-weight:650; }
+    .resource-domain { display: block; margin-top: 0; color: var(--soft); font-size: 9.5px; font-weight: 650; }
+    .resource-link { position: absolute; top: 20px; right: 18px; display: inline-flex; align-items: center; gap: 5px; color: var(--link); font-size: 10px; font-weight: 700; }
+    .resource-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .resource-section + .resource-section { margin-top: 28px; }
+    .resource-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin:0 0 14px; }
+    .resource-section-head h2 { margin:0; color:var(--text); font-size:16px; font-weight:720; letter-spacing:-.02em; }
+    .resource-section-head p { margin:5px 0 0; color:var(--muted); font-size:10px; }
+    .resource-section-count { flex:0 0 auto; color:var(--soft); font-size:9.5px; font-weight:650; }
+    .resource-legacy summary { display:flex; align-items:center; gap:16px; padding:16px 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface); cursor:pointer; list-style:none; }
+    .resource-legacy summary::-webkit-details-marker { display:none; }
+    .resource-legacy summary::after { content:'+'; display:grid; place-items:center; flex:0 0 24px; width:24px; height:24px; border:1px solid var(--line); border-radius:7px; color:var(--muted); font-size:16px; line-height:1; }
+    .resource-legacy[open] summary { border-radius:12px 12px 0 0; }
+    .resource-legacy[open] summary::after { content:'−'; }
+    .resource-summary-copy { min-width:0; flex:1 1 auto; }
+    .resource-summary-copy strong { display:block; color:var(--text); font-size:14px; font-weight:700; }
+    .resource-summary-copy small { display:block; margin-top:4px; color:var(--muted); font-size:10px; line-height:1.5; }
+    .resource-legacy .resource-grid { margin-top:16px; }
+    .empty-state { padding: 54px 24px; border: 1px dashed var(--line); border-radius: 15px; background: var(--surface-soft); text-align: center; }
+    .empty-state strong { display: block; color: var(--text); font-size: 14px; }
+    .empty-state p { margin: 7px 0 0; color: var(--muted); font-size: 11px; }
+
+    .about-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.9fr); gap: 28px; }
+    .about-card { padding: 26px; }
+    .about-card h2 { margin: 0 0 16px; color: var(--text); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .about-card p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.9; }
+    .about-values { margin-top: 20px; padding-top: 17px; border-top: 1px solid var(--line); color: var(--text); font-size: 11px; font-weight: 700; }
+    .who-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .who-list li { position: relative; padding-left: 18px; color: var(--muted); font-size: 11.5px; line-height: 1.55; }
+    .who-list li::before { position: absolute; top: 6px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); content: ""; }
+    .usage-section, .feedback-section { margin-top: 44px; }
+    .subsection-heading { margin: 0 0 18px; color: var(--text); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+    .usage-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .usage-card { min-height: 126px; padding: 20px; }
+    .usage-number { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--surface-raised); color: var(--muted); font-size: 9px; font-weight: 800; }
+    .usage-card h3 { margin: 14px 0 0; color: var(--text); font-size: 14px; font-weight: 700; }
+    .usage-card p { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .feedback-card { padding: 24px; }
+    .feedback-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+    .feedback-type-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .feedback-type {
+      min-height: 30px; padding: 0 13px; border: 1px solid var(--line); border-radius: 15px;
+      background: var(--surface-soft); color: var(--muted); font-size: 10px; font-weight: 650;
+    }
+    .feedback-type.is-active { border-color: var(--accent); background: var(--accent); color: #171916; }
+    .feedback-note { color: var(--soft); font-size: 10px; line-height: 1.5; text-align: right; }
+    .feedback-bottom { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: end; gap: 50px; margin-top: 16px; }
+    .feedback-input {
+      width: 100%; min-height: 74px; resize: vertical; padding: 13px 14px;
+      border: 1px solid var(--line); border-radius: 10px; outline: 0;
+      background: var(--input); color: var(--text); font-size: 12px; line-height: 1.6;
+    }
+    .feedback-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(185, 242, 75, 0.12); }
+    .feedback-input::placeholder { color: var(--soft); opacity: 1; }
+    .feedback-submit { width: 100%; min-height: 44px; }
+    .about-note { margin: 30px 0 0; color: var(--soft); font-size: 10.5px; }
+    .site-footer { display: flex; justify-content: space-between; gap: 20px; padding: 18px 0 0; color: var(--soft); font-size: 10.5px; }
+    .site-footer p { margin: 0; }
+    .footer-brand { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; white-space: nowrap; }
+    .toast {
+      position: fixed; z-index: 200; left: 50%; bottom: 28px;
+      padding: 10px 15px; border: 1px solid var(--line); border-radius: 9px;
+      background: var(--surface); color: var(--text); box-shadow: var(--shadow-float);
+      font-size: 11.5px; font-weight: 650; opacity: 0; pointer-events: none;
+      transform: translate(-50%, 8px); transition: opacity 160ms ease, transform 160ms ease;
+    }
+    .toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 1080px) {
+      .primary-nav { gap: 20px; margin-left: 10px; }
+      .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr); gap: 48px; }
+      .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .resource-search { width: 330px; flex-basis: 330px; }
+    }
+    @media (max-width: 860px) {
+      .shell { width: calc(100% - 32px); }
+      .header-inner { flex-wrap: wrap; gap: 0 18px; padding-top: 14px; }
+      .brand { min-height: 38px; }
+      .header-actions { margin-left: auto; }
+      .primary-nav { order: 3; width: 100%; min-height: 44px; gap: 24px; margin-left: 0; overflow-x: auto; scrollbar-width: none; }
+      .primary-nav::-webkit-scrollbar { display: none; }
+      .nav-link[aria-current="page"]::after { bottom: 5px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 46px; padding: 48px 0 54px; }
+      .hero-copy h1 { max-width: 680px; }
+      .journey { max-width: 580px; }
+      .journey h2 { margin-bottom: 22px; }
+      .page-shell { padding-top: 38px; }
+      .resource-search-row { align-items: flex-start; flex-direction: column; }
+      .resource-search { width: 100%; flex-basis: auto; }
+      .tools-grid, .resource-grid, .about-grid, .usage-grid { grid-template-columns: 1fr; }
+      .usage-card { min-height: 110px; }
+      .feedback-bottom { grid-template-columns: 1fr; gap: 14px; }
+      .feedback-submit { width: 240px; justify-self: end; }
+    }
+    @media (max-width: 560px) {
+      .brand-tagline { display: none; }
+      .header-inner { gap: 0 12px; }
+      .language-toggle { width: 92px; }
+      .language-thumb { width: 42px; }
+      [data-lang="en"] .language-thumb { transform: translateX(42px); }
+      .theme-toggle { width: 64px; }
+      [data-theme="dark"] .theme-thumb { transform: translateX(28px); }
+      .hero-grid { padding-top: 38px; }
+      .hero-copy h1 { font-size: 34px; }
+      .hero-copy p { font-size: 13px; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-actions .button { width: 100%; }
+      .journey-grid { gap: 24px 16px; }
+      .home-content { padding-top: 36px; }
+      .tool-grid { grid-template-columns: 1fr; gap: 14px; }
+      .section-heading { align-items: flex-start; }
+      .stage-row { display: grid; grid-template-columns: repeat(2, 1fr); }
+      .stage-button { width: 100%; }
+      .filter-summary { width: 100%; margin-left: 0; }
+      .page-heading h1 { font-size: 30px; }
+      .feedback-top { flex-direction: column; gap: 10px; }
+      .feedback-note { text-align: left; }
+      .feedback-submit { width: 100%; }
+      .site-footer { align-items: flex-start; flex-direction: column; gap: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+    /* Tool usage guides */
+    .tool-context { display:flex; flex-wrap:wrap; gap:6px; margin-top:13px; }
+    .tool-context span { display:inline-flex; align-items:center; min-height:21px; padding:0 8px; border:1px solid var(--line); border-radius:999px; color:var(--soft); font-size:8.5px; font-weight:650; }
+    .tool-scenario { margin:9px 0 0 !important; color:var(--muted) !important; font-size:10.5px !important; line-height:1.6 !important; }
+    .tool-scenario strong { color:var(--text); font-weight:700; }
+    .tool-card.is-available { padding-bottom:44px; }
+    .page-heading .guide-trigger { margin-top:15px; }
+    .guide-trigger { display:inline-flex; align-items:center; gap:7px; min-height:34px; padding:0 12px; border:1px solid var(--line); border-radius:9px; background:var(--surface-raised); color:var(--text); font:inherit; font-size:10.5px; font-weight:700; cursor:pointer; }
+    .guide-trigger:hover { border-color:var(--soft); background:var(--surface-soft); }
+    .guide-trigger-icon { display:grid; place-items:center; width:16px; height:16px; border-radius:50%; border:1px solid currentColor; font-family:Georgia,serif; font-size:10px; font-style:italic; line-height:1; }
+    .guide-backdrop { position:fixed; inset:0; z-index:300; background:rgba(12,14,10,.42); }
+    .guide-drawer { position:fixed; z-index:301; top:0; right:0; width:min(440px,94vw); height:100dvh; display:flex; flex-direction:column; background:var(--surface); border-left:1px solid var(--line); box-shadow:var(--shadow-float); transform:translateX(100%); transition:transform .2s ease; }
+    .guide-drawer.is-open { transform:translateX(0); }
+    .guide-drawer-head { display:flex; align-items:flex-start; justify-content:space-between; gap:18px; padding:24px 24px 18px; border-bottom:1px solid var(--line); }
+    .guide-kicker { display:block; color:var(--soft); font-size:9px; font-weight:750; letter-spacing:.08em; text-transform:uppercase; }
+    .guide-drawer-head h2 { margin:8px 0 7px; color:var(--text); font-size:21px; line-height:1.3; letter-spacing:-.025em; }
+    .guide-drawer-head p { margin:0; color:var(--muted); font-size:11px; line-height:1.65; }
+    .guide-close { flex:0 0 32px; width:32px; height:32px; border:1px solid var(--line); border-radius:8px; background:var(--surface-raised); color:var(--text); font-size:20px; line-height:1; cursor:pointer; }
+    .guide-close:hover { border-color:var(--soft); }
+    .guide-drawer-body { overflow-y:auto; padding:22px 24px 32px; }
+    .guide-meta { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px; }
+    .guide-meta span { display:inline-flex; align-items:center; min-height:23px; padding:0 9px; border-radius:999px; background:var(--surface-raised); color:var(--muted); font-size:9px; font-weight:700; }
+    .guide-section + .guide-section { margin-top:23px; padding-top:21px; border-top:1px solid var(--line-soft); }
+    .guide-section h3 { margin:0 0 10px; color:var(--text); font-size:13px; font-weight:720; }
+    .guide-section p { margin:0; color:var(--muted); font-size:11px; line-height:1.7; }
+    .guide-list { display:grid; gap:8px; margin:0; padding:0; list-style:none; color:var(--muted); font-size:11px; line-height:1.65; }
+    .guide-list li { display:flex; align-items:flex-start; gap:9px; }
+    .guide-list.numbered { counter-reset:guide-step; }
+    .guide-list.numbered li::before { counter-increment:guide-step; content:counter(guide-step); display:grid; place-items:center; flex:0 0 20px; width:20px; height:20px; margin-top:1px; border-radius:50%; background:var(--surface-raised); color:var(--text); font-size:9px; font-weight:750; }
+    .guide-list.bullets li::before { content:'•'; flex:0 0 9px; color:var(--soft); font-weight:800; }
+    .guide-next { display:flex; align-items:center; justify-content:space-between; gap:14px; width:100%; margin-top:24px; padding:13px 14px; border:1px solid var(--line); border-radius:10px; background:var(--surface-soft); color:var(--text); font:inherit; font-size:10.5px; font-weight:700; text-align:left; text-decoration:none; }
+    .guide-next span:last-child { color:var(--link); }
+    .guide-next.is-disabled { cursor:default; opacity:.72; }
+    body.guide-open { overflow:hidden; }
+    @media(max-width:720px){ .guide-drawer { top:auto; bottom:0; width:100%; height:auto; max-height:86dvh; border-left:0; border-top:1px solid var(--line); border-radius:18px 18px 0 0; transform:translateY(100%); } .guide-drawer.is-open { transform:translateY(0); } .guide-drawer-head { padding:20px 18px 16px; } .guide-drawer-body { padding:18px 18px calc(24px + env(safe-area-inset-bottom)); } }
+
+      /* JD / Resume keyword matcher */
+    .matcher-layout { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(320px,.85fr); gap:24px; margin-top:26px; }
+    .matcher-panel { padding:22px; }
+    .matcher-panel h2 { margin:0; color:var(--text); font-size:17px; font-weight:700; letter-spacing:-.02em; }
+    .matcher-panel .matcher-sub { margin:7px 0 0; color:var(--muted); font-size:10.5px; line-height:1.55; }
+    .matcher-field { display:flex; flex-direction:column; gap:7px; margin-top:16px; }
+    .matcher-field label { display:flex; justify-content:space-between; gap:12px; color:var(--muted); font-size:10px; font-weight:650; }
+    .matcher-field label span { color:var(--soft); font-weight:500; }
+    .matcher-textarea { position:relative; }
+    .matcher-textarea textarea { width:100%; min-height:160px; resize:vertical; padding:12px 13px 30px; border:1px solid var(--line); border-radius:10px; outline:0; background:var(--input); color:var(--text); font-size:11.5px; line-height:1.7; }
+    .matcher-textarea textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(185,242,75,.12); }
+    .matcher-textarea textarea::placeholder { color:var(--soft); opacity:1; }
+    .matcher-count { position:absolute; right:11px; bottom:8px; color:var(--soft); font-size:9px; }
+    .matcher-actions { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:18px; }
+    .matcher-actions .note { color:var(--soft); font-size:9.5px; line-height:1.45; }
+    .matcher-buttons { display:flex; align-items:center; gap:9px; }
+    .matcher-info { padding:22px; }
+    .matcher-info h2 { margin:0; color:var(--text); font-size:17px; font-weight:700; }
+    .matcher-info .matcher-sub { margin:8px 0 20px; color:var(--muted); font-size:10.5px; line-height:1.6; }
+    .matcher-output-list { display:grid; gap:14px; margin:0; padding:0; list-style:none; }
+    .matcher-output-list li { display:flex; align-items:flex-start; gap:11px; color:var(--muted); font-size:10.5px; line-height:1.55; }
+    .matcher-output-list strong { display:block; margin-bottom:2px; color:var(--text); font-size:11px; font-weight:680; }
+    .matcher-output-icon { display:grid; place-items:center; flex:0 0 32px; width:32px; height:32px; border-radius:9px; background:var(--surface-raised); color:var(--text); }
+    .matcher-method-note { margin-top:20px; padding:13px 14px; border-radius:10px; background:var(--surface-soft); color:var(--soft); font-size:9.5px; line-height:1.65; }
+    .matcher-method-note strong { color:var(--text); font-weight:680; }
+    .matcher-results { display:none; margin-top:26px; }
+    .matcher-results.is-visible { display:block; }
+    .matcher-stats { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .mstat-card { padding:17px 18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow-card); }
+    .mstat-label { display:block; color:var(--muted); font-size:9.5px; font-weight:650; }
+    .mstat-value { display:block; margin-top:10px; color:var(--text); font-size:28px; font-weight:720; letter-spacing:-.04em; line-height:1; }
+    .mstat-card.is-alert .mstat-value { color:var(--amber-text); }
+    .mstat-desc { display:block; margin-top:8px; color:var(--soft); font-size:9.5px; }
+    .matcher-grid { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(300px,.8fr); gap:20px; margin-top:20px; }
+    .matcher-grid > * { min-width:0; }
+    .matcher-card { min-width:0; padding:20px; }
+    .matcher-card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px; }
+    .matcher-card-head h3 { margin:0; color:var(--text); font-size:15px; font-weight:700; letter-spacing:-.02em; }
+    .matcher-card-head p { margin:5px 0 0; color:var(--muted); font-size:9px; }
+    .matcher-table-wrap { max-width:100%; overflow-x:auto; border:1px solid var(--line); border-radius:11px; }
+    .matcher-table { width:100%; min-width:820px; border-collapse:collapse; table-layout:auto; }
+    .matcher-table th { height:38px; padding:0 12px; border-bottom:1px solid var(--line); background:var(--surface-soft); color:var(--soft); font-size:8.5px; font-weight:700; letter-spacing:.07em; text-align:left; white-space:nowrap; }
+    .matcher-table td { height:42px; padding:0 12px; border-bottom:1px solid var(--line-soft); color:var(--muted); font-size:10px; }
+    .matcher-table tr:last-child td { border-bottom:0; }
+    .mkeyword { color:var(--text); font-weight:680; }
+    .mimportance-high { color:var(--amber-text); font-weight:700; } .mimportance-medium { color:var(--blue-text); font-weight:650; } .mimportance-low { color:var(--soft); }
+    .myes { color:var(--green-text); font-weight:700; } .mno { color:var(--red-text); font-weight:700; }
+    .mbadge { display:inline-flex; align-items:center; gap:5px; min-height:22px; padding:0 8px; border-radius:11px; font-size:8.5px; font-weight:700; white-space:nowrap; }
+    .mbadge-covered { background:var(--green-bg); color:var(--green-text); }
+    .mbadge-missing { background:var(--red-bg); color:var(--red-text); }
+    .mbadge-evidence { background:#e8f3ff; color:#2f62a4; }
+    .mbadge-partial { background:var(--status-amber-bg); color:var(--status-amber-text); }
+    .mbadge-unstated { background:var(--status-neutral-bg); color:var(--status-neutral-text); }
+    .msource-dictionary { background:var(--surface-raised); color:var(--text); }
+    .msource-auto { background:#edf3ff; color:#315fa9; }
+    .msource-custom { background:#eee9ff; color:#6d4dd2; }\n    [data-theme="dark"] .msource-auto { background:#1a2740; color:#9db9f0; }\n    [data-theme="dark"] .msource-custom { background:#332d4f; color:#b5a3f0; }
+    .mcoverage-list { display:grid; gap:16px; }
+    .mcoverage-item { display:grid; gap:7px; }
+    .mcoverage-top { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--text); font-size:10.5px; font-weight:650; }
+    .mcoverage-top span:last-child { color:var(--muted); font-weight:600; }
+    .mbar { height:6px; border-radius:999px; background:var(--surface-raised); overflow:hidden; }
+    .mbar span { display:block; height:100%; border-radius:inherit; background:var(--accent); }
+    .mcoverage-note { margin-top:18px; padding-top:15px; border-top:1px solid var(--line); color:var(--soft); font-size:9px; line-height:1.65; }
+    .mevidence-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .mevidence-card { padding:14px; border:1px solid var(--line); border-radius:11px; background:var(--surface-soft); }
+    .mevidence-kicker { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; color:var(--soft); font-size:8.5px; font-weight:700; letter-spacing:.05em; }
+    .mevidence-kicker strong { color:var(--text); font-size:10.5px; letter-spacing:0; }
+    .mevidence-card blockquote { margin:0; color:var(--muted); font-size:9.5px; line-height:1.7; }
+    .mevidence-card blockquote mark { background:rgba(185,242,75,.22); color:var(--text); border-radius:2px; padding:0 2px; }
+    .mevidence-card blockquote + blockquote { margin-top:10px; }
+    .mevidence-groups { display:grid; gap:6px; margin:0 0 11px; padding:9px 10px; border-radius:8px; background:rgba(47,98,164,.07); }
+    .mevidence-group { display:flex; align-items:flex-start; gap:8px; color:var(--muted); font-size:8.5px; line-height:1.5; }
+    .mevidence-group strong { flex:0 0 auto; color:var(--text); font-size:8.5px; }
+    [data-theme="dark"] .mbadge-evidence { background:#1a2740; color:#9db9f0; }
+    [data-theme="dark"] .mevidence-groups { background:rgba(157,185,240,.08); }
+    .mchecklist { display:grid; gap:9px; margin:0; padding:0; list-style:none; }
+    .mchecklist li { display:flex; align-items:flex-start; gap:10px; padding:11px 12px; border:1px solid var(--line); border-radius:10px; background:var(--surface); color:var(--muted); font-size:10px; line-height:1.55; }
+    .mchecklist strong { color:var(--text); font-weight:680; }
+    .mcheck { display:grid; place-items:center; flex:0 0 17px; width:17px; height:17px; margin-top:1px; border:1px solid var(--line); border-radius:4px; color:transparent; }
+    .mhonesty { display:flex; align-items:flex-start; gap:8px; margin-top:14px; padding:11px 12px; border-radius:9px; background:var(--surface-soft); color:var(--soft); font-size:9px; line-height:1.65; }
+    .mhonesty svg { flex:0 0 auto; color:var(--amber-text); }
+    @media(max-width:1080px){ .matcher-layout,.matcher-grid { grid-template-columns:1fr; } .matcher-info { order:2; } .mevidence-grid { grid-template-columns:1fr; } .matcher-stats { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(max-width:560px){ .matcher-panel,.matcher-info,.matcher-card { padding:16px; } .matcher-textarea textarea { min-height:130px; } .matcher-actions { align-items:stretch; flex-direction:column; } .matcher-buttons { width:100%; } .matcher-buttons .button { flex:1; } .matcher-stats { grid-template-columns:1fr; } }
+    .matcher-field-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .matcher-field-head label { flex:1 1 auto; }
+    .matcher-import { flex:0 0 auto; }
+    .matcher-import-button { min-height:28px; padding:0 10px; border:1px solid var(--line); border-radius:7px; background:var(--surface-soft); color:var(--muted); font-size:9.5px; font-weight:650; }
+    .matcher-import-button:hover { border-color:var(--soft); color:var(--text); }
+    .matcher-file-status { margin-top:7px; color:var(--soft); font-size:9.5px; line-height:1.5; }
+    .matcher-file-status.is-success { color:var(--green-text); }
+    .matcher-file-status.is-error { color:var(--red-text); }
+    .matcher-textarea.is-dragover { border-radius:10px; box-shadow:0 0 0 2px var(--accent); }
+    .matcher-advanced { margin-top:16px; padding:12px 13px; border:1px solid var(--line); border-radius:10px; background:var(--surface-soft); }
+    .matcher-advanced summary { display:flex; align-items:center; justify-content:space-between; gap:12px; color:var(--text); font-size:10.5px; font-weight:680; cursor:pointer; list-style:none; }
+    .matcher-advanced summary::-webkit-details-marker { display:none; }
+    .matcher-advanced summary::before { content:'＋'; color:var(--soft); }
+    .matcher-advanced[open] summary::before { content:'－'; }
+    .matcher-advanced-hint { margin-left:auto; color:var(--soft); font-size:9px; font-weight:500; }
+    .matcher-advanced p { margin:8px 0 0; color:var(--soft); font-size:9px; line-height:1.55; }
+    .matcher-advanced textarea { width:100%; min-height:74px; margin-top:8px; resize:vertical; padding:10px 11px; border:1px solid var(--line); border-radius:8px; outline:0; background:var(--input); color:var(--text); font-size:10.5px; line-height:1.6; }
+    .matcher-advanced textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(185,242,75,.12); }
+    .matcher-advanced textarea::placeholder { color:var(--soft); opacity:1; }
+    @media(max-width:560px){ .matcher-field-head { align-items:flex-start; flex-direction:column; gap:7px; } .matcher-import { align-self:flex-end; } }
+</style>
+</head>
+<body class="dark-header">
+  <a class="skip-link" href="#mainContent" data-i18n="skip">跳到主要内容</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#home" aria-label="Roleport">
+        <svg class="brand-mark" width="38" height="38" viewBox="0 0 38 38" aria-hidden="true">
+          <rect class="brand-mark-bg" x="0.5" y="0.5" width="37" height="37" rx="10.5"></rect>
+          <circle cx="11.4" cy="12.2" r="2" fill="currentColor"></circle>
+          <circle cx="11.4" cy="19" r="2" fill="currentColor"></circle>
+          <circle cx="11.4" cy="25.8" r="2" fill="currentColor"></circle>
+          <path d="M14 12.2 22 19M14 19h8M14 25.8 22 19" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          <rect x="21.5" y="10.5" width="7" height="17" rx="3.5" fill="none" stroke="var(--accent)" stroke-width="2"></rect>
+        </svg>
+        <span class="brand-copy"><span class="brand-name">roleport</span><span class="brand-tagline">CAREER TOOLKIT</span></span>
+      </a>
+      <nav class="primary-nav" aria-label="主导航">
+        <a class="nav-link" href="#home" data-route-link="home" data-i18n="nav.home">首页</a>
+        <a class="nav-link" href="#tools" data-route-link="tools" data-i18n="nav.tools">工具箱</a>
+        <a class="nav-link" href="#resources" data-route-link="resources" data-i18n="nav.resources">资源导航</a>
+        <a class="nav-link" href="#about" data-route-link="about" data-i18n="nav.about">关于与反馈</a>
+      </nav>
+      <div class="header-actions">
+        <div class="language-toggle" role="group" aria-label="语言 / Language">
+          <span class="language-thumb" aria-hidden="true"></span>
+          <button class="language-option is-active" type="button" data-language="zh" aria-pressed="true">中</button>
+          <button class="language-option" type="button" data-language="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换到浅色主题">
+          <span class="theme-thumb" aria-hidden="true"></span>
+          <span class="theme-icon sun-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.4"></circle><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.4 1.4M11.55 11.55l1.4 1.4M12.95 3.05l-1.4 1.4M4.45 11.55l-1.4 1.4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"></path></svg></span>
+          <span class="theme-icon moon-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.7 9.6A5.7 5.7 0 0 1 6.4 2.3a5.8 5.8 0 1 0 7.3 7.3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path></svg></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main id="mainContent">
+    <section class="page-view" data-view="home" hidden="">
+      <div class="home-hero">
+        <svg class="hero-network" viewBox="0 0 1440 360" preserveAspectRatio="none" aria-hidden="true">
+          <g fill="none" stroke="#22281f" stroke-width="1.1">
+            <path d="M980 34 1060 96 1140 48 1250 124"></path>
+            <path d="M1030 250 1120 208 1220 270"></path>
+            <path d="M942 116 1000 174 1094 158 1180 232"></path>
+          </g>
+          <g fill="#394132">
+            <circle cx="980" cy="34" r="2.5"></circle><circle cx="1060" cy="96" r="3"></circle><circle cx="1140" cy="48" r="2.5"></circle><circle cx="1250" cy="124" r="3"></circle>
+            <circle cx="1030" cy="250" r="2.5"></circle><circle cx="1120" cy="208" r="3"></circle><circle cx="1220" cy="270" r="2.5"></circle>
+            <circle cx="942" cy="116" r="2.5"></circle><circle cx="1000" cy="174" r="3"></circle><circle cx="1094" cy="158" r="2.5"></circle><circle cx="1180" cy="232" r="3"></circle>
+          </g>
+        </svg>
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span>CAREER TOOLKIT FOR BEGINNERS</div>
+            <h1 data-i18n="home.title">求职新手的一站式工具箱</h1>
+            <p data-i18n="home.subtitle">从看岗位、分析 JD，到优化简历和记录求职决策，用更少的工具切换完成准备。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#tools" data-i18n="home.primary">浏览工具箱</a>
+              <a class="button button-secondary" href="#resources" data-i18n="home.secondary">查看求职资源</a>
+            </div>
+          </div>
+          <aside class="journey" aria-labelledby="journeyTitle">
+            <p class="journey-kicker">START HERE</p>
+            <h2 id="journeyTitle" data-i18n="home.journeyTitle">一条清晰的求职路径</h2>
+            <div class="journey-grid">
+              <div class="journey-step"><span class="journey-index">01</span><strong data-i18n="home.step1Title">明确方向</strong><span data-i18n="home.step1Desc">先判断适合自己的岗位方向</span></div>
+              <div class="journey-step"><span class="journey-index">02</span><strong data-i18n="home.step2Title">分析岗位</strong><span data-i18n="home.step2Desc">理解职责、技能与薪资</span></div>
+              <div class="journey-step"><span class="journey-index">03</span><strong data-i18n="home.step3Title">优化简历</strong><span data-i18n="home.step3Desc">根据 JD 调整表达重点</span></div>
+              <div class="journey-step"><span class="journey-index">04</span><strong data-i18n="home.step4Title">记录决策</strong><span data-i18n="home.step4Desc">保留机会与下一步行动</span></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div class="shell home-content">
+        <div class="section-heading">
+          <h2 data-i18n="home.toolsTitle">常用工具</h2>
+          <a class="text-link" href="#tools"><span data-i18n="home.allTools">全部工具</span><span aria-hidden="true">→</span></a>
+        </div>
+        <div class="tool-grid" id="homeToolsGrid"></div>
+
+        <section class="stage-section" aria-labelledby="stageTitle">
+          <h2 class="subsection-heading" id="stageTitle" data-i18n="home.stagesTitle">按求职阶段浏览</h2>
+          <div class="stage-row">
+            <button class="stage-button" type="button" data-stage-route="resources" data-stage-filter="all" data-i18n="stage.orient">找方向</button>
+            <button class="stage-button" type="button" data-stage-route="tools" data-stage-filter="analysis" data-i18n="stage.roles">看岗位</button>
+            <button class="stage-button" type="button" data-stage-route="tools" data-stage-filter="optimize" data-i18n="stage.resume">改简历</button>
+            <button class="stage-button" type="button" data-stage-route="tools" data-stage-filter="manage" data-i18n="stage.apply">投递管理</button>
+            <button class="stage-button" type="button" data-stage-route="resources" data-stage-filter="resume" data-i18n="stage.interview">面试准备</button>
+            <button class="stage-button" type="button" data-stage-route="tools" data-stage-filter="decision" data-i18n="stage.decide">做决策</button>
+          </div>
+        </section>
+
+        <p class="home-note" data-i18n="home.note">Roleport 不重复建设招聘平台，只为你汇集成熟服务与轻量工具。</p>
+        <footer class="site-footer">
+          <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
+          <p class="footer-brand">ROLEPORT · 2026</p>
+        </footer>
+      </div>
+    </section>
+    <section class="page-view" data-view="tools" hidden="">
+      <div class="shell page-shell">
+        <header class="page-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / TOOLBOX</div>
+          <h1 data-i18n="tools.title">求职工具箱</h1>
+          <p data-i18n="tools.subtitle">选择适合当前阶段的轻量工具。尚未开放的功能会明确标记状态。</p>
+        </header>
+        <div class="filter-bar">
+          <div id="toolFilters" class="filter-bar" style="margin:0"><button class="filter-chip is-active" type="button" data-tool-filter="all" aria-pressed="true">全部工具</button><button class="filter-chip" type="button" data-tool-filter="manage" aria-pressed="false">管理</button><button class="filter-chip" type="button" data-tool-filter="analysis" aria-pressed="false">分析</button><button class="filter-chip" type="button" data-tool-filter="optimize" aria-pressed="false">优化</button><button class="filter-chip" type="button" data-tool-filter="decision" aria-pressed="false">决策</button></div>
+          <p class="filter-summary" id="toolsSummary"></p>
+        </div>
+        <div class="tools-grid" id="toolsGrid"></div>
+        <p class="tools-status-note" data-i18n="tools.statusNote">状态说明：开发中 = 正在实现；规划中 = 尚未开始；可用 = 已上线。</p>
+        <footer class="site-footer">
+          <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
+          <p class="footer-brand">ROLEPORT · TOOLBOX</p>
+        </footer>
+      </div>
+    </section>
+
+    <section class="page-view" data-view="resources" hidden="">
+      <div class="shell page-shell">
+        <div class="resource-search-row">
+          <header class="page-heading" style="margin:0">
+            <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / RESOURCE DIRECTORY</div>
+            <h1 data-i18n="resources.title">求职资源导航</h1>
+            <p data-i18n="resources.subtitle">优先展示中文友好、Web3、远程与求职社群，同时保留海外通用资源。所有入口均指向官方地址。</p>
+            <button class="guide-trigger" type="button" data-guide-tool="resource-directory"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
+          </header>
+          <form class="resource-search" id="resourceSearchForm" role="search">
+            <label class="search-box" for="resourceSearch">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="m10.4 10.4 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
+              <input id="resourceSearch" type="search" autocomplete="off" data-i18n-placeholder="resources.searchPlaceholder" placeholder="搜索资源名称或用途">
+            </label>
+            <button class="search-button" type="submit" data-i18n="resources.search">搜索</button>
+          </form>
+        </div>
+        <div class="filter-bar" style="margin-top:28px">
+          <div id="resourceFilters" class="filter-bar" style="margin:0"><button class="filter-chip is-active" type="button" data-resource-filter="all" aria-pressed="true">全部</button><button class="filter-chip" type="button" data-resource-filter="general" aria-pressed="false">综合招聘</button><button class="filter-chip" type="button" data-resource-filter="tech" aria-pressed="false">互联网与科技招聘</button><button class="filter-chip" type="button" data-resource-filter="web3" aria-pressed="false">Web3 招聘</button><button class="filter-chip" type="button" data-resource-filter="remote" aria-pressed="false">远程工作平台</button><button class="filter-chip" type="button" data-resource-filter="freelance" aria-pressed="false">兼职与悬赏平台</button><button class="filter-chip" type="button" data-resource-filter="resume" aria-pressed="false">简历与面试资源</button><button class="filter-chip" type="button" data-resource-filter="learning" aria-pressed="false">技能学习资源</button></div>
+          <p class="filter-summary" id="resourcesSummary"></p>
+        </div>
+        <section class="resource-section" id="featuredResourcesSection">
+          <div class="resource-section-head">
+            <div><h2 data-i18n="resources.focusTitle">中文友好与专项资源</h2><p data-i18n="resources.focusDesc">优先展示中文岗位、Web3、远程工作和求职社群。</p></div>
+            <span class="resource-section-count" id="featuredResourcesCount"></span>
+          </div>
+          <div class="resource-grid" id="resourceGrid"></div>
+        </section>
+        <details class="resource-section resource-legacy" id="legacyResourcesSection">
+          <summary>
+            <span class="resource-summary-copy"><strong data-i18n="resources.legacyTitle">更多海外通用资源</strong><small data-i18n="resources.legacyDesc">综合招聘、海外科技公司、自由职业和学习资源，按需展开。</small></span>
+            <span class="resource-section-count" id="legacyResourcesCount"></span>
+          </summary>
+          <div class="resource-grid" id="legacyResourceGrid"></div>
+        </details>
+        <div class="empty-state" id="resourceEmpty" hidden="">
+          <strong data-i18n="resources.emptyTitle">没有找到匹配的资源</strong>
+          <p data-i18n="resources.emptyDesc">换一个关键词，或调整资源分类。</p>
+        </div>
+        <p class="tools-status-note" data-i18n="resources.disclaimer">资源仅作导航，具体服务、收费与隐私规则请以对应平台为准。</p>
+        <footer class="site-footer">
+          <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
+          <p class="footer-brand">ROLEPORT · RESOURCES</p>
+        </footer>
+      </div>
+    </section>
+    <section class="page-view" data-view="about" hidden="">
+      <div class="shell page-shell">
+        <header class="page-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / ABOUT</div>
+          <h1 data-i18n="about.title">关于与反馈</h1>
+          <p data-i18n="about.subtitle">Roleport 面向求职新手，把常用工具与成熟资源整理在一个轻量入口中。</p>
+        </header>
+
+        <div class="about-grid">
+          <article class="card about-card">
+            <h2 data-i18n="about.introTitle">让求职准备少一点试错</h2>
+            <p data-i18n="about.introBody">求职信息分散在招聘网站、社交平台和各种文档里。Roleport 不重复建设这些服务，而是把真正常用的工具和官方资源整理在一起，帮助新手更快完成分析、优化和管理。</p>
+            <div class="about-values" data-i18n="about.values">轻量 · 本地优先 · 不依赖账号 · 不追求做大而全</div>
+          </article>
+          <aside class="card about-card">
+            <h2 data-i18n="about.whoTitle">适合谁</h2>
+            <ul class="who-list">
+              <li data-i18n="about.who1">第一次系统准备求职的应届生与转行者</li>
+              <li data-i18n="about.who2">需要同时比较多个岗位机会的求职者</li>
+              <li data-i18n="about.who3">希望用更低成本整理资料与管理进度的人</li>
+            </ul>
+          </aside>
+        </div>
+
+        <section class="usage-section" aria-labelledby="usageTitle">
+          <h2 class="subsection-heading" id="usageTitle" data-i18n="about.howTitle">基本使用说明</h2>
+          <div class="usage-grid">
+            <article class="card usage-card"><span class="usage-number">01</span><h3 data-i18n="about.how1Title">选择工具或资源</h3><p data-i18n="about.how1Desc">从当前最需要解决的问题开始。</p></article>
+            <article class="card usage-card"><span class="usage-number">02</span><h3 data-i18n="about.how2Title">在本地输入资料</h3><p data-i18n="about.how2Desc">文本与结果尽量只保存在浏览器。</p></article>
+            <article class="card usage-card"><span class="usage-number">03</span><h3 data-i18n="about.how3Title">导出或继续下一步</h3><p data-i18n="about.how3Desc">复制结果，带到常用文档或官方平台。</p></article>
+          </div>
+        </section>
+
+        <section class="feedback-section" aria-labelledby="feedbackTitle">
+          <h2 class="subsection-heading" id="feedbackTitle" data-i18n="about.feedbackTitle">反馈与资源纠错</h2>
+          <form class="card feedback-card" id="feedbackForm">
+            <div class="feedback-top">
+              <div>
+                <p class="journey-kicker" style="color:var(--soft);margin-bottom:9px" data-i18n="about.feedbackTypeLabel">问题类型</p>
+                <div class="feedback-type-row" id="feedbackTypes">
+                  <button class="feedback-type is-active" type="button" data-feedback-type="suggestion" data-i18n="about.feedbackSuggestion">产品建议</button>
+                  <button class="feedback-type" type="button" data-feedback-type="correction" data-i18n="about.feedbackCorrection">资源纠错</button>
+                  <button class="feedback-type" type="button" data-feedback-type="tool" data-i18n="about.feedbackTool">工具需求</button>
+                </div>
+              </div>
+              <p class="feedback-note" data-i18n="about.feedbackNote">无需登录。当前版本不上传反馈内容，按钮会将内容复制到剪贴板。</p>
+            </div>
+            <div class="feedback-bottom">
+              <label class="sr-only" for="feedbackText" data-i18n="about.feedbackLabel">反馈内容</label>
+              <textarea class="feedback-input" id="feedbackText" data-i18n-placeholder="about.feedbackPlaceholder" placeholder="简单描述你遇到的问题、建议或希望新增的资源…"></textarea>
+              <button class="button button-primary feedback-submit" type="submit" data-i18n="about.feedbackSubmit">复制反馈内容</button>
+            </div>
+          </form>
+          <p class="about-note" data-i18n="about.note">Roleport 不会要求注册账号，也不会把本地工具输入自动上传。</p>
+        </section>
+
+        <footer class="site-footer">
+          <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
+          <p class="footer-brand">ROLEPORT · ABOUT</p>
+        </footer>
+      </div>
+    </section>
+      <section class="page-view" data-view="matcher">
+      <div class="shell page-shell">
+        <header class="page-heading">
+          <div class="eyebrow"><span class="eyebrow-dot"></span>TOOL / KEYWORD MATCHER</div>
+          <h1 data-i18n="matcher.title">JD 与简历关键词匹配器</h1>
+          <p data-i18n="matcher.subtitle">粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。</p>
+          <button class="guide-trigger" type="button" data-guide-tool="resume-keyword"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
+        </header>
+
+        <div class="matcher-layout">
+          <section class="card matcher-panel">
+            <h2 data-i18n="matcher.inputTitle">输入求职材料</h2>
+            <p class="matcher-sub" data-i18n="matcher.inputSub">规则匹配，不使用 AI，不上传简历内容。</p>
+            <div class="matcher-field">
+              <div class="matcher-field-head"><label for="matcherJd"><span data-i18n="matcher.jdLabel">岗位描述 JD</span><span data-i18n="matcher.required">必填 · 上限 10,000 字</span></label><div class="matcher-import"><input id="matcherJdFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown" hidden=""><button class="matcher-import-button" id="matcherJdImport" type="button" data-i18n="matcher.importFile">导入文件</button></div></div>
+              <div class="matcher-textarea" data-drop-target="jd"><textarea id="matcherJd" maxlength="10000" data-i18n-placeholder="matcher.jdPlaceholder" placeholder="粘贴岗位描述原文…"></textarea><span class="matcher-count" id="matcherJdCount">0 字</span></div>
+              <div class="matcher-file-status" id="matcherJdFileStatus" hidden=""></div>
+            </div>
+            <div class="matcher-field">
+              <div class="matcher-field-head"><label for="matcherResume"><span data-i18n="matcher.resumeLabel">简历文本</span><span data-i18n="matcher.required">必填 · 上限 10,000 字</span></label><div class="matcher-import"><input id="matcherResumeFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown" hidden=""><button class="matcher-import-button" id="matcherResumeImport" type="button" data-i18n="matcher.importFile">导入文件</button></div></div>
+              <div class="matcher-textarea" data-drop-target="resume"><textarea id="matcherResume" maxlength="10000" data-i18n-placeholder="matcher.resumePlaceholder" placeholder="粘贴简历文本…"></textarea><span class="matcher-count" id="matcherResumeCount">0 字</span></div>
+              <div class="matcher-file-status" id="matcherResumeFileStatus" hidden=""></div>
+            </div>
+            <details class="matcher-advanced">
+              <summary><span data-i18n="matcher.customSummary">补充关键词（可选）</span><span class="matcher-advanced-hint" data-i18n="matcher.customHint">仅用于本次分析</span></summary>
+              <p data-i18n="matcher.customDesc">一行一个，适合补充词典暂未覆盖的行业术语或工具名，不会保存。</p>
+              <textarea id="matcherCustomKeywords" maxlength="2000" data-i18n-placeholder="matcher.customPlaceholder" placeholder="例如：\nKubernetes\n用户增长"></textarea>
+            </details>
+            <div class="matcher-actions">
+              <span class="note" data-i18n="matcher.privacyNote">文本只在当前浏览器处理，刷新页面后不会自动保留。</span>
+              <div class="matcher-buttons"><button class="button button-secondary" id="matcherClear" type="button" data-i18n="matcher.clear">清空</button><button class="button button-primary" id="matcherAnalyze" type="button" data-i18n="matcher.analyze">开始分析</button></div>
+            </div>
+          </section>
+
+          <aside class="card matcher-info">
+            <h2 data-i18n="matcher.infoTitle">分析后你会得到</h2>
+            <p class="matcher-sub" data-i18n="matcher.infoSub">重点不是给出一个模糊分数，而是提供可核对、可复制的修改依据。</p>
+            <ul class="matcher-output-list">
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="4.8" stroke="currentColor" stroke-width="1.4"></circle><path d="m11.5 11.5 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></span><span><strong data-i18n="matcher.output1Title">关键词覆盖清单</strong><span data-i18n="matcher.output1Desc">已覆盖、缺失和自定义关键词一目了然。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 16.5h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path><rect x="4.5" y="10" width="3" height="5" rx=".7" fill="currentColor"></rect><rect x="8.7" y="6" width="3" height="9" rx=".7" fill="currentColor"></rect><rect x="12.9" y="8" width="3" height="7" rx=".7" fill="currentColor"></rect></svg></span><span><strong data-i18n="matcher.output2Title">分类覆盖率</strong><span data-i18n="matcher.output2Desc">按技术、基础设施、数据和软技能分类统计。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 10.5 8 14.5 16 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><rect x="2.5" y="2.5" width="15" height="15" rx="3" stroke="currentColor" stroke-width="1.2"></rect></svg></span><span><strong data-i18n="matcher.output3Title">命中句子证据</strong><span data-i18n="matcher.output3Desc">展示 JD 和简历中的具体原文，方便判断是否真匹配。</span></span></li>
+              <li><span class="matcher-output-icon"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.3"></rect><path d="M6 7h8M6 10h6M6 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path></svg></span><span><strong data-i18n="matcher.output4Title">可复制修改清单</strong><span data-i18n="matcher.output4Desc">支持 Markdown 和 CSV，方便放入 Notion 或飞书。</span></span></li>
+            </ul>
+            <div class="matcher-method-note"><strong data-i18n="matcher.methodTitle">规则透明：</strong><span data-i18n="matcher.methodDesc">关键词来自本地词典、同义词、段落权重和命中句子。结果用于辅助检查，不代替真实经历判断。</span></div>
+          </aside>
+        </div>
+
+        <div class="matcher-results" id="matcherResults" aria-live="polite"></div>
+      </div>
+    </section>
+</main>
+
+  <div class="guide-backdrop" id="guideBackdrop" hidden></div>
+  <aside class="guide-drawer" id="guideDrawer" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="guideTitle">
+    <div class="guide-drawer-head">
+      <div><span class="guide-kicker" data-i18n="guide.kicker">工具使用指南</span><h2 id="guideTitle"></h2><p id="guideScenario"></p></div>
+      <button class="guide-close" id="guideClose" type="button" aria-label="关闭使用指南">×</button>
+    </div>
+    <div class="guide-drawer-body" id="guideContent"></div>
+  </aside>
+
+  <script src="vendor/fflate.min.js?v=0.8.2"></script>
+  <script src="vendor/pdf.min.js?v=3.11.174"></script>
+  <script src="vendor/pdf-cmaps-data.js?v=2.1"></script>
+  <script src="file-import.js?v=2.2"></script>
+  <script src="resources.js?v=20261024.1"></script>
+  <script src="keyword-maintenance.js?v=20261024.1"></script>
+  <script src="keywords.js?v=20261024.5"></script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    (() => {
+      'use strict';
+
+      const I18N = {
+        zh: {
+          skip: '跳到主要内容',
+          'nav.home': '首页', 'nav.tools': '工具箱', 'nav.resources': '资源导航', 'nav.about': '关于与反馈',
+          'theme.toDark': '切换到深色主题', 'theme.toLight': '切换到浅色主题',
+          'home.title': '求职新手的一站式工具箱',
+          'home.subtitle': '从看岗位、分析 JD，到优化简历和记录求职决策，用更少的工具切换完成准备。',
+          'home.primary': '浏览工具箱', 'home.secondary': '查看求职资源', 'home.journeyTitle': '一条清晰的求职路径',
+          'home.step1Title': '明确方向', 'home.step1Desc': '先判断适合自己的岗位方向',
+          'home.step2Title': '分析岗位', 'home.step2Desc': '理解职责、技能与薪资',
+          'home.step3Title': '优化简历', 'home.step3Desc': '根据 JD 调整表达重点',
+          'home.step4Title': '记录决策', 'home.step4Desc': '保留机会与下一步行动',
+          'home.toolsTitle': '常用工具', 'home.allTools': '全部工具', 'home.stagesTitle': '按求职阶段浏览',
+          'home.note': 'Roleport 不重复建设招聘平台，只为你汇集成熟服务与轻量工具。',
+          'stage.orient': '找方向', 'stage.roles': '看岗位', 'stage.resume': '改简历', 'stage.apply': '投递管理', 'stage.interview': '面试准备', 'stage.decide': '做决策',
+          'tools.title': '求职工具箱', 'tools.subtitle': '选择适合当前阶段的轻量工具。尚未开放的功能会明确标记状态。',
+          'guide.trigger': '使用指南', 'guide.kicker': '工具使用指南', 'guide.when': '什么时候使用', 'guide.prepare': '使用前准备', 'guide.steps': '怎么操作', 'guide.outputs': '你会得到', 'guide.cautions': '注意事项', 'guide.next': '下一步', 'guide.stage': '阶段', 'guide.duration': '预计用时', 'guide.useCase': '适用场景', 'guide.close': '关闭使用指南', 'guide.comingSoon': '工具开发中',
+          'tools.statusNote': '状态说明：开发中 = 正在实现；规划中 = 尚未开始；可用 = 已上线。',
+          'tools.status.planned': '规划中', 'tools.status.developing': '开发中', 'tools.status.available': '可用',
+          'tools.filter.all': '全部工具', 'tools.filter.manage': '管理', 'tools.filter.analysis': '分析', 'tools.filter.optimize': '优化', 'tools.filter.decision': '决策', 'tools.filter.resource': '导航',
+          'resources.title': '求职资源导航', 'resources.subtitle': '优先展示中文友好、Web3、远程与求职社群，同时保留海外通用资源。所有入口均指向官方地址。',
+          'resources.searchPlaceholder': '搜索资源名称或用途', 'resources.search': '搜索',
+          'resources.emptyTitle': '没有找到匹配的资源', 'resources.emptyDesc': '换一个关键词，或调整资源分类。',
+          'resources.disclaimer': '资源仅作导航，具体服务、收费与隐私规则请以对应平台为准。', 'resources.focusTitle': '中文友好与专项资源', 'resources.focusDesc': '优先展示中文岗位、Web3、远程工作和求职社群。', 'resources.legacyTitle': '更多海外通用资源', 'resources.legacyDesc': '综合招聘、海外科技公司、自由职业和学习资源，按需展开。',
+          'resources.visit': '访问官网',
+          'about.title': '关于与反馈', 'about.subtitle': 'Roleport 面向求职新手，把常用工具与成熟资源整理在一个轻量入口中。',
+          'about.introTitle': '让求职准备少一点试错',
+          'about.introBody': '求职信息分散在招聘网站、社交平台和各种文档里。Roleport 不重复建设这些服务，而是把真正常用的工具和官方资源整理在一起，帮助新手更快完成分析、优化和管理。',
+          'about.values': '轻量 · 本地优先 · 不依赖账号 · 不追求做大而全',
+          'about.whoTitle': '适合谁', 'about.who1': '第一次系统准备求职的应届生与转行者', 'about.who2': '需要同时比较多个岗位机会的求职者', 'about.who3': '希望用更低成本整理资料与管理进度的人',
+          'about.howTitle': '基本使用说明', 'about.how1Title': '选择工具或资源', 'about.how1Desc': '从当前最需要解决的问题开始。',
+          'about.how2Title': '在本地输入资料', 'about.how2Desc': '文本与结果尽量只保存在浏览器。', 'about.how3Title': '导出或继续下一步', 'about.how3Desc': '复制结果，带到常用文档或官方平台。',
+          'about.feedbackTitle': '反馈与资源纠错', 'about.feedbackTypeLabel': '问题类型', 'about.feedbackSuggestion': '产品建议', 'about.feedbackCorrection': '资源纠错', 'about.feedbackTool': '工具需求',
+          'about.feedbackNote': '无需登录。当前版本不上传反馈内容，按钮会将内容复制到剪贴板。', 'about.feedbackLabel': '反馈内容',
+          'about.feedbackPlaceholder': '简单描述你遇到的问题、建议或希望新增的资源…', 'about.feedbackSubmit': '复制反馈内容',
+          'about.note': 'Roleport 不会要求注册账号，也不会把本地工具输入自动上传。',
+          'footer.disclaimer': '求职信息与外部服务请以官方页面为准。',
+          'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制',
+          'summary.tools': '{count} 个工具 · {developing} 个开发中', 'summary.resources': '{count} 个资源',
+          'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '求职资源导航', 'page.matcher': 'JD 与简历匹配器',
+          'matcher.title': 'JD 与简历关键词匹配器', 'matcher.subtitle': '粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。',
+          'matcher.inputTitle': '输入求职材料', 'matcher.inputSub': '规则匹配，不使用 AI，不上传简历内容。',
+          'matcher.jdLabel': '岗位描述 JD', 'matcher.resumeLabel': '简历文本', 'matcher.required': '必填 · 上限 10,000 字',
+          'matcher.jdPlaceholder': '粘贴岗位描述原文…', 'matcher.resumePlaceholder': '粘贴简历文本…',
+          'matcher.privacyNote': '文本只在当前浏览器处理，刷新页面后不会自动保留。', 'matcher.clear': '清空', 'matcher.analyze': '开始分析',
+          'matcher.infoTitle': '分析后你会得到', 'matcher.infoSub': '重点不是给出一个模糊分数，而是提供可核对、可复制的修改依据。',
+          'matcher.output1Title': '关键词覆盖清单', 'matcher.output1Desc': '已覆盖、缺失和自定义关键词一目了然。',
+          'matcher.output2Title': '分类覆盖率', 'matcher.output2Desc': '按技术、基础设施、数据和软技能分类统计。',
+          'matcher.output3Title': '命中句子证据', 'matcher.output3Desc': '展示 JD 和简历中的具体原文，方便判断是否真匹配。',
+          'matcher.output4Title': '可复制修改清单', 'matcher.output4Desc': '支持 Markdown 和 CSV，方便放入 Notion 或飞书。',
+          'matcher.methodTitle': '规则透明：', 'matcher.methodDesc': '关键词来自本地词典、同义词、段落权重和命中句子。结果用于辅助检查，不代替真实经历判断。',
+          'matcher.statsCovered': '明确覆盖', 'matcher.statsEvidence': '证据覆盖', 'matcher.statsPartial': '部分覆盖', 'matcher.statsMissing': '未发现', 'matcher.statsUnstated': '简历未说明', 'matcher.statsHigh': '高优先级缺失',
+          'matcher.statsCoveredDesc': '简历中存在明确关键词或同义词', 'matcher.statsEvidenceDesc': '通过多条相关经历证据匹配', 'matcher.statsPartialDesc': '只找到部分相关证据', 'matcher.statsMissingDesc': '简历中没有找到对应证据', 'matcher.statsUnstatedDesc': '需要本人确认或主动补充', 'matcher.statsHighDesc': '优先检查这些关键词',
+          'matcher.tableTitle': '关键词覆盖明细', 'matcher.tableSub': '重要程度由所在段落、要求措辞和出现次数综合计算。',
+          'matcher.colKeyword': '关键词', 'matcher.colCategory': '分类', 'matcher.colSource': '来源', 'matcher.colImportance': '重要程度', 'matcher.colJd': 'JD', 'matcher.colResume': '简历', 'matcher.colMatch': '匹配方式', 'matcher.colStatus': '状态',
+          'matcher.covered': '明确覆盖', 'matcher.evidence': '证据覆盖', 'matcher.partial': '部分覆盖', 'matcher.missing': '未发现', 'matcher.unstated': '简历未说明', 'matcher.importanceHigh': '高', 'matcher.importanceMedium': '中', 'matcher.importanceLow': '低',
+          'matcher.coverageTitle': '分类覆盖率', 'matcher.coverageSub': '用于判断简历结构是否需要补强。', 'matcher.coverageNote': '覆盖率综合明确匹配、证据覆盖和部分覆盖计算：明确匹配按 1、证据覆盖按 0.8、部分覆盖按 0.5 计；未说明项不计入分母。',
+          'matcher.evidenceTitle': '命中句子证据', 'matcher.evidenceSub': '展示 JD 与简历中的全部相关原文，去重后逐句列出。', 'matcher.jdSource': 'JD', 'matcher.resumeSource': '简历', 'matcher.noEvidence': '未发现相关表达',
+          'matcher.checklistTitle': '简历修改清单', 'matcher.checklistSub': '根据缺失关键词生成。',
+          'matcher.checklistNote': '只补充真实具备的经历，不为了关键词覆盖率虚构项目或能力。',
+          'matcher.copyMarkdown': '复制 Markdown', 'matcher.exportCsv': '导出 CSV', 'matcher.cta': '使用工具', 'matcher.source.dictionary': '词典', 'matcher.source.auto': '自动提取', 'matcher.source.custom': '自定义', 'matcher.match.exact': '完全匹配', 'matcher.match.synonym': '同义词', 'matcher.match.evidence': '证据组匹配', 'matcher.match.partial': '部分匹配', 'matcher.match.unstated': '未说明', 'matcher.match.none': '未匹配', 'matcher.sourceSummary': '词典 {dictionary} · 自动提取 {auto} · 自定义 {custom}',
+          'matcher.cat.tech': '技术技能', 'matcher.cat.infra': '基础设施', 'matcher.cat.data': '数据能力', 'matcher.cat.product': '产品设计', 'matcher.cat.domain': '领域知识', 'matcher.cat.web3': 'Web3 与区块链', 'matcher.cat.business': '业务运营', 'matcher.cat.market': '市场增长', 'matcher.cat.finance': '财务金融', 'matcher.cat.soft': '软技能', 'matcher.cat.auto': 'JD 自动提取',
+          'matcher.importFile': '导入文件', 'matcher.importExtracting': '正在解析文件…', 'matcher.importSuccess': '已从 {name} 提取 {count} 字（中文 {cjk}）· 解析器 v{version}', 'matcher.importTruncated': '已从 {name} 提取并截取前 10,000 字（原文 {count} 字，中文 {cjk}）· 解析器 v{version}',
+          'matcher.importTooLarge': '文件超过 12 MB，请换一个更小的文件', 'matcher.importPdfNoText': '未检测到可复制文本，可能是扫描版 PDF', 'matcher.importDocUnsupported': '暂不支持旧版 .doc，请另存为 .docx', 'matcher.importUnsupported': '不支持该文件格式，请使用 PDF、DOCX、TXT 或 MD', 'matcher.importFailed': '文件读取失败，请确认文件未损坏或加密',
+          'matcher.customSummary': '补充关键词（可选）', 'matcher.customHint': '仅用于本次分析', 'matcher.customDesc': '一行一个，适合补充词典暂未覆盖的行业术语或工具名，不会保存。', 'matcher.customPlaceholder': '例如：\\nKubernetes\\n用户增长', 'matcher.cat.custom': '自定义',
+          'matcher.toastFill': '请先填写 JD 和简历', 'matcher.toastNone': '未从 JD 中识别到词典关键词', 'matcher.toastCopied': 'Markdown 已复制', 'matcher.toastExported': 'CSV 已导出','page.about': '关于与反馈'
+        },
+        en: {
+          skip: 'Skip to main content',
+          'nav.home': 'Home', 'nav.tools': 'Toolbox', 'nav.resources': 'Resources', 'nav.about': 'About & Feedback',
+          'theme.toDark': 'Switch to dark theme', 'theme.toLight': 'Switch to light theme',
+          'home.title': 'A practical toolkit for first-time job seekers',
+          'home.subtitle': 'Explore roles, analyze job descriptions, improve your resume, and keep your decisions organized without jumping between tools.',
+          'home.primary': 'Explore the toolbox', 'home.secondary': 'Browse resources', 'home.journeyTitle': 'A clear job search path',
+          'home.step1Title': 'Find direction', 'home.step1Desc': 'Identify roles that fit your background',
+          'home.step2Title': 'Analyze roles', 'home.step2Desc': 'Understand responsibilities, skills, and salary',
+          'home.step3Title': 'Improve your resume', 'home.step3Desc': 'Adjust priorities based on the JD',
+          'home.step4Title': 'Track decisions', 'home.step4Desc': 'Keep opportunities and next steps together',
+          'home.toolsTitle': 'Featured tools', 'home.allTools': 'All tools', 'home.stagesTitle': 'Browse by job search stage',
+          'home.note': 'Roleport does not rebuild job boards. It brings proven services and lightweight tools together for you.',
+          'stage.orient': 'Find direction', 'stage.roles': 'Explore roles', 'stage.resume': 'Resume', 'stage.apply': 'Applications', 'stage.interview': 'Interview prep', 'stage.decide': 'Decisions',
+          'tools.title': 'Job search toolbox', 'tools.subtitle': 'Choose a lightweight tool for your current stage. Unavailable tools are clearly marked.',
+          'guide.trigger': 'How to use', 'guide.kicker': 'TOOL GUIDE', 'guide.when': 'When to use this', 'guide.prepare': 'Before you start', 'guide.steps': 'How it works', 'guide.outputs': 'What you get', 'guide.cautions': 'Keep in mind', 'guide.next': 'Next step', 'guide.stage': 'Stage', 'guide.duration': 'Time', 'guide.useCase': 'Best for', 'guide.close': 'Close guide', 'guide.comingSoon': 'In development',
+          'tools.statusNote': 'Status: Developing = in progress; Planned = not started; Available = live.',
+          'tools.status.planned': 'Planned', 'tools.status.developing': 'Developing', 'tools.status.available': 'Available',
+          'tools.filter.all': 'All tools', 'tools.filter.manage': 'Manage', 'tools.filter.analysis': 'Analyze', 'tools.filter.optimize': 'Optimize', 'tools.filter.decision': 'Decide', 'tools.filter.resource': 'Directory',
+          'resources.title': 'Job search resources', 'resources.subtitle': 'Chinese-friendly, Web3, remote, and community resources shown first, with global general resources available below. All links point to official sites.',
+          'resources.searchPlaceholder': 'Search resources or use cases', 'resources.search': 'Search',
+          'resources.emptyTitle': 'No matching resources', 'resources.emptyDesc': 'Try another keyword or category.',
+          'resources.disclaimer': 'Resources are provided for navigation only. Check each platform for its current services, pricing, and privacy terms.', 'resources.focusTitle': 'Chinese-friendly & specialist resources', 'resources.focusDesc': 'Chinese-language roles, Web3, remote work, and job communities shown first.', 'resources.legacyTitle': 'More global general resources', 'resources.legacyDesc': 'General job boards, global tech companies, freelance, and learning resources.',
+          'resources.visit': 'Visit site',
+          'about.title': 'About & Feedback', 'about.subtitle': 'Roleport brings practical tools and trusted resources together for people starting their job search.',
+          'about.introTitle': 'Spend less time figuring out the process',
+          'about.introBody': 'Job search information is scattered across job boards, social platforms, and documents. Roleport does not rebuild those services. It brings useful tools and official resources into one lightweight place.',
+          'about.values': 'Lightweight · Local-first · No account required · Focused',
+          'about.whoTitle': 'Who it is for', 'about.who1': 'Students and career changers preparing their first structured job search', 'about.who2': 'Job seekers comparing several opportunities at once', 'about.who3': 'People who want a simpler way to organize materials and progress',
+          'about.howTitle': 'How to use Roleport', 'about.how1Title': 'Choose a tool or resource', 'about.how1Desc': 'Start with the problem you need to solve now.',
+          'about.how2Title': 'Enter information locally', 'about.how2Desc': 'Text and results should stay in your browser where possible.', 'about.how3Title': 'Export or move forward', 'about.how3Desc': 'Copy results into your documents or the official platform.',
+          'about.feedbackTitle': 'Feedback & corrections', 'about.feedbackTypeLabel': 'Feedback type', 'about.feedbackSuggestion': 'Product idea', 'about.feedbackCorrection': 'Resource correction', 'about.feedbackTool': 'Tool request',
+          'about.feedbackNote': 'No login required. This version does not upload feedback; the button copies it to your clipboard.', 'about.feedbackLabel': 'Feedback',
+          'about.feedbackPlaceholder': 'Describe the issue, suggestion, or resource you would like to add…', 'about.feedbackSubmit': 'Copy feedback',
+          'about.note': 'Roleport does not require an account and does not upload local tool inputs automatically.',
+          'footer.disclaimer': 'Verify job and external service information on the official page.',
+          'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied',
+          'summary.tools': '{count} tools · {developing} in development', 'summary.resources': '{count} resources',
+          'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Job Search Resources', 'page.matcher': 'JD & Resume Matcher',
+          'matcher.title': 'JD & Resume Keyword Matcher', 'matcher.subtitle': 'Paste a job description and your resume to find covered and missing keywords, then build an actionable checklist.',
+          'matcher.inputTitle': 'Enter your materials', 'matcher.inputSub': 'Rule-based matching, no AI, no upload of your resume.',
+          'matcher.jdLabel': 'Job description', 'matcher.resumeLabel': 'Resume text', 'matcher.required': 'Required · up to 10,000 characters',
+          'matcher.jdPlaceholder': 'Paste the job description…', 'matcher.resumePlaceholder': 'Paste your resume…',
+          'matcher.privacyNote': 'Text is processed only in this browser and is not kept after refresh.', 'matcher.clear': 'Clear', 'matcher.analyze': 'Analyze',
+          'matcher.infoTitle': 'What you get', 'matcher.infoSub': 'The goal is not one vague score, but evidence you can verify and reuse.',
+          'matcher.output1Title': 'Keyword coverage', 'matcher.output1Desc': 'See covered, missing, and custom keywords at a glance.',
+          'matcher.output2Title': 'Category coverage', 'matcher.output2Desc': 'Compare technical, infrastructure, data, and soft skills.',
+          'matcher.output3Title': 'Matched sentence evidence', 'matcher.output3Desc': 'Review the original text from both JD and resume.',
+          'matcher.output4Title': 'Copyable checklist', 'matcher.output4Desc': 'Export as Markdown or CSV for Notion or Feishu.',
+          'matcher.methodTitle': 'Transparent rules: ', 'matcher.methodDesc': 'Results come from a local dictionary, synonyms, section weights, and matched sentences. They assist review but do not replace honest experience.',
+          'matcher.statsCovered': 'Explicit matches', 'matcher.statsEvidence': 'Evidence matches', 'matcher.statsPartial': 'Partial matches', 'matcher.statsMissing': 'Not found', 'matcher.statsUnstated': 'Not stated', 'matcher.statsHigh': 'High-priority gaps',
+          'matcher.statsCoveredDesc': 'An exact keyword or synonym appears in the resume', 'matcher.statsEvidenceDesc': 'Multiple related experience signals support this', 'matcher.statsPartialDesc': 'Only some related evidence was found', 'matcher.statsMissingDesc': 'No supporting evidence was found', 'matcher.statsUnstatedDesc': 'Confirm or explicitly add this information', 'matcher.statsHighDesc': 'Focus on these gaps first',
+          'matcher.tableTitle': 'Keyword coverage detail', 'matcher.tableSub': 'Importance is calculated from section, phrasing, and occurrence frequency.',
+          'matcher.colKeyword': 'Keyword', 'matcher.colCategory': 'Category', 'matcher.colSource': 'Source', 'matcher.colImportance': 'Importance', 'matcher.colJd': 'JD', 'matcher.colResume': 'Resume', 'matcher.colMatch': 'Match', 'matcher.colStatus': 'Status',
+          'matcher.covered': 'Explicit match', 'matcher.evidence': 'Evidence match', 'matcher.partial': 'Partial match', 'matcher.missing': 'Not found', 'matcher.unstated': 'Not stated', 'matcher.importanceHigh': 'High', 'matcher.importanceMedium': 'Medium', 'matcher.importanceLow': 'Low',
+          'matcher.coverageTitle': 'Category coverage', 'matcher.coverageSub': 'See where your resume may need reinforcement.', 'matcher.coverageNote': 'Coverage weights explicit matches at 1, evidence matches at 0.8, and partial matches at 0.5; unstated items are excluded from the denominator.',
+          'matcher.evidenceTitle': 'Matched sentence evidence', 'matcher.evidenceSub': 'All relevant JD and resume sentences, deduplicated.', 'matcher.jdSource': 'JD', 'matcher.resumeSource': 'Resume', 'matcher.noEvidence': 'No related expression found',
+          'matcher.checklistTitle': 'Resume checklist', 'matcher.checklistSub': 'Generated from missing keywords.',
+          'matcher.checklistNote': 'Only add experiences you actually have; do not invent projects to improve keyword coverage.',
+          'matcher.copyMarkdown': 'Copy Markdown', 'matcher.exportCsv': 'Export CSV', 'matcher.cta': 'Open tool', 'matcher.source.dictionary': 'Dictionary', 'matcher.source.auto': 'Auto extracted', 'matcher.source.custom': 'Custom', 'matcher.match.exact': 'Exact', 'matcher.match.synonym': 'Synonym', 'matcher.match.evidence': 'Evidence groups', 'matcher.match.partial': 'Partial', 'matcher.match.unstated': 'Not stated', 'matcher.match.none': 'None', 'matcher.sourceSummary': 'Dictionary {dictionary} · Auto {auto} · Custom {custom}',
+          'matcher.cat.tech': 'Technical', 'matcher.cat.infra': 'Infrastructure', 'matcher.cat.data': 'Data', 'matcher.cat.product': 'Product & Design', 'matcher.cat.domain': 'Domain', 'matcher.cat.web3': 'Web3 & Blockchain', 'matcher.cat.business': 'Business & Operations', 'matcher.cat.market': 'Marketing & Growth', 'matcher.cat.finance': 'Finance & Accounting', 'matcher.cat.soft': 'Soft skills', 'matcher.cat.auto': 'JD extracted',
+          'matcher.importFile': 'Import file', 'matcher.importExtracting': 'Reading file…', 'matcher.importSuccess': 'Extracted {count} characters from {name} ({cjk} Chinese) · parser v{version}', 'matcher.importTruncated': 'Extracted from {name} and limited to the first 10,000 characters (original: {count}, Chinese: {cjk}) · parser v{version}',
+          'matcher.importTooLarge': 'The file is larger than 12 MB. Choose a smaller file.', 'matcher.importPdfNoText': 'No selectable text found. This may be a scanned PDF.', 'matcher.importDocUnsupported': 'Legacy .doc files are not supported. Save as .docx instead.', 'matcher.importUnsupported': 'Unsupported format. Use PDF, DOCX, TXT, or MD.', 'matcher.importFailed': 'Could not read the file. Check that it is valid and not encrypted.',
+          'matcher.customSummary': 'Extra keywords (optional)', 'matcher.customHint': 'This analysis only', 'matcher.customDesc': 'One term per line for niche tools or domain terms not yet in the dictionary. Nothing is saved.', 'matcher.customPlaceholder': 'Example:\\nKubernetes\\nUser growth', 'matcher.cat.custom': 'Custom',
+          'matcher.toastFill': 'Please enter both the JD and your resume', 'matcher.toastNone': 'No dictionary keywords found in this JD', 'matcher.toastCopied': 'Markdown copied', 'matcher.toastExported': 'CSV exported','page.about': 'About & Feedback'
+        }
+      };
+
+      const TOOL_CATEGORIES = ['all', 'manage', 'analysis', 'optimize', 'decision'];
+      const RESOURCE_CATEGORIES = ['all', 'general', 'tech', 'web3', 'remote', 'freelance', 'community', 'resume', 'learning'];
+      const RESOURCE_CATEGORY_LABELS = {
+        zh: { all: '全部', general: '综合招聘', tech: '互联网与科技招聘', web3: 'Web3 招聘', remote: '远程工作平台', freelance: '兼职与悬赏平台', community: '求职社群与内推', resume: '简历与面试资源', learning: '技能学习资源' },
+        en: { all: 'All', general: 'Job boards', tech: 'Tech hiring', web3: 'Web3', remote: 'Remote work', freelance: 'Freelance & bounties', community: 'Communities & referrals', resume: 'Resume & interview', learning: 'Learning' }
+      };
+      const RESOURCE_LANGUAGE_LABELS = {
+        zh: { zh: '中文', en: '英文', bilingual: '中英双语' },
+        en: { zh: 'Chinese', en: 'English', bilingual: 'Bilingual' }
+      };
+      const RESOURCE_REGION_LABELS = {
+        zh: { cn: '中国大陆', global: '全球', remote: '远程' },
+        en: { cn: 'Mainland China', global: 'Global', remote: 'Remote' }
+      };
+      const FEEDBACK_EMAIL = '';
+
+      const TOOLS = [
+        { id: 'application-manager', icon: 'manage', category: 'manage', status: 'planned', name: { zh: '求职申请管理器', en: 'Application Tracker' }, desc: { zh: '记录岗位、截止时间和下一步行动。', en: 'Track roles, deadlines, and your next actions.' } },
+        { id: 'multi-job-analyzer', icon: 'compare', category: 'analysis', status: 'developing', name: { zh: '多岗位 JD 对比与简历批量匹配器', en: 'Multi-role JD Comparator & Batch Matcher' }, desc: { zh: '对比多个 JD 的共同要求、差异和简历覆盖情况。', en: 'Compare shared requirements, differences, and resume coverage across multiple JDs.' } },
+        { id: 'resume-keyword', icon: 'match', category: 'optimize', status: 'available', route: 'matcher', name: { zh: 'JD 与简历关键词匹配器', en: 'Resume Keyword Matcher' }, desc: { zh: '针对一个重点岗位，查看完整证据并优化简历。', en: 'Deep-check one priority role with evidence and a resume checklist.' } },
+        { id: 'opportunity-roi', icon: 'roi', category: 'decision', status: 'planned', name: { zh: '机会投入产出计算器', en: 'Opportunity ROI Calculator' }, desc: { zh: '估算时间投入、薪资和机会成本。', en: 'Estimate time investment, salary, and opportunity cost.' } }
+      ];
+
+      const RESOURCE_DIRECTORY_TOOL = {
+        id: 'resource-directory', icon: 'resource', category: 'resource', status: 'available', route: 'resources',
+        name: { zh: '求职资源导航', en: 'Job Search Resources' },
+        desc: { zh: '招聘、远程、简历与学习资源一站直达。', en: 'One place for job boards, remote work, resume, and learning resources.' }
+      };
+
+      const TOOL_GUIDES = {
+        'resource-directory': {
+          stage: { zh: '找方向', en: 'Explore' }, duration: { zh: '2～5 分钟', en: '2–5 min' },
+          scenario: { zh: '不知道去哪里找 Web3、远程或中文友好岗位时，先从资源导航开始。', en: 'Start here when you need places to find Web3, remote, or Chinese-friendly roles.' },
+          whenToUse: { zh: ['刚开始求职，需要建立目标平台清单', '想按中文友好、Web3、远程或社群筛选资源', '不确定应该去哪个招聘网站'], en: ['You are starting a search and need a platform shortlist', 'You want Chinese-friendly, Web3, remote, or community resources', 'You are unsure which job board to use'] },
+          preparation: { zh: ['准备想投的岗位方向或关键词'], en: ['Know the role direction or keywords you want to search'] },
+          steps: { zh: ['选择资源分类或搜索关键词', '先看“中文友好与专项资源”', '点击资源打开官方平台', '需要更多海外资源时再展开第二层'], en: ['Choose a category or search keyword', 'Review Chinese-friendly and specialist resources first', 'Open the official platform', 'Expand the global section only when needed'] },
+          outputs: { zh: ['可用的官方求职入口', '不同平台的使用场景', '下一步进行多岗位分析的目标岗位'], en: ['Official job-search destinations', 'A clearer view of each platform purpose', 'Target roles to analyze next'] },
+          cautions: { zh: ['资源导航只提供官方入口，不复制岗位数据库', '平台收费、隐私和岗位真实性请以官方页面为准'], en: ['The directory links to official platforms and does not copy their job databases', 'Check each platform for pricing, privacy, and listing accuracy'] },
+          next: { toolId: 'multi-job-analyzer', label: { zh: '下一步：分析多个目标岗位', en: 'Next: analyze several target roles' } }
+        },
+        'multi-job-analyzer': {
+          stage: { zh: '选岗阶段', en: 'Shortlist' }, duration: { zh: '2～5 分钟', en: '2–5 min' },
+          scenario: { zh: '同时收集到多个 JD，需要判断共同要求、差异和投递优先级时使用。', en: 'Use this when several JDs need shared requirements, differences, and an application order.' },
+          whenToUse: { zh: ['同时拿到 2～5 个目标岗位', '不确定先投哪个岗位', '想找出多个岗位共同要求的能力', '想知道一份简历的共同缺口'], en: ['You have 2–5 target roles', 'You are unsure which role to prioritize', 'You want shared capability requirements', 'You want common resume gaps'] },
+          preparation: { zh: ['准备 2～5 份完整 JD', '可选：准备一份简历'], en: ['Prepare 2–5 complete JDs', 'Optional: prepare one resume'] },
+          steps: { zh: ['粘贴 2～5 个 JD 并填写岗位名称', '可选导入或粘贴简历', '开始分析', '先看共同要求和技能频率', '选择优先岗位进入单岗位深度匹配'], en: ['Paste 2–5 JDs and add role names', 'Optionally import or paste a resume', 'Run the analysis', 'Review shared requirements and skill frequency', 'Open a priority role in the single-role matcher'] },
+          outputs: { zh: ['共同要求与独有要求', '高频技能和岗位相似度', '每个 JD 的简历覆盖概况', '建议的投递关注顺序'], en: ['Shared and unique requirements', 'Frequent skills and role similarity', 'Resume coverage summary per JD', 'A suggested application focus order'] },
+          cautions: { zh: ['批量结果用于筛选，不替代单岗位逐句核验', '不要把自动识别的薪资或经验信息当成最终结论'], en: ['Batch results guide shortlisting; they do not replace detailed single-role checks', 'Verify automatically detected salary and experience information'] },
+          next: { toolId: 'resume-keyword', label: { zh: '下一步：深度优化优先岗位简历', en: 'Next: optimize your resume for a priority role' } }
+        },
+        'resume-keyword': {
+          stage: { zh: '优化阶段', en: 'Optimize' }, duration: { zh: '3～8 分钟', en: '3–8 min' },
+          scenario: { zh: '已经确定一个重点岗位，需要逐条核对简历证据并生成修改清单时使用。', en: 'Use this after choosing one priority role to verify resume evidence and build a focused checklist.' },
+          whenToUse: { zh: ['准备投递一个重点岗位', '想知道简历哪些关键词已覆盖、哪些缺失', '需要查看命中句子证据', '需要一份可复制的简历修改清单'], en: ['You are preparing one priority application', 'You need covered and missing keywords', 'You want sentence-level evidence', 'You need a copyable resume checklist'] },
+          preparation: { zh: ['一个完整 JD', '一份当前版本的简历', '可选：补充行业术语或工具名'], en: ['One complete JD', 'Your current resume', 'Optional: extra industry terms or tools'] },
+          steps: { zh: ['粘贴或导入 JD', '粘贴或导入简历', '开始分析', '先核对“明确覆盖”和“证据覆盖”', '按清单只补充真实具备的经历', '修改后重新分析确认'], en: ['Paste or import the JD', 'Paste or import the resume', 'Run the analysis', 'Review explicit and evidence matches first', 'Use the checklist only for experiences you actually have', 'Re-run after editing'] },
+          outputs: { zh: ['逐关键词五态匹配结果', 'JD 与简历的完整命中句', '分类覆盖情况', 'Markdown 和 CSV 导出'], en: ['Five-state keyword results', 'All matched JD and resume sentences', 'Category coverage', 'Markdown and CSV export'] },
+          cautions: { zh: ['不要为了覆盖率虚构经历', '英语能力、轮班意愿等信息需要本人确认', '关键词结果用于辅助判断，不替你做最终决策'], en: ['Do not invent experience to improve coverage', 'Confirm personal facts such as English ability or shift availability', 'Use results as decision support, not an automatic verdict'] },
+          next: { toolId: 'multi-job-analyzer', label: { zh: '继续比较其他岗位', en: 'Compare more roles' } }
+        },
+        'application-manager': {
+          stage: { zh: '投递管理', en: 'Track' }, duration: { zh: '5～10 分钟', en: '5–10 min' },
+          scenario: { zh: '开始集中投递后，需要记录进度、下一步行动和截止日期时使用。', en: 'Use this to track progress, next actions, and deadlines after starting applications.' }
+        },
+        'opportunity-roi': {
+          stage: { zh: '做决策', en: 'Decide' }, duration: { zh: '3～5 分钟', en: '3–5 min' },
+          scenario: { zh: '拿到多个机会后，需要比较时间投入、薪资和机会成本时使用。', en: 'Use this to compare time investment, compensation, and opportunity cost across offers.' }
+        }
+      };
+
+      const RESOURCES = Array.isArray(window.ROLEPORT_RESOURCES) ? window.ROLEPORT_RESOURCES : [];
+
+      const state = {
+        lang: document.documentElement.dataset.lang === 'en' ? 'en' : 'zh',
+        theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
+        route: 'home', toolCategory: 'all', resourceCategory: 'all', resourceQuery: '',
+        feedbackType: 'suggestion', toastTimer: null, matcherResult: null, guideToolId: null, guideReturnFocus: null
+      };
+
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => [...document.querySelectorAll(selector)];
+      const t = (key) => I18N[state.lang][key] ?? key;
+      const refs = {
+        themeToggle: $('#themeToggle'), homeToolsGrid: $('#homeToolsGrid'),
+        toolFilters: $('#toolFilters'), toolsGrid: $('#toolsGrid'), toolsSummary: $('#toolsSummary'),
+        resourceFilters: $('#resourceFilters'), resourceGrid: $('#resourceGrid'), legacyResourceGrid: $('#legacyResourceGrid'), featuredResourcesSection: $('#featuredResourcesSection'), legacyResourcesSection: $('#legacyResourcesSection'), featuredResourcesCount: $('#featuredResourcesCount'), legacyResourcesCount: $('#legacyResourcesCount'), resourcesSummary: $('#resourcesSummary'),
+        resourceEmpty: $('#resourceEmpty'), resourceSearch: $('#resourceSearch'), resourceSearchForm: $('#resourceSearchForm'),
+        feedbackForm: $('#feedbackForm'), feedbackText: $('#feedbackText'), feedbackTypes: $('#feedbackTypes'), toast: $('#toast'),
+        guideBackdrop: $('#guideBackdrop'), guideDrawer: $('#guideDrawer'), guideClose: $('#guideClose'), guideTitle: $('#guideTitle'), guideScenario: $('#guideScenario'), guideContent: $('#guideContent'),
+        matcherJd: $('#matcherJd'), matcherResume: $('#matcherResume'), matcherJdCount: $('#matcherJdCount'), matcherResumeCount: $('#matcherResumeCount'),
+        matcherJdFile: $('#matcherJdFile'), matcherJdImport: $('#matcherJdImport'), matcherJdFileStatus: $('#matcherJdFileStatus'),
+        matcherResumeFile: $('#matcherResumeFile'), matcherResumeImport: $('#matcherResumeImport'), matcherResumeFileStatus: $('#matcherResumeFileStatus'),
+        matcherCustomKeywords: $('#matcherCustomKeywords'), matcherAnalyze: $('#matcherAnalyze'), matcherClear: $('#matcherClear'), matcherResults: $('#matcherResults')
+      };
+
+      const escapeHtml = (value = '') => String(value)
+        .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+
+      const safeUrl = (value) => {
+        try {
+          const url = new URL(value, window.location.href);
+          return ['http:', 'https:'].includes(url.protocol) ? url.href : '#';
+        } catch (_) { return '#'; }
+      };
+
+      const iconSvg = (kind) => {
+        const icons = {
+          manage: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2.5" width="14" height="15" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M6.5 6.5h7M6.5 10h5.5M6.5 13.5l1.5 1.5 3.5-3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+          compare: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="4" width="9" height="12" rx="1.8" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="2.5" width="9" height="12" rx="1.8" stroke="currentColor" stroke-width="1.3"/></svg>',
+          stats: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 16.5h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><rect x="4.5" y="10" width="3" height="5" rx=".7" fill="currentColor"/><rect x="8.7" y="6" width="3" height="9" rx=".7" fill="currentColor"/><rect x="12.9" y="8" width="3" height="7" rx=".7" fill="currentColor"/></svg>',
+          match: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8" cy="8" r="4.8" stroke="currentColor" stroke-width="1.4"/><path d="m11.5 11.5 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="13" cy="6.5" r="2.5" stroke="currentColor" stroke-width="1.1"/></svg>',
+          roi: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M6.8 10h6.4M10 6.8v6.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>',
+          resource: '<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="3.5" width="15" height="13" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M6 7h8M6 10h6.5M6 13h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>'
+        };
+        return icons[kind] || icons.resource;
+      };
+
+      const statusClass = (status) => ({ planned: 'status-neutral', developing: 'status-amber', available: 'status-green' }[status] || 'status-neutral');
+      const statusLabel = (status) => t(`tools.status.${status}`);
+
+      const toolCardMarkup = (tool, home = false) => {
+        const available = tool.status === 'available';
+        const tag = available ? 'a' : 'article';
+        const href = tool.route ? `#${tool.route}` : '#resources';
+        const attrs = available ? ` href="${href}" class="card tool-card is-available"` : ' class="card tool-card"';
+        const category = tool.category === 'resource' ? t('tools.filter.resource') : t(`tools.filter.${tool.category}`);
+        const guide = TOOL_GUIDES[tool.id];
+        const guideContext = guide ? `<div class="tool-context"><span>${escapeHtml(guide.stage[state.lang])}</span><span>${escapeHtml(guide.duration[state.lang])}</span></div><p class="tool-scenario"><strong>${escapeHtml(t('guide.useCase'))}${state.lang === 'zh' ? '：' : ': '}</strong>${escapeHtml(guide.scenario[state.lang])}</p>` : '';
+        const cta = available ? `<span class="tool-card-cta">${tool.route === 'matcher' ? t('matcher.cta') : t('nav.resources')} →</span>` : '';
+        return `<${tag}${attrs} data-tool-id="${escapeHtml(tool.id)}">
+          <div class="tool-card-top">
+            <span class="icon-box" aria-hidden="true">${iconSvg(tool.icon)}</span>
+            <span class="tool-category">${escapeHtml(category)}</span>
+          </div>
+          <span class="status-badge ${statusClass(tool.status)}">${escapeHtml(statusLabel(tool.status))}</span>
+          <h3>${escapeHtml(tool.name[state.lang])}</h3>
+          <p>${escapeHtml(tool.desc[state.lang])}</p>
+          ${guideContext}
+          ${cta}
+        </${tag}>`;
+      };
+
+      const updateThemeLabel = () => {
+        refs.themeToggle.setAttribute('aria-label', state.theme === 'dark' ? t('theme.toLight') : t('theme.toDark'));
+      };
+      const updatePageTitle = () => {
+        document.title = `Roleport · ${t(`page.${state.route}`)}`;
+      };
+      const syncHeaderTheme = () => {
+        document.body.classList.toggle('dark-header', state.route === 'home' || state.theme === 'dark');
+      };
+
+      const setTheme = (theme, persist = true) => {
+        state.theme = theme === 'dark' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = state.theme;
+        const meta = $('meta[name="theme-color"]');
+        if (meta) meta.content = state.theme === 'dark' ? '#0b0d0a' : '#f5f5f1';
+        if (persist) {
+          try { localStorage.setItem('roleport-theme', state.theme); } catch (_) {}
+        }
+        updateThemeLabel();
+        syncHeaderTheme();
+      };
+
+      const setLanguage = (lang, persist = true) => {
+        state.lang = lang === 'en' ? 'en' : 'zh';
+        document.documentElement.dataset.lang = state.lang;
+        document.documentElement.lang = state.lang === 'en' ? 'en' : 'zh-CN';
+        if (persist) {
+          try { localStorage.setItem('roleport-language', state.lang); } catch (_) {}
+        }
+        $$('[data-language]').forEach((button) => {
+          const active = button.dataset.language === state.lang;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+        $$('[data-i18n]').forEach((element) => {
+          const value = t(element.dataset.i18n);
+          if (value) element.textContent = value;
+        });
+        $$('[data-i18n-placeholder]').forEach((element) => {
+          element.placeholder = t(element.dataset.i18nPlaceholder);
+        });
+        updateThemeLabel();
+        updatePageTitle();
+        renderHomeTools();
+        renderToolFilters();
+        renderTools();
+        renderResourceFilters();
+        renderResources();
+        if (state.guideToolId) renderToolGuide();
+        if (state.matcherResult) renderMatcherResults();
+      };
+
+      function renderHomeTools() {
+        if (!refs.homeToolsGrid) return;
+        refs.homeToolsGrid.innerHTML = [...TOOLS, RESOURCE_DIRECTORY_TOOL].map((tool) => toolCardMarkup(tool, true)).join('');
+      }
+
+      function renderToolFilters() {
+        if (!refs.toolFilters) return;
+        refs.toolFilters.innerHTML = TOOL_CATEGORIES.map((category) => {
+          const active = state.toolCategory === category;
+          return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-tool-filter="${category}" aria-pressed="${active}">${escapeHtml(t(`tools.filter.${category}`))}</button>`;
+        }).join('');
+      }
+
+      function renderTools() {
+        if (!refs.toolsGrid) return;
+        const filtered = TOOLS.filter((tool) => state.toolCategory === 'all' || tool.category === state.toolCategory);
+        const developing = filtered.filter((tool) => tool.status === 'developing').length;
+        refs.toolsGrid.innerHTML = filtered.map((tool) => toolCardMarkup(tool)).join('');
+        refs.toolsSummary.textContent = t('summary.tools').replace('{count}', filtered.length).replace('{developing}', developing);
+      }
+
+      function renderResourceFilters() {
+        if (!refs.resourceFilters) return;
+        const labels = RESOURCE_CATEGORY_LABELS[state.lang];
+        refs.resourceFilters.innerHTML = RESOURCE_CATEGORIES.map((category) => {
+          const active = state.resourceCategory === category;
+          return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-resource-filter="${category}" aria-pressed="${active}">${escapeHtml(labels[category])}</button>`;
+        }).join('');
+      }
+
+      const resourceCardMarkup = (resource) => {
+        const categoryKeys = [resource.category, ...(Array.isArray(resource.secondaryCategories) ? resource.secondaryCategories : [])];
+        const categoryLabel = [...new Set(categoryKeys)].map((category) => RESOURCE_CATEGORY_LABELS[state.lang][category] || category).join(' · ');
+        const languageLabel = RESOURCE_LANGUAGE_LABELS[state.lang][resource.language] || resource.language;
+        const regionLabel = RESOURCE_REGION_LABELS[state.lang][resource.region] || resource.region;
+        return `<a class="card resource-card" href="${escapeHtml(safeUrl(resource.url))}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(resource.name)} — ${escapeHtml(t('resources.visit'))}">
+          <span class="resource-icon tone-${escapeHtml(resource.tone)}" aria-hidden="true">${escapeHtml(resource.letter)}</span>
+          <div class="resource-body">
+            <div class="resource-title-row"><h3>${escapeHtml(resource.name)}</h3><span class="category-badge">${escapeHtml(categoryLabel)}</span></div>
+            <p>${escapeHtml(resource.desc[state.lang])}</p>
+            <div class="resource-meta"><span>${escapeHtml(languageLabel)}</span><span>${escapeHtml(regionLabel)}</span><span class="resource-domain">${escapeHtml(resource.domain)}</span></div>
+          </div>
+          <span class="resource-link">${escapeHtml(t('resources.visit'))} ↗</span>
+        </a>`;
+      };
+
+      function renderResources() {
+        if (!refs.resourceGrid) return;
+        const query = state.resourceQuery.trim().toLocaleLowerCase(state.lang === 'zh' ? 'zh-CN' : 'en');
+        const labels = RESOURCE_CATEGORY_LABELS[state.lang];
+        const filtered = RESOURCES.filter((resource) => {
+          const resourceCategories = [resource.category, ...(Array.isArray(resource.secondaryCategories) ? resource.secondaryCategories : [])];
+          const inCategory = state.resourceCategory === 'all' || resourceCategories.includes(state.resourceCategory);
+          const categoryText = resourceCategories.map((category) => labels[category] || '').join(' ');
+          const haystack = `${resource.name} ${resource.domain} ${resource.desc[state.lang]} ${categoryText} ${RESOURCE_LANGUAGE_LABELS[state.lang][resource.language] || ''} ${RESOURCE_REGION_LABELS[state.lang][resource.region] || ''}`.toLocaleLowerCase(state.lang === 'zh' ? 'zh-CN' : 'en');
+          return inCategory && (!query || haystack.includes(query));
+        });
+        const focusCategories = new Set(['web3', 'remote', 'community']);
+        const focusResources = filtered.filter((resource) => resource.language !== 'en' || focusCategories.has(resource.category));
+        const legacyResources = filtered.filter((resource) => resource.language === 'en' && !focusCategories.has(resource.category));
+        refs.resourceGrid.innerHTML = focusResources.map(resourceCardMarkup).join('');
+        refs.legacyResourceGrid.innerHTML = legacyResources.map(resourceCardMarkup).join('');
+        refs.featuredResourcesSection.hidden = focusResources.length === 0;
+        refs.legacyResourcesSection.hidden = legacyResources.length === 0;
+        refs.featuredResourcesCount.textContent = t('summary.resources').replace('{count}', focusResources.length);
+        refs.legacyResourcesCount.textContent = t('summary.resources').replace('{count}', legacyResources.length);
+        if (legacyResources.length && (query || state.resourceCategory !== 'all')) refs.legacyResourcesSection.open = true;
+        if (!legacyResources.length) refs.legacyResourcesSection.open = false;
+        refs.resourceEmpty.hidden = filtered.length !== 0;
+        refs.resourcesSummary.textContent = t('summary.resources').replace('{count}', filtered.length);
+      }
+
+      const getToolById = (id) => [...TOOLS, RESOURCE_DIRECTORY_TOOL].find((tool) => tool.id === id);
+      const guideListMarkup = (titleKey, items, ordered = false) => {
+        if (!Array.isArray(items) || !items.length) return '';
+        return '<section class="guide-section"><h3>' + escapeHtml(t(titleKey)) + '</h3><ul class="guide-list ' + (ordered ? 'numbered' : 'bullets') + '">' + items.map((item) => '<li><span>' + escapeHtml(item) + '</span></li>').join('') + '</ul></section>';
+      };
+      const renderToolGuide = () => {
+        const guide = TOOL_GUIDES[state.guideToolId];
+        const tool = getToolById(state.guideToolId);
+        if (!guide || !tool) return;
+        refs.guideTitle.textContent = tool.name[state.lang];
+        refs.guideScenario.textContent = guide.scenario[state.lang];
+        refs.guideClose.setAttribute('aria-label', t('guide.close'));
+        const meta = '<div class="guide-meta"><span>' + escapeHtml(t('guide.stage')) + '：' + escapeHtml(guide.stage[state.lang]) + '</span><span>' + escapeHtml(t('guide.duration')) + '：' + escapeHtml(guide.duration[state.lang]) + '</span></div>';
+        let nextMarkup = '';
+        if (guide.next) {
+          const nextTool = getToolById(guide.next.toolId);
+          const nextLabel = guide.next.label[state.lang];
+          if (nextTool?.status === 'available' && nextTool.route) {
+            nextMarkup = '<a class="guide-next" href="#' + escapeHtml(nextTool.route) + '" data-guide-next><span>' + escapeHtml(nextLabel) + '</span><span>→</span></a>';
+          } else {
+            nextMarkup = '<div class="guide-next is-disabled"><span>' + escapeHtml(nextLabel) + '</span><span>' + escapeHtml(t('guide.comingSoon')) + '</span></div>';
+          }
+        }
+        refs.guideContent.innerHTML = meta + guideListMarkup('guide.when', guide.whenToUse?.[state.lang]) + guideListMarkup('guide.prepare', guide.preparation?.[state.lang]) + guideListMarkup('guide.steps', guide.steps?.[state.lang], true) + guideListMarkup('guide.outputs', guide.outputs?.[state.lang]) + guideListMarkup('guide.cautions', guide.cautions?.[state.lang]) + nextMarkup;
+      };
+      const openToolGuide = (toolId, trigger) => {
+        if (!TOOL_GUIDES[toolId]) return;
+        state.guideToolId = toolId;
+        state.guideReturnFocus = trigger || document.activeElement;
+        renderToolGuide();
+        refs.guideBackdrop.hidden = false;
+        refs.guideDrawer.hidden = false;
+        refs.guideDrawer.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('guide-open');
+        requestAnimationFrame(() => refs.guideDrawer.classList.add('is-open'));
+        refs.guideClose.focus();
+      };
+      const closeToolGuide = (restoreFocus = true) => {
+        if (!refs.guideDrawer) return;
+        const focusTarget = state.guideReturnFocus;
+        refs.guideDrawer.classList.remove('is-open');
+        refs.guideBackdrop.hidden = true;
+        refs.guideDrawer.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('guide-open');
+        state.guideToolId = null;
+        state.guideReturnFocus = null;
+        setTimeout(() => { if (!state.guideToolId) refs.guideDrawer.hidden = true; }, 210);
+        if (restoreFocus && focusTarget instanceof HTMLElement) focusTarget.focus();
+      };
+
+      const showToast = (message) => {
+        clearTimeout(state.toastTimer);
+        refs.toast.textContent = message;
+        refs.toast.classList.add('is-visible');
+        state.toastTimer = setTimeout(() => refs.toast.classList.remove('is-visible'), 1900);
+      };
+
+      const copyText = async (text) => {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (_) {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+        }
+      };
+
+      const KEYWORD_DICTIONARY = Array.isArray(window.KEYWORD_DICTIONARY) ? window.KEYWORD_DICTIONARY : [];
+      const normalizeText = (text) => String(text || '')
+        .normalize('NFKC').toLowerCase()
+        .replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"')
+        .replace(/[（]/g, '(').replace(/[）]/g, ')').replace(/[，]/g, ',').replace(/[：]/g, ':').replace(/[；]/g, ';')
+        .replace(/\s+/g, ' ');
+      const compactMatchText = (value) => normalizeText(value).replace(/[\s\p{P}\p{S}]+/gu, '');
+      const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const matchesTerm = (text, alias) => {
+        const normalized = normalizeText(alias);
+        if (/^[a-z0-9+#./-]+$/.test(normalized)) {
+          return new RegExp(`(^|[^a-z0-9+#.])${escapeRegExp(normalized)}(?=$|[^a-z0-9+#.])`).test(normalizeText(text));
+        }
+        if (/[\u3400-\u9fff]/.test(normalized)) return compactMatchText(text).includes(compactMatchText(normalized));
+        return normalizeText(text).includes(normalized);
+      };
+      const splitSentences = (text) => String(text || '')
+        .split(/(?<=[。！？!?.;；])|\n+/)
+        .map((sentence) => sentence.trim())
+        .filter((sentence) => sentence.length >= 4);
+      const highlightEvidence = (sentence, aliases) => {
+        const safe = escapeHtml(sentence);
+        const lower = sentence.toLocaleLowerCase();
+        const alias = aliases
+          .filter((item) => matchesTerm(sentence, item))
+          .sort((a, b) => b.length - a.length)[0];
+        if (!alias) return safe;
+        const index = lower.indexOf(alias.toLocaleLowerCase());
+        if (index < 0) return safe;
+        return `${escapeHtml(sentence.slice(0, index))}<mark>${escapeHtml(sentence.slice(index, index + alias.length))}</mark>${escapeHtml(sentence.slice(index + alias.length))}`;
+      };
+      const findEvidenceSentences = (text, entry) => {
+        const seen = new Set();
+        return splitSentences(text)
+          .filter((sentence) => entry.aliases.some((alias) => matchesTerm(sentence, alias)))
+          .filter((sentence) => {
+            const key = compactMatchText(sentence);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          })
+          .map((sentence) => highlightEvidence(sentence, entry.aliases))
+          .join('<br>');
+      };
+      const jdLineType = (line) => {
+        const text = normalizeText(line);
+        if (/(加分|优先|nice to have|preferred|bonus|plus)/.test(text)) return 'plus';
+        if (/(任职要求|岗位要求|requirement|qualification|must have|必须|要求|熟悉|掌握)/.test(text)) return 'requirement';
+        if (/(岗位职责|职责|responsibilit|what you|job description)/.test(text)) return 'responsibility';
+        return 'other';
+      };
+      const importanceFor = (entry, lineStats) => {
+        let score = Number(entry.weight) || 1;
+        if (lineStats.inRequirement) score += 2;
+        else if (lineStats.inPlus) score += 1;
+        score += Math.min(lineStats.jdCount, 2);
+        if (score >= 6) return 'high';
+        if (score >= 4) return 'medium';
+        return 'low';
+      };
+      const collectLineStats = (jdText, entry) => {
+        const stats = { jdCount: 0, inRequirement: false, inPlus: false };
+        const reqRe = /(任职要求|岗位要求|requirement|qualification|must have|必须|要求|熟悉|掌握)/;
+        const plusRe = /(加分|优先|nice to have|preferred|bonus|plus)/;
+        String(jdText || '').split(/\n+/).forEach((line) => {
+          if (!entry.aliases.some((alias) => matchesTerm(line, alias))) return;
+          stats.jdCount += 1;
+          const normalizedLine = normalizeText(line);
+          if (reqRe.test(normalizedLine)) stats.inRequirement = true;
+          if (plusRe.test(normalizedLine)) stats.inPlus = true;
+        });
+        return stats;
+      };
+      const CANDIDATE_STOPWORDS = new Set([
+        '工作','经验','能力','要求','负责','参与','熟悉','掌握','精通','了解','理解','具备','优先','加分','相关','项目','团队','公司','岗位','进行','完成','支持','协助','良好','较强','优秀','较好','以上','以下','以上学历','以下学历','进展','变化','级规划','以及','可以','能够','需要','使用','相关经验','工作经验','工作经历','生产环境','相关专业','相关领域','分析','数据','增长','运营','管理','沟通','系统','平台','工具','技术','业务','市场','用户','客户','服务','产品',
+        'experience','knowledge','familiar','proficient','responsible','ability','requirements','preferred','work','team','company','project','role','related','strong','good','excellent','plus','bonus','using','use','with','and','or','must','have'
+      ]);
+      const cleanCandidate = (value) => {
+        let text = String(value || '')
+          .replace(/^[\s•·▪◦\-–—*：:，,；;、]+/, '')
+          .trim();
+        if (text.includes('的')) text = text.split('的').pop().trim();
+        const prefix = /^(?:熟悉|掌握|精通|了解|理解|具备|负责|参与|要求|能够|善于|优先考虑|优先|有|进行|开展|推动|落地|支持|协助|收集|整理|输出|定期输出|定期|跟进|处理|协助处理|及时发现并反馈|及时发现|反馈|配合团队完成|配合完成|完成|接受|对|日常|其他|全球)\s*/i;
+        let previous = '';
+        while (text && text !== previous) { previous = text; text = text.replace(prefix, '').trim(); }
+        return text
+          .replace(/\s*(?:优先|优先考虑|者优先|为佳|加分|经验|经历|能力|相关工作|相关经验|相关能力|良好|敏感|者)$/i, '')
+          .replace(/[。；;，,：:]+$/, '')
+          .trim();
+      };      const isCandidateValid = (candidate) => {
+        const normalized = normalizeText(candidate);
+        const compact = compactMatchText(candidate);
+        if (compact.length < 2 || compact.length > 40) return false;
+        if (!/[\u3400-\u9fff]/.test(normalized) && !/[a-z]/.test(normalized)) return false;
+        if (CANDIDATE_STOPWORDS.has(normalized)) return false;
+        if (/^(?:至少)?\s*\d+\s*(?:年|个月|years?|months?)/i.test(normalized)) return false;
+        if (/\d+\s*(?:年|个月|years?|months?)/i.test(normalized) && compact.length < 24) return false;
+        if (/(?:岗位职责|任职要求|work responsibilities|job requirements)$/i.test(normalized)) return false;
+        if (/^(?:本科|硕士|博士|大专|bachelor|master|phd)/i.test(normalized)) return false;
+        if (/(?:学历|学位)$/.test(normalized)) return false;
+        if (/(?:变化|进展)$/.test(normalized)) return false;
+        if (/^(?:具有|有|具备)?[^，。]{0,12}(?:经验|经历)$/.test(normalized)) return false;
+        if (/^(?:以及|及|与|和|或|and|or)$/i.test(normalized)) return false;
+        const words = normalized.split(/\s+/).filter(Boolean);
+        if (!/[\u3400-\u9fff]/.test(normalized) && words.length > 8) return false;
+        if (!/[\u3400-\u9fff]/.test(normalized) && words.every((word) => CANDIDATE_STOPWORDS.has(word))) return false;
+        return true;
+      };
+      const cueForLine = (line) => {
+        const normalized = normalizeText(line);
+        const strongMatch = normalized.match(/(熟悉|掌握|精通|了解|理解|具备|要求|必须|至少|熟练|experience with|knowledge of|proficient in|familiar with|must have)/);
+        if (strongMatch) return { kind: 'strong', match: strongMatch[0] };
+        const normalMatch = normalized.match(/(负责|参与|能够|善于|responsible for|ability to)/);
+        if (normalMatch) return { kind: 'normal', match: normalMatch[0] };
+        const plusMatch = normalized.match(/(优先|加分|nice to have|preferred|bonus)/);
+        if (plusMatch) return { kind: 'plus', match: plusMatch[0] };
+        return { kind: 'none', match: '' };
+      };
+      const sectionHeadingForLine = (line) => {
+        const normalized = normalizeText(line);
+        if (/(加分项|优先条件|nice to have|preferred qualifications|bonus points)/.test(normalized)) return 'plus';
+        if (/(任职要求|岗位要求|职位要求|requirements|qualifications|what we are looking for)/.test(normalized)) return 'requirement';
+        if (/(岗位职责|工作职责|职责描述|responsibilities|what you will do|what you'll do)/.test(normalized)) return 'responsibility';
+        return '';
+      };
+      const extractJdCandidates = (jdText, knownAliases) => {
+        const candidates = new Map();
+        const addCandidate = (text, section, cue, evidence) => {
+          const candidate = cleanCandidate(text);
+          if (!isCandidateValid(candidate)) return;
+          const key = compactMatchText(candidate);
+          if (knownAliases.has(key)) return;
+          if ([...knownAliases].some((alias) => alias.length >= 3 && key !== alias && key.includes(alias))) return;
+          if (candidates.has(key)) {
+            const existing = candidates.get(key);
+            existing.occurrences += 1;
+            if (!existing.evidence.includes(evidence)) existing.evidence += `\n${evidence}`;
+            return;
+          }
+          candidates.set(key, { text: candidate, section, cue, occurrences: 1, evidence });
+        };
+
+        const rawTitle = String(jdText || '').split(/\n+/).map((line) => line.trim()).find(Boolean) || '';
+        if (rawTitle && !sectionHeadingForLine(rawTitle)) {
+          const titleCore = rawTitle
+            .replace(/[（(].*?[）)]/g, '')
+            .replace(/\s*(?:实习生|工程师|经理|专员|助理|顾问|分析师|研究员|运营|开发者|设计师|负责人|专家|主管|Intern|Engineer|Manager|Specialist|Analyst|Assistant|Consultant|Developer|Designer|Lead|Head)$/i, '')
+            .trim();
+          addCandidate(titleCore, 'title', 'strong', rawTitle);
+        }
+
+        let currentSection = 'other';
+        const clauses = String(jdText || '')
+          .split(/(?<=[。！？!?；;])|\n+/)
+          .flatMap((clause) => clause.split(/(?<=\.)\s+(?=[A-Z])/))
+          .map((clause) => clause.trim())
+          .filter(Boolean);
+
+        clauses.forEach((rawLine) => {
+          let line = rawLine.trim();
+          const heading = sectionHeadingForLine(line);
+          if (heading) {
+            currentSection = heading;
+            const afterHeading = line.replace(/^[^：:]*[：:]\s*/, '');
+            if (afterHeading === line || !afterHeading.trim()) return;
+            line = afterHeading;
+          }
+          const section = currentSection !== 'other' ? currentSection : jdLineType(line);
+          const cue = cueForLine(line);
+          if (section === 'other' && cue.kind === 'none' && !/^[•·▪◦\-–—*]/.test(line)) return;
+          const lowerLine = line.toLocaleLowerCase();
+          const cueIndex = cue.match ? lowerLine.indexOf(cue.match) : -1;
+          const shouldSliceCue = cue.kind !== 'none' && cue.kind !== 'plus' && cueIndex >= 0;
+          const content = shouldSliceCue ? line.slice(cueIndex + cue.match.length) : line;
+          const parts = content.split(/[、,，;；/]|(?:以及|及|与|和|或)|\s+(?:and|or)\s+/i);
+          parts.forEach((part) => addCandidate(part, section, cue.kind, rawLine));
+        });
+
+        return [...candidates.values()].map((candidate) => {
+          const sectionScore = candidate.section === 'requirement' ? 3 : candidate.section === 'responsibility' ? 2 : candidate.section === 'title' ? 2 : candidate.section === 'plus' ? 1 : 0;
+          const cueScore = candidate.cue === 'strong' ? 2 : candidate.cue === 'normal' ? 1 : candidate.cue === 'plus' ? -1 : 0;
+          const technical = /[A-Z].*[a-z]|[a-z].*[A-Z]|[.#+/]|\b(?:api|sdk|sql|html|css|js|ai|ml|nlp|llm)\b/i.test(candidate.text) ? 1 : 0;
+          const score = sectionScore + cueScore + technical + Math.min(candidate.occurrences - 1, 2);
+          return { ...candidate, score, importance: score >= 6 ? 'high' : score >= 4 ? 'medium' : 'low' };
+        }).filter((candidate) => candidate.score >= 2).sort((a, b) => b.score - a.score || b.text.length - a.text.length);
+      };      const matchEvidenceGroups = (resumeText, entry) => {
+        if (!entry.evidenceGroups?.length) return { matchedCount: 0, groups: [], sentences: [] };
+        const sentences = splitSentences(resumeText);
+        const matchedGroups = [];
+        entry.evidenceGroups.forEach((group) => {
+          const terms = group.any.filter((term) => matchesTerm(resumeText, term));
+          if (!terms.length) return;
+          const groupSentences = sentences.filter((sentence) => terms.some((term) => matchesTerm(sentence, term)));
+          matchedGroups.push({ label: group.label, terms, sentences: groupSentences });
+        });
+        let requiredGroups = entry.evidenceGroups.filter((group) => group.required);
+        if (!requiredGroups.length && entry.evidenceGroups.length) requiredGroups = [entry.evidenceGroups[0]];
+        const requiredMatched = requiredGroups.every((required) => matchedGroups.some((group) => group.label.zh === required.label.zh && group.label.en === required.label.en));
+        return {
+          matchedCount: matchedGroups.length,
+          requiredMatched,
+          groups: matchedGroups,
+          sentences: [...new Set(matchedGroups.flatMap((group) => group.sentences))]
+        };
+      };
+      const isPartialMatch = (text, aliases) => {
+        const compactResume = compactMatchText(text);
+        return aliases.some((alias) => {
+          const normalized = normalizeText(alias);
+          if (/[\u3400-\u9fff]/.test(normalized)) {
+            const compactAlias = compactMatchText(normalized);
+            if (compactAlias.length < 4) return false;
+            const parts = normalized.split(/[与及和或/]/).map((part) => part.trim()).filter((part) => compactMatchText(part).length >= 2);
+            if (parts.length > 1 && parts.some((part) => matchesTerm(text, part))) return true;
+            const grams = new Set();
+            for (let index = 0; index < compactAlias.length - 1; index += 1) grams.add(compactAlias.slice(index, index + 2));
+            if (!grams.size) return false;
+            const matched = [...grams].filter((gram) => compactResume.includes(gram)).length;
+            return matched / grams.size >= 0.6;
+          }
+          const words = normalized.split(/\s+/).filter((word) => word.length > 1 && !CANDIDATE_STOPWORDS.has(word));
+          if (words.length < 2) return false;
+          const matched = words.filter((word) => compactResume.includes(word)).length;
+          return matched / words.length >= 0.6;
+        });
+      };
+      const findPartialEvidenceSentences = (text, aliases) => {
+        const seen = new Set();
+        return splitSentences(text)
+          .filter((sentence) => isPartialMatch(sentence, aliases))
+          .filter((sentence) => {
+            const key = compactMatchText(sentence);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          })
+          .map((sentence) => escapeHtml(sentence))
+          .join('<br>');
+      };
+      const analyzeMatcher = () => {
+        const jdText = refs.matcherJd.value.trim();
+        const resumeText = refs.matcherResume.value.trim();
+        if (!jdText || !resumeText) { showToast(t('matcher.toastFill')); return; }
+
+        const customTerms = [...new Set(String(refs.matcherCustomKeywords.value || '').split(/\n|,/).map((term) => term.trim()).filter(Boolean))];
+        const knownAliasKeys = new Set(KEYWORD_DICTIONARY.flatMap((entry) => entry.aliases.map(compactMatchText)));
+        const customEntries = customTerms
+          .filter((term) => !knownAliasKeys.has(compactMatchText(term)))
+          .map((term, index) => ({ id: `custom-${index}`, canonical: { zh: term, en: term }, aliases: [term], category: 'custom', weight: 2, source: 'custom' }));
+        const activeDictionary = [...KEYWORD_DICTIONARY, ...customEntries];
+        let rows = [];
+
+        activeDictionary.forEach((entry) => {
+          const stats = collectLineStats(jdText, entry);
+          if (!stats.jdCount) return;
+          const jdMatchedAlias = entry.aliases.filter((alias) => matchesTerm(jdText, alias)).sort((a, b) => b.length - a.length)[0] || '';
+          const resumeMatchedAlias = entry.aliases.filter((alias) => matchesTerm(resumeText, alias)).sort((a, b) => b.length - a.length)[0] || '';
+          const evidenceMatch = matchEvidenceGroups(resumeText, entry);
+          const partial = !resumeMatchedAlias && isPartialMatch(resumeText, entry.aliases);
+          const minimumGroups = entry.minimumGroups || 2;
+          const status = resumeMatchedAlias
+            ? 'covered'
+            : evidenceMatch.matchedCount >= minimumGroups && evidenceMatch.requiredMatched
+              ? 'evidence'
+              : evidenceMatch.matchedCount > 0 || partial
+                ? 'partial'
+                : entry.unstatedIfMissing
+                  ? 'unstated'
+                  : 'missing';
+          const isExactAlias = resumeMatchedAlias && [entry.canonical.zh, entry.canonical.en].some((value) => normalizeText(value) === normalizeText(resumeMatchedAlias));
+          const resumeEvidence = status === 'covered'
+            ? findEvidenceSentences(resumeText, entry)
+            : status === 'evidence' || status === 'partial'
+              ? evidenceMatch.sentences.map((sentence) => escapeHtml(sentence)).join('<br>') || findPartialEvidenceSentences(resumeText, entry.aliases)
+              : '';
+          rows.push({
+            entry, source: entry.source || 'dictionary', matchedAlias: jdMatchedAlias, status,
+            matchMode: status === 'covered' ? (isExactAlias ? 'exact' : 'synonym') : status === 'evidence' ? 'evidence' : status === 'partial' ? 'partial' : status === 'unstated' ? 'unstated' : 'none',
+            importance: importanceFor(entry, stats), jdCount: stats.jdCount,
+            jdEvidence: findEvidenceSentences(jdText, entry), resumeEvidence, matchedGroups: evidenceMatch.groups
+          });
+        });
+        const knownCandidates = new Set([...knownAliasKeys, ...customEntries.map((entry) => compactMatchText(entry.aliases[0]))]);
+        extractJdCandidates(jdText, knownCandidates).forEach((candidate) => {
+          const covered = matchesTerm(resumeText, candidate.text);
+          const partial = !covered && isPartialMatch(resumeText, [candidate.text]);
+          const entry = {
+            id: `auto-${compactMatchText(candidate.text).slice(0, 40)}`,
+            canonical: { zh: candidate.text, en: candidate.text },
+            aliases: [candidate.text], category: 'auto', weight: 2, source: 'auto'
+          };
+          rows.push({
+            entry, source: 'auto', matchedAlias: candidate.text,
+            status: covered ? 'covered' : partial ? 'partial' : 'missing',
+            matchMode: covered ? 'exact' : partial ? 'partial' : 'none',
+            importance: candidate.importance, jdCount: candidate.occurrences,
+            jdEvidence: findEvidenceSentences(jdText, entry),
+            resumeEvidence: covered ? findEvidenceSentences(resumeText, entry) : partial ? findPartialEvidenceSentences(resumeText, entry.aliases) : ''
+          });
+        });
+
+        const plainEvidence = (value) => String(value || '').replace(/<[^>]+>/g, '');
+        rows = rows.filter((row) => !rows.some((other) => {
+          if (other === row || !row.matchedAlias || !other.matchedAlias) return false;
+          const rowAlias = compactMatchText(row.matchedAlias);
+          const otherAlias = compactMatchText(other.matchedAlias);
+          return otherAlias.length > rowAlias.length
+            && otherAlias.includes(rowAlias)
+            && plainEvidence(other.jdEvidence) === plainEvidence(row.jdEvidence);
+        }));
+        const exactMatchRows = new Map();
+        const aliasQuality = { covered: 5, evidence: 4, partial: 3, unstated: 2, missing: 1 };
+        rows.forEach((row) => {
+          if (!row.matchedAlias) {
+            exactMatchRows.set(`row-${exactMatchRows.size}`, row);
+            return;
+          }
+          const key = `${compactMatchText(row.matchedAlias)}|${plainEvidence(row.jdEvidence)}`;
+          const existing = exactMatchRows.get(key);
+          if (!existing || aliasQuality[row.status] > aliasQuality[existing.status]) exactMatchRows.set(key, row);
+        });
+        rows = [...exactMatchRows.values()];
+        if (!rows.length) { showToast(t('matcher.toastNone')); return; }
+
+        const statusRank = { missing: 0, partial: 1, evidence: 2, unstated: 3, covered: 4 };
+        const importanceRank = { high: 0, medium: 1, low: 2 };
+        rows.sort((a, b) => statusRank[a.status] - statusRank[b.status] || importanceRank[a.importance] - importanceRank[b.importance]);
+        state.matcherResult = { jdText, resumeText, rows };
+        renderMatcherResults();
+        refs.matcherResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      const categoryLabel = (category) => t(`matcher.cat.${category}`) || category;
+      const matcherStatusLabel = (status) => t(`matcher.${status}`);
+      const matcherStatusClass = (status) => `mbadge-${status}`;
+      const sourceLabel = (source) => t(`matcher.source.${source}`);
+      const matchLabel = (mode) => t(`matcher.match.${mode}`);
+      const importanceLabel = (importance) => t(`matcher.importance${importance === 'high' ? 'High' : importance === 'medium' ? 'Medium' : 'Low'}`);
+
+      const buildCategoryCoverage = (rows) => {
+        const map = new Map();
+        rows.forEach((row) => {
+          if (!map.has(row.entry.category)) map.set(row.entry.category, { total: 0, covered: 0, evidence: 0, partial: 0, unstated: 0 });
+          const item = map.get(row.entry.category);
+          item.total += 1;
+          if (row.status === 'covered') item.covered += 1;
+          if (row.status === 'evidence') item.evidence += 1;
+          if (row.status === 'partial') item.partial += 1;
+          if (row.status === 'unstated') item.unstated += 1;
+        });
+        return [...map.entries()].map(([category, item]) => {
+          const effectiveTotal = Math.max(1, item.total - item.unstated);
+          const weighted = item.covered + item.evidence * 0.8 + item.partial * 0.5;
+          return { category, ...item, percent: Math.round((weighted / effectiveTotal) * 100) };
+        });
+      };
+
+      const buildMarkdown = () => {
+        if (!state.matcherResult) return '';
+        const { rows } = state.matcherResult;
+        const counts = {
+          covered: rows.filter((row) => row.status === 'covered').length,
+          evidence: rows.filter((row) => row.status === 'evidence').length,
+          partial: rows.filter((row) => row.status === 'partial').length,
+          missing: rows.filter((row) => row.status === 'missing').length,
+          unstated: rows.filter((row) => row.status === 'unstated').length
+        };
+        const lines = ['# JD 与简历关键词匹配结果', ''];
+        lines.push(`- 明确覆盖：${counts.covered}`);
+        lines.push(`- 证据覆盖：${counts.evidence}`);
+        lines.push(`- 部分覆盖：${counts.partial}`);
+        lines.push(`- 未发现：${counts.missing}`);
+        lines.push(`- 简历未说明：${counts.unstated}`);
+        lines.push('');
+        lines.push('## 岗位要求匹配明细');
+        lines.push('| 关键词 | 分类 | 来源 | 重要程度 | JD | 简历 | 匹配方式 | 状态 |');
+        lines.push('|---|---|---|---|---|---|---|---|');
+        rows.forEach((row) => {
+          const resumeMark = row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是';
+          lines.push(`| ${row.entry.canonical[state.lang]} | ${categoryLabel(row.entry.category)} | ${sourceLabel(row.source)} | ${importanceLabel(row.importance)} | 是 | ${resumeMark} | ${matchLabel(row.matchMode)} | ${matcherStatusLabel(row.status)} |`);
+        });
+        lines.push('');
+        lines.push('## 简历优化建议');
+        const attention = rows.filter((row) => row.status !== 'covered');
+        attention.forEach((row) => {
+          const action = row.status === 'evidence'
+            ? '已有相关经历，建议直接用岗位关键词强化表达。'
+            : row.status === 'unstated'
+              ? '简历未说明，请确认是否具备并决定是否补充。'
+              : row.status === 'partial'
+                ? '已有部分证据，建议补充完整案例、规模或结果。'
+                : '未找到对应证据，仅在有真实经历时补充。';
+          lines.push(`- [${matcherStatusLabel(row.status)}] ${row.entry.canonical[state.lang]}：${action}`);
+        });
+        if (!attention.length) lines.push('- 所有要求均有明确覆盖。');
+        lines.push('- 仅补充真实经历，不为了关键词覆盖率虚构内容。');
+        return lines.join('\n');
+      };
+      const buildCsv = () => {
+        if (!state.matcherResult) return '';
+        const lines = ['关键词,分类,来源,重要程度,JD,简历,匹配方式,状态'];
+        state.matcherResult.rows.forEach((row) => {
+          const values = [row.entry.canonical[state.lang], categoryLabel(row.entry.category), sourceLabel(row.source), importanceLabel(row.importance), '是', row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是', matchLabel(row.matchMode), matcherStatusLabel(row.status)];
+          lines.push(values.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(','));
+        });
+        return lines.join('\n');
+      };
+
+      const downloadCsv = () => {
+        const blob = new Blob([`\ufeff${buildCsv()}`], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url; link.download = 'roleport-keyword-match.csv'; document.body.appendChild(link); link.click(); link.remove();
+        URL.revokeObjectURL(url);
+      };
+
+      const renderMatcherResults = () => {
+        if (!state.matcherResult || !refs.matcherResults) return;
+        const { rows } = state.matcherResult;
+        const counts = {
+          covered: rows.filter((row) => row.status === 'covered').length,
+          evidence: rows.filter((row) => row.status === 'evidence').length,
+          partial: rows.filter((row) => row.status === 'partial').length,
+          missing: rows.filter((row) => row.status === 'missing').length,
+          unstated: rows.filter((row) => row.status === 'unstated').length
+        };
+        const autoCount = rows.filter((row) => row.source === 'auto').length;
+        const dictionaryCount = rows.filter((row) => row.source === 'dictionary').length;
+        const customCount = rows.filter((row) => row.source === 'custom').length;
+        const coverage = buildCategoryCoverage(rows);
+        const attentionRows = rows.filter((row) => row.status !== 'covered');
+        const sourceSummary = t('matcher.sourceSummary').replace('{dictionary}', dictionaryCount).replace('{auto}', autoCount).replace('{custom}', customCount);
+        const resumeMark = (row) => row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是';
+        const checklistText = (row) => {
+          if (row.status === 'evidence') return '简历已有相关经历证据，建议直接用岗位关键词强化表达，并保留原文证据。';
+          if (row.status === 'unstated') return '简历未说明该项，请确认是否具备，并决定是否补充到简历。';
+          if (row.status === 'partial') return '已有部分相关证据，建议补充完整案例、规模或结果。';
+          return '未找到对应证据，仅在真实具备时补充，不建议虚构。';
+        };
+        const evidenceGroupsMarkup = (row) => {
+          if (!row.matchedGroups?.length) return '';
+          return `<div class="mevidence-groups">${row.matchedGroups.map((group) => `<div class="mevidence-group"><strong>${escapeHtml(group.label[state.lang] || group.label.zh)}</strong><span>${group.terms.map(escapeHtml).join(' · ')}</span></div>`).join('')}</div>`;
+        };
+        refs.matcherResults.classList.add('is-visible');
+        refs.matcherResults.innerHTML = `
+          <div class="matcher-stats">
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsCovered'))}</span><span class="mstat-value">${counts.covered}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsCoveredDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsEvidence'))}</span><span class="mstat-value">${counts.evidence}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsEvidenceDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsPartial'))}</span><span class="mstat-value">${counts.partial}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsPartialDesc'))}</span></div>
+            <div class="mstat-card is-alert"><span class="mstat-label">${escapeHtml(t('matcher.statsMissing'))}</span><span class="mstat-value">${counts.missing}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsMissingDesc'))}</span></div>
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsUnstated'))}</span><span class="mstat-value">${counts.unstated}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsUnstatedDesc'))}</span></div>
+          </div>
+          <div class="matcher-grid">
+            <section class="card matcher-card">
+              <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.tableTitle'))}</h3><p>${escapeHtml(t('matcher.tableSub'))} · ${escapeHtml(sourceSummary)}</p></div><div class="matcher-buttons"><button class="button button-secondary" type="button" data-matcher-copy>${escapeHtml(t('matcher.copyMarkdown'))}</button><button class="button button-primary" type="button" data-matcher-export>${escapeHtml(t('matcher.exportCsv'))}</button></div></div>
+              <div class="matcher-table-wrap"><table class="matcher-table"><thead><tr><th>${escapeHtml(t('matcher.colKeyword'))}</th><th>${escapeHtml(t('matcher.colCategory'))}</th><th>${escapeHtml(t('matcher.colSource'))}</th><th>${escapeHtml(t('matcher.colImportance'))}</th><th>${escapeHtml(t('matcher.colJd'))}</th><th>${escapeHtml(t('matcher.colResume'))}</th><th>${escapeHtml(t('matcher.colMatch'))}</th><th>${escapeHtml(t('matcher.colStatus'))}</th></tr></thead><tbody>
+                ${rows.map((row) => `<tr><td class="mkeyword">${escapeHtml(row.entry.canonical[state.lang])}</td><td>${escapeHtml(categoryLabel(row.entry.category))}</td><td><span class="mbadge msource-${row.source}">${escapeHtml(sourceLabel(row.source))}</span></td><td class="mimportance-${row.importance}">${escapeHtml(importanceLabel(row.importance))}</td><td class="myes">是</td><td class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${resumeMark(row)}</td><td>${escapeHtml(matchLabel(row.matchMode))}</td><td><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></td></tr>`).join('')}
+              </tbody></table></div>
+            </section>
+            <aside class="card matcher-card">
+              <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.coverageTitle'))}</h3><p>${escapeHtml(t('matcher.coverageSub'))}</p></div></div>
+              <div class="mcoverage-list">${coverage.map((item) => `<div class="mcoverage-item"><div class="mcoverage-top"><span>${escapeHtml(categoryLabel(item.category))}</span><span>${item.percent}%</span></div><div class="mbar"><span style="width:${item.percent}%"></span></div></div>`).join('')}</div>
+              <p class="mcoverage-note">${escapeHtml(t('matcher.coverageNote'))}</p>
+            </aside>
+          </div>
+          <div class="matcher-grid">
+            <section class="card matcher-card">
+              <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.evidenceTitle'))}</h3><p>${escapeHtml(t('matcher.evidenceSub'))}</p></div></div>
+              <div class="mevidence-grid">${rows.map((row) => `<div class="mevidence-card"><div class="mevidence-kicker"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></div>${evidenceGroupsMarkup(row)}<blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.jdSource'))}：</span>${row.jdEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.resumeSource'))}：</span>${row.resumeEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote></div>`).join('')}</div>
+            </section>
+            <aside class="card matcher-card">
+              <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.checklistTitle'))}</h3><p>${escapeHtml(t('matcher.checklistSub'))}</p></div></div>
+              <ul class="mchecklist">${attentionRows.length ? attentionRows.map((row) => `<li><span class="mcheck">✓</span><span><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong> <span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span> <span class="mbadge ${row.importance === 'high' ? 'mbadge-missing' : 'mbadge-covered'}">${escapeHtml(importanceLabel(row.importance))}</span><br>${escapeHtml(checklistText(row))}</span></li>`).join('') : `<li><span class="mcheck">✓</span><span>${escapeHtml(t('matcher.checklistNote'))}</span></li>`}</ul>
+              <div class="mhonesty"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.2"></circle><path d="M8 4.8v3.7M8 11.1v.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg><span>${escapeHtml(t('matcher.checklistNote'))}</span></div>
+            </aside>
+          </div>`;
+      };
+      const getRouteFromHash = () => {
+        const route = window.location.hash.replace('#', '');
+        return ['home', 'tools', 'resources', 'about', 'matcher'].includes(route) ? route : 'home';
+      };
+
+      const renderRoute = (route) => {
+        closeToolGuide(false);
+        state.route = route;
+        $$('[data-view]').forEach((view) => { view.hidden = view.dataset.view !== route; });
+        $$('[data-route-link]').forEach((link) => {
+          if (link.dataset.routeLink === route) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+        syncHeaderTheme();
+        updatePageTitle();
+        window.scrollTo({ top: 0, behavior: 'auto' });
+      };
+
+      document.querySelector('.brand').addEventListener('click', () => {
+        if (getRouteFromHash() === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        const trigger = event.target.closest('[data-guide-tool]');
+        if (trigger) openToolGuide(trigger.dataset.guideTool, trigger);
+      });
+      refs.guideClose.addEventListener('click', () => closeToolGuide());
+      refs.guideBackdrop.addEventListener('click', () => closeToolGuide());
+      refs.guideDrawer.addEventListener('click', (event) => {
+        if (event.target.closest('[data-guide-next]')) closeToolGuide(false);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && state.guideToolId) closeToolGuide();
+      });
+
+      refs.themeToggle.addEventListener('click', () => {
+        setTheme(state.theme === 'dark' ? 'light' : 'dark');
+      });
+
+      $$('[data-language]').forEach((button) => {
+        button.addEventListener('click', () => setLanguage(button.dataset.language));
+      });
+
+      refs.toolFilters.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-tool-filter]');
+        if (!button) return;
+        state.toolCategory = button.dataset.toolFilter;
+        renderToolFilters();
+        renderTools();
+      });
+
+      refs.resourceFilters.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-resource-filter]');
+        if (!button) return;
+        state.resourceCategory = button.dataset.resourceFilter;
+        renderResourceFilters();
+        renderResources();
+      });
+
+      refs.resourceSearch.addEventListener('input', () => {
+        state.resourceQuery = refs.resourceSearch.value;
+        renderResources();
+      });
+
+      refs.resourceSearchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        state.resourceQuery = refs.resourceSearch.value;
+        renderResources();
+      });
+
+      $$('[data-stage-route]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const route = button.dataset.stageRoute;
+          const filter = button.dataset.stageFilter;
+          if (route === 'tools') {
+            state.toolCategory = TOOL_CATEGORIES.includes(filter) ? filter : 'all';
+            renderToolFilters();
+            renderTools();
+          } else if (route === 'resources') {
+            state.resourceCategory = RESOURCE_CATEGORIES.includes(filter) ? filter : 'all';
+            renderResourceFilters();
+            renderResources();
+          }
+          window.location.hash = `#${route}`;
+        });
+      });
+
+      refs.feedbackTypes.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-feedback-type]');
+        if (!button) return;
+        state.feedbackType = button.dataset.feedbackType;
+        $$('[data-feedback-type]').forEach((item) => {
+          const active = item.dataset.feedbackType === state.feedbackType;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+      });
+
+      refs.feedbackForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const message = refs.feedbackText.value.trim();
+        if (!message) {
+          showToast(t('toast.feedbackEmpty'));
+          refs.feedbackText.focus();
+          return;
+        }
+        const typeLabel = state.feedbackType === 'correction' ? t('about.feedbackCorrection') : state.feedbackType === 'tool' ? t('about.feedbackTool') : t('about.feedbackSuggestion');
+        const content = `Roleport Feedback\nType: ${typeLabel}\nMessage: ${message}\nPage: ${window.location.href}`;
+        if (FEEDBACK_EMAIL) {
+          window.location.href = `mailto:${encodeURIComponent(FEEDBACK_EMAIL)}?subject=${encodeURIComponent('Roleport Feedback')}&body=${encodeURIComponent(content)}`;
+          return;
+        }
+        await copyText(content);
+        showToast(t('toast.feedbackCopied'));
+      });
+
+      const updateMatcherCounts = () => {
+        refs.matcherJdCount.textContent = `${refs.matcherJd.value.length} 字`;
+        refs.matcherResumeCount.textContent = `${refs.matcherResume.value.length} 字`;
+      };
+      const importErrorKey = (code) => {
+        if (code === 'FILE_TOO_LARGE') return 'matcher.importTooLarge';
+        if (code === 'PDF_NO_TEXT') return 'matcher.importPdfNoText';
+        if (code === 'DOC_NOT_SUPPORTED') return 'matcher.importDocUnsupported';
+        if (code === 'UNSUPPORTED_TYPE') return 'matcher.importUnsupported';
+        return 'matcher.importFailed';
+      };
+      const importIntoMatcher = async (file, target) => {
+        const isJd = target === 'jd';
+        const textarea = isJd ? refs.matcherJd : refs.matcherResume;
+        const status = isJd ? refs.matcherJdFileStatus : refs.matcherResumeFileStatus;
+        const button = isJd ? refs.matcherJdImport : refs.matcherResumeImport;
+        const input = isJd ? refs.matcherJdFile : refs.matcherResumeFile;
+        if (!file) return;
+        status.hidden = false; status.className = 'matcher-file-status'; status.textContent = t('matcher.importExtracting');
+        button.disabled = true; button.textContent = t('matcher.importExtracting');
+        try {
+          if (!window.RoleportFileImport) throw new Error('IMPORT_LIBRARY_MISSING');
+          const result = await window.RoleportFileImport.extractFile(file);
+          textarea.value = result.text;
+          textarea.dispatchEvent(new Event('input', { bubbles: true }));
+          const message = result.truncated ? t('matcher.importTruncated') : t('matcher.importSuccess');
+          status.className = 'matcher-file-status is-success';
+          status.textContent = message.replace('{name}', file.name).replace('{count}', result.originalLength).replace('{cjk}', result.cjkCount).replace('{version}', result.version || window.ROLEPORT_FILE_IMPORT_VERSION || '?');
+        } catch (error) {
+          status.className = 'matcher-file-status is-error';
+          status.textContent = t(importErrorKey(error?.code));
+        } finally {
+          button.disabled = false; button.textContent = t('matcher.importFile');
+          input.value = '';
+        }
+      };
+      refs.matcherJd.addEventListener('input', updateMatcherCounts);
+      refs.matcherResume.addEventListener('input', updateMatcherCounts);
+      refs.matcherJdImport.addEventListener('click', () => refs.matcherJdFile.click());
+      refs.matcherResumeImport.addEventListener('click', () => refs.matcherResumeFile.click());
+      refs.matcherJdFile.addEventListener('change', () => importIntoMatcher(refs.matcherJdFile.files[0], 'jd'));
+      refs.matcherResumeFile.addEventListener('change', () => importIntoMatcher(refs.matcherResumeFile.files[0], 'resume'));
+      document.querySelectorAll('[data-drop-target]').forEach((dropArea) => {
+        ['dragenter', 'dragover'].forEach((eventName) => dropArea.addEventListener(eventName, (event) => {
+          event.preventDefault(); dropArea.classList.add('is-dragover');
+        }));
+        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('is-dragover'));
+        dropArea.addEventListener('drop', (event) => {
+          event.preventDefault(); dropArea.classList.remove('is-dragover');
+          const file = event.dataTransfer.files[0];
+          importIntoMatcher(file, dropArea.dataset.dropTarget);
+        });
+      });
+      refs.matcherAnalyze.addEventListener('click', analyzeMatcher);
+      refs.matcherClear.addEventListener('click', () => {
+        refs.matcherJd.value = ''; refs.matcherResume.value = ''; refs.matcherCustomKeywords.value = '';
+        refs.matcherJdFile.value = ''; refs.matcherResumeFile.value = '';
+        refs.matcherJdFileStatus.hidden = true; refs.matcherResumeFileStatus.hidden = true;
+        refs.matcherJdFileStatus.textContent = ''; refs.matcherResumeFileStatus.textContent = '';
+        refs.matcherJdImport.textContent = t('matcher.importFile'); refs.matcherResumeImport.textContent = t('matcher.importFile');
+        refs.matcherJdImport.disabled = false; refs.matcherResumeImport.disabled = false;
+        state.matcherResult = null; refs.matcherResults.classList.remove('is-visible'); refs.matcherResults.innerHTML = '';
+        updateMatcherCounts();
+      });
+      refs.matcherResults.addEventListener('click', async (event) => {
+        if (event.target.closest('[data-matcher-copy]')) {
+          await copyText(buildMarkdown()); showToast(t('matcher.toastCopied'));
+        } else if (event.target.closest('[data-matcher-export]')) {
+          downloadCsv(); showToast(t('matcher.toastExported'));
+        }
+      });
+      updateMatcherCounts();
+      window.addEventListener('hashchange', () => renderRoute(getRouteFromHash()));
+
+      setTheme(state.theme, false);
+      setLanguage(state.lang, false);
+      renderRoute(getRouteFromHash());
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>

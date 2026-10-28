@@ -1,0 +1,12 @@
+﻿name,candidate_name,url,decision,reason,checked_at
+"dejob.xyz","DeJob 疑似域名","https://dejob.xyz/","reject","域名停放并显示出售页面，不能作为官方入口","2026-10-24"
+"dejob.cn","DeJob 疑似域名","https://dejob.cn/","reject","HTTPS连接失败，无法确认主体身份","2026-10-24"
+"dejob.io","DeJob 疑似域名","https://dejob.io/","reject","请求超时；已确认官方可用域名为 dejob.top","2026-10-24"
+"layer3.xyz","Layer3","https://layer3.xyz/","reject","当前为任务/互动平台且访问返回403，不是稳定招聘入口","2026-10-24"
+"gitcoin.co","Gitcoin","https://www.gitcoin.co/","reject","主要提供资助与生态项目，不是常规岗位数据库","2026-10-24"
+"tintinland.com","TinTinLand","https://www.tintinland.com/","defer","Web3开发者社区属性明显，未确认稳定招聘目录","2026-10-24"
+"workatastartup.com","Work at a Startup","https://www.workatastartup.com/","defer","与 Y Combinator Jobs 属于同一生态，优先保留YC官方岗位入口","2026-10-24"
+"remote.co","Remote.co","https://remote.co/","defer","首次自动访问超时，需要人工打开确认","2026-10-24"
+"toptal.com","Toptal","https://www.toptal.com/","defer","自动访问返回403，可通过人工审核决定是否加入","2026-10-24"
+"chinahr.com","新华英才","https://www.chinahr.com/","defer","可访问，但与首批综合招聘平台重叠，留待后续批次评估","2026-10-24"
+"epwk.com","一品威客","https://www.epwk.com/","defer","可访问，但偏综合创意服务，与程序员求职匹配度较低","2026-10-24"
