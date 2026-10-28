@@ -775,6 +775,49 @@
     [data-theme="light"] .home-v9-terminal-dot { fill:#0d8999; }
     [data-theme="light"] .home-v9-art-tag i { background:#0d8999; box-shadow:0 0 12px rgba(13,137,153,.7); }
 
+    .opportunity-switch { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:28px 0 20px; }
+    .opportunity-tab { display:flex; align-items:center; gap:12px; min-width:0; padding:14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--text); font:inherit; text-align:left; cursor:pointer; }
+    .opportunity-tab:hover { border-color:var(--soft); background:var(--surface-soft); }
+    .opportunity-tab.is-active { border-color:var(--accent); background:var(--surface-soft); box-shadow:inset 0 0 0 1px var(--accent); }
+    .opportunity-tab-index { display:grid; place-items:center; flex:0 0 28px; width:28px; height:28px; border-radius:8px; background:var(--surface-raised); color:var(--muted); font:700 11px/1 ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .opportunity-tab.is-active .opportunity-tab-index { background:var(--accent); color:var(--surface); }
+    .opportunity-tab-copy { min-width:0; }
+    .opportunity-tab strong { display:block; font-size:13px; line-height:1.35; }
+    .opportunity-tab small { display:block; margin-top:3px; color:var(--muted); font-size:11.5px; line-height:1.45; }
+    .role-guide-intro { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:18px; padding:18px 20px; border:1px solid var(--line); border-radius:13px; background:var(--surface); }
+    .role-guide-kicker { color:var(--accent); font-size:11px; font-weight:750; letter-spacing:.08em; }
+    .role-guide-intro h2 { margin:6px 0 5px; color:var(--text); font-size:18px; letter-spacing:-.02em; }
+    .role-guide-intro p { max-width:720px; margin:0; color:var(--muted); font-size:12px; line-height:1.7; }
+    .role-guide-jump { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:0 14px; border:1px solid var(--line); border-radius:9px; background:var(--surface-raised); color:var(--text); font:inherit; font-size:12px; font-weight:700; cursor:pointer; }
+    .role-guide-jump:hover { border-color:var(--accent); color:var(--accent); }
+    .role-guide-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+    .role-guide-card { padding:0; overflow:hidden; }
+    .role-guide-card summary { display:grid; grid-template-columns:36px minmax(0,1fr) 28px; gap:14px; align-items:start; padding:18px; list-style:none; cursor:pointer; }
+    .role-guide-card summary::-webkit-details-marker { display:none; }
+    .role-guide-index { display:grid; place-items:center; width:36px; height:36px; border-radius:9px; background:var(--surface-soft); color:var(--accent); font:700 11px/1 ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .role-guide-summary { min-width:0; }
+    .role-guide-title-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; }
+    .role-guide-title { color:var(--text); font-size:16px; font-weight:700; letter-spacing:-.015em; line-height:1.35; }
+    .role-guide-category { display:inline-flex; align-items:center; min-height:23px; padding:0 8px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:11px; font-weight:700; }
+    .role-guide-tagline { display:block; margin-top:7px; color:var(--muted); font-size:12px; line-height:1.65; }
+    .role-guide-expand { display:block; margin-top:8px; color:var(--soft); font-size:11px; font-weight:650; }
+    .role-expand-open { display:none; }
+    .role-guide-card[open] .role-expand-closed { display:none; }
+    .role-guide-card[open] .role-expand-open { display:inline; }
+    .role-guide-toggle { display:grid; place-items:center; width:28px; height:28px; border:1px solid var(--line); border-radius:8px; color:var(--muted); font-size:18px; line-height:1; }
+    .role-guide-card[open] .role-guide-toggle { border-color:var(--accent); background:var(--accent); color:var(--surface); transform:rotate(45deg); }
+    .role-guide-body { padding:0 18px 20px 68px; border-top:1px solid var(--line); }
+    .role-guide-detail-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; padding-top:18px; }
+    .role-guide-detail h4, .role-guide-keywords h4 { margin:0 0 9px; color:var(--text); font-size:12px; font-weight:720; }
+    .role-guide-detail ul { display:grid; gap:7px; margin:0; padding-left:18px; color:var(--muted); font-size:12px; line-height:1.65; }
+    .role-guide-keywords { margin-top:19px; padding-top:17px; border-top:1px solid var(--line); }
+    .role-keyword-row { display:grid; grid-template-columns:58px minmax(0,1fr); gap:10px; align-items:start; margin-top:8px; }
+    .role-keyword-label { padding-top:5px; color:var(--soft); font-size:11px; font-weight:700; }
+    .role-keyword-list { display:flex; flex-wrap:wrap; gap:7px; }
+    .role-keyword { display:inline-flex; align-items:center; min-height:26px; padding:0 9px; border:1px solid var(--line); border-radius:7px; background:var(--surface-soft); color:var(--text); font-size:11.5px; }
+    .role-guide-related { margin:16px 0 0; color:var(--muted); font-size:11.5px; line-height:1.65; }
+    .role-guide-related strong { color:var(--text); }
+    @media(max-width:700px){ .opportunity-switch { grid-template-columns:1fr; } .opportunity-tab small { display:none; } .role-guide-intro { align-items:flex-start; flex-direction:column; gap:14px; } .role-guide-jump { width:100%; } .role-guide-card summary { grid-template-columns:32px minmax(0,1fr) 26px; gap:11px; padding:16px; } .role-guide-index { width:32px; height:32px; } .role-guide-body { padding:0 16px 18px; } .role-guide-detail-grid { grid-template-columns:1fr; gap:18px; } .role-keyword-row { grid-template-columns:1fr; gap:5px; } }
     /* Functional typography readability pass */
     .language-option { min-width:30px; font-size:12px; }
     .brand-tagline { font-size:10.5px; }
@@ -947,45 +990,77 @@
       <div class="shell page-shell">
         <div class="resource-search-row">
           <header class="page-heading" style="margin:0">
-            <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / RESOURCE DIRECTORY</div>
-            <h1 data-i18n="resources.title">求职资源导航</h1>
-            <p data-i18n="resources.subtitle">优先展示中文友好、Web3、远程与求职社群，同时保留海外通用资源。所有入口均指向官方地址。</p>
+            <div class="eyebrow"><span class="eyebrow-dot"></span>ROLEPORT / FIND OPPORTUNITIES</div>
+            <h1 data-i18n="resources.title">找机会</h1>
+            <p data-i18n="resources.subtitle">先了解岗位方向与搜索词，再从已审核的招聘入口开始检索。</p>
             <button class="guide-trigger" type="button" data-guide-tool="resource-directory"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
           </header>
           <form class="resource-search" id="resourceSearchForm" role="search">
             <label class="search-box" for="resourceSearch">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.4"></circle><path d="m10.4 10.4 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg>
-              <input id="resourceSearch" type="search" autocomplete="off" data-i18n-placeholder="resources.searchPlaceholder" placeholder="搜索资源名称或用途">
+              <input id="resourceSearch" type="search" autocomplete="off" placeholder="搜索资源名称或用途">
             </label>
             <button class="search-button" type="submit" data-i18n="resources.search">搜索</button>
           </form>
         </div>
-        <div class="filter-bar" style="margin-top:28px">
-          <div id="resourceFilters" class="filter-bar" style="margin:0"><button class="filter-chip is-active" type="button" data-resource-filter="all" aria-pressed="true">全部</button><button class="filter-chip" type="button" data-resource-filter="general" aria-pressed="false">综合招聘</button><button class="filter-chip" type="button" data-resource-filter="tech" aria-pressed="false">互联网与科技招聘</button><button class="filter-chip" type="button" data-resource-filter="web3" aria-pressed="false">Web3 招聘</button><button class="filter-chip" type="button" data-resource-filter="remote" aria-pressed="false">远程工作平台</button><button class="filter-chip" type="button" data-resource-filter="freelance" aria-pressed="false">兼职与悬赏平台</button><button class="filter-chip" type="button" data-resource-filter="resume" aria-pressed="false">简历与面试资源</button><button class="filter-chip" type="button" data-resource-filter="learning" aria-pressed="false">技能学习资源</button></div>
+
+        <div class="opportunity-switch" id="opportunitySwitch" role="tablist" aria-label="找机会内容视图">
+          <button class="opportunity-tab is-active" type="button" role="tab" aria-selected="true" data-opportunity-view="resources">
+            <span class="opportunity-tab-index" aria-hidden="true">01</span>
+            <span class="opportunity-tab-copy"><strong data-i18n="opportunity.resourcesTab">招聘资源</strong><small data-i18n="opportunity.resourcesTabDesc">按平台类型查找已审核的招聘入口</small></span>
+          </button>
+          <button class="opportunity-tab" type="button" role="tab" aria-selected="false" data-opportunity-view="roles">
+            <span class="opportunity-tab-index" aria-hidden="true">02</span>
+            <span class="opportunity-tab-copy"><strong data-i18n="opportunity.rolesTab">岗位指南</strong><small data-i18n="opportunity.rolesTabDesc">先了解工作内容、准备方向与搜索词</small></span>
+          </button>
+        </div>
+
+        <div class="filter-bar">
+          <div id="resourceFilters" class="filter-bar" style="margin:0"></div>
           <p class="filter-summary" id="resourcesSummary"></p>
         </div>
-        <section class="resource-section" id="featuredResourcesSection">
-          <div class="resource-section-head">
-            <div><h2 data-i18n="resources.focusTitle">中文友好与专项资源</h2><p data-i18n="resources.focusDesc">优先展示中文岗位、Web3、远程工作和求职社群。</p></div>
-            <span class="resource-section-count" id="featuredResourcesCount"></span>
+
+        <section class="resource-section" id="roleGuidePanel" hidden>
+          <div class="role-guide-intro">
+            <div>
+              <span class="role-guide-kicker" data-i18n="roles.introKicker">WEB3 ROLE GUIDE</span>
+              <h2 data-i18n="roles.introTitle">先弄清岗位，再开始搜索。</h2>
+              <p data-i18n="roles.introDesc">用常见工作内容、可准备能力和中英文搜索词建立方向，不把某一份 JD 当成全部要求。</p>
+            </div>
+            <button class="role-guide-jump" type="button" data-opportunity-jump="resources" data-i18n="roles.browseResources">去招聘资源搜索 →</button>
           </div>
-          <div class="resource-grid" id="resourceGrid"></div>
+          <div class="role-guide-grid" id="roleGuideGrid"></div>
+          <div class="empty-state" id="roleGuideEmpty" hidden="">
+            <strong data-i18n="roles.emptyTitle">没有找到匹配的岗位方向</strong>
+            <p data-i18n="roles.emptyDesc">换一个关键词，或调整岗位分类。</p>
+          </div>
         </section>
-        <details class="resource-section resource-legacy" id="legacyResourcesSection">
-          <summary>
-            <span class="resource-summary-copy"><strong data-i18n="resources.legacyTitle">更多海外通用资源</strong><small data-i18n="resources.legacyDesc">综合招聘、海外科技公司、自由职业和学习资源，按需展开。</small></span>
-            <span class="resource-section-count" id="legacyResourcesCount"></span>
-          </summary>
-          <div class="resource-grid" id="legacyResourceGrid"></div>
-        </details>
-        <div class="empty-state" id="resourceEmpty" hidden="">
-          <strong data-i18n="resources.emptyTitle">没有找到匹配的资源</strong>
-          <p data-i18n="resources.emptyDesc">换一个关键词，或调整资源分类。</p>
+
+        <div id="resourceDirectoryPanel">
+          <section class="resource-section" id="featuredResourcesSection">
+            <div class="resource-section-head">
+              <div><h2 data-i18n="resources.focusTitle">中文友好与专项资源</h2><p data-i18n="resources.focusDesc">优先展示中文岗位、Web3、远程工作和求职社群。</p></div>
+              <span class="resource-section-count" id="featuredResourcesCount"></span>
+            </div>
+            <div class="resource-grid" id="resourceGrid"></div>
+          </section>
+          <details class="resource-section resource-legacy" id="legacyResourcesSection">
+            <summary>
+              <span class="resource-summary-copy"><strong data-i18n="resources.legacyTitle">更多海外通用资源</strong><small data-i18n="resources.legacyDesc">综合招聘、海外科技公司、自由职业和学习资源，按需展开。</small></span>
+              <span class="resource-section-count" id="legacyResourcesCount"></span>
+            </summary>
+            <div class="resource-grid" id="legacyResourceGrid"></div>
+          </details>
+          <div class="empty-state" id="resourceEmpty" hidden="">
+            <strong data-i18n="resources.emptyTitle">没有找到匹配的资源</strong>
+            <p data-i18n="resources.emptyDesc">换一个关键词，或调整资源分类。</p>
+          </div>
         </div>
-        <p class="tools-status-note" data-i18n="resources.disclaimer">资源仅作导航，具体服务、收费与隐私规则请以对应平台为准。</p>
+
+        <p class="tools-status-note" id="opportunityDisclaimer" data-i18n="resources.disclaimer">资源仅作导航，具体服务、收费与隐私规则请以对应平台为准。</p>
         <footer class="site-footer">
           <p data-i18n="footer.disclaimer">求职信息与外部服务请以官方页面为准。</p>
-          <p class="footer-brand">ROLEPORT · RESOURCES</p>
+          <p class="footer-brand">ROLEPORT · OPPORTUNITIES</p>
         </footer>
       </div>
     </section>
@@ -1117,6 +1192,7 @@
   <script src="vendor/pdf-cmaps-data.js?v=2.1"></script>
   <script src="file-import.js?v=2.2"></script>
   <script src="resources.js?v=20261024.1"></script>
+  <script src="role-guides.js?v=20261028.1"></script>
   <script src="keyword-maintenance.js?v=20261024.1"></script>
   <script src="keywords.js?v=20261024.5"></script>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1137,7 +1213,7 @@
           'home.step3Title': '优化简历', 'home.step3Desc': '根据 JD 调整表达重点',
           'home.step4Title': '记录决策', 'home.step4Desc': '保留机会与下一步行动',
           'home.toolsTitle': '常用工具', 'home.allTools': '全部工具', 'home.stagesTitle': '按求职阶段浏览',
-          'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': '从寻找机会、诊断 JD 到优化简历，用一套清晰的流程完成 Web3 求职准备。', 'home.v9.primary': '找机会', 'home.v9.secondary': '诊断我的简历', 'home.v9.signal1Title': '本地处理', 'home.v9.signal1Desc': '材料只在当前浏览器处理', 'home.v9.signal2Title': '无需账号', 'home.v9.signal2Desc': '打开即可开始使用', 'home.v9.signal3Title': '规则透明', 'home.v9.signal3Desc': '结果可回看原文依据', 'home.v9.signal4Title': '中英双语', 'home.v9.signal4Desc': '支持语言与主题切换', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': '从看机会到做决定，沿着一条路径推进。', 'home.v9.workflowDesc': '先知道当前阶段该做什么，再选择对应工具。', 'home.v9.allTools': '查看工具箱 →', 'home.v9.stage1Title': '找机会', 'home.v9.stage1Desc': '从中文友好、Web3、远程与社群资源中找到入口。', 'home.v9.stage1Meta': '资源导航 · 可用', 'home.v9.stage2Title': '看岗位', 'home.v9.stage2Desc': '理解岗位要求，并比较多个 JD 的共同点与差异。', 'home.v9.stage2Meta': '多岗位分析 · 开发中', 'home.v9.stage3Title': '改简历', 'home.v9.stage3Desc': '核对岗位关键词与真实经历，形成修改清单。', 'home.v9.stage3Meta': 'JD 简历诊断 · 可用', 'home.v9.stage4Title': '做决策', 'home.v9.stage4Desc': '记录机会、比较投入与回报，决定下一步。', 'home.v9.stage4Meta': '后续规划', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': '优先展示能真正推进求职的工具。', 'home.v9.toolsDesc': '不堆功能，不伪装状态。正在开发与规划中的能力都会明确标注。', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': '先从可信的求职入口开始。', 'home.v9.resourceDesc': '优先查看中文友好、Web3、远程与求职社群资源，再按需展开海外通用平台。', 'home.v9.resourceCta': '打开求职资源导航 →', 'home.v9.resourceMetric1': '正式资源', 'home.v9.resourceMetric2': '资源分类', 'home.v9.resourceMetric3': '双语入口',
+          'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': '从寻找机会、诊断 JD 到优化简历，用一套清晰的流程完成 Web3 求职准备。', 'home.v9.primary': '找机会', 'home.v9.secondary': '诊断我的简历', 'home.v9.signal1Title': '本地处理', 'home.v9.signal1Desc': '材料只在当前浏览器处理', 'home.v9.signal2Title': '无需账号', 'home.v9.signal2Desc': '打开即可开始使用', 'home.v9.signal3Title': '规则透明', 'home.v9.signal3Desc': '结果可回看原文依据', 'home.v9.signal4Title': '中英双语', 'home.v9.signal4Desc': '支持语言与主题切换', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': '从看机会到做决定，沿着一条路径推进。', 'home.v9.workflowDesc': '先知道当前阶段该做什么，再选择对应工具。', 'home.v9.allTools': '查看工具箱 →', 'home.v9.stage1Title': '找机会', 'home.v9.stage1Desc': '先了解岗位方向与搜索词，再从中文友好、Web3、远程与社群资源中找到入口。', 'home.v9.stage1Meta': '岗位指南 + 资源导航 · 可用', 'home.v9.stage2Title': '看岗位', 'home.v9.stage2Desc': '理解岗位要求，并比较多个 JD 的共同点与差异。', 'home.v9.stage2Meta': '多岗位分析 · 开发中', 'home.v9.stage3Title': '改简历', 'home.v9.stage3Desc': '核对岗位关键词与真实经历，形成修改清单。', 'home.v9.stage3Meta': 'JD 简历诊断 · 可用', 'home.v9.stage4Title': '做决策', 'home.v9.stage4Desc': '记录机会、比较投入与回报，决定下一步。', 'home.v9.stage4Meta': '后续规划', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': '优先展示能真正推进求职的工具。', 'home.v9.toolsDesc': '不堆功能，不伪装状态。正在开发与规划中的能力都会明确标注。', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': '先从可信的求职入口开始。', 'home.v9.resourceDesc': '优先查看中文友好、Web3、远程与求职社群资源，再按需展开海外通用平台。', 'home.v9.resourceCta': '打开求职资源导航 →', 'home.v9.resourceMetric1': '正式资源', 'home.v9.resourceMetric2': '资源分类', 'home.v9.resourceMetric3': '双语入口',
           'home.note': 'Roleport 不重复建设招聘平台，只为你汇集成熟服务与轻量工具。',
           'stage.orient': '找方向', 'stage.roles': '看岗位', 'stage.resume': '改简历', 'stage.apply': '投递管理', 'stage.interview': '面试准备', 'stage.decide': '做决策',
           'tools.title': '求职工具箱', 'tools.subtitle': '选择适合当前阶段的轻量工具。尚未开放的功能会明确标记状态。',
@@ -1145,7 +1221,11 @@
           'tools.statusNote': '状态说明：开发中 = 正在实现；规划中 = 尚未开始；可用 = 已上线。',
           'tools.status.planned': '规划中', 'tools.status.developing': '开发中', 'tools.status.available': '可用',
           'tools.filter.all': '全部工具', 'tools.filter.manage': '管理', 'tools.filter.analysis': '分析', 'tools.filter.optimize': '优化', 'tools.filter.decision': '决策', 'tools.filter.resource': '导航',
-          'resources.title': '求职资源导航', 'resources.subtitle': '优先展示中文友好、Web3、远程与求职社群，同时保留海外通用资源。所有入口均指向官方地址。',
+          'resources.title': '找机会', 'resources.subtitle': '先了解岗位方向与搜索词，再从已审核的招聘入口开始检索。',
+          'opportunity.resourcesTab': '招聘资源', 'opportunity.resourcesTabDesc': '按平台类型查找已审核的招聘入口', 'opportunity.rolesTab': '岗位指南', 'opportunity.rolesTabDesc': '先了解工作内容、准备方向与搜索词',
+          'roles.searchPlaceholder': '搜索岗位方向、工作内容或关键词', 'roles.introKicker': 'WEB3 ROLE GUIDE', 'roles.introTitle': '先弄清岗位，再开始搜索。', 'roles.introDesc': '用常见工作内容、可准备能力和中英文搜索词建立方向，不把某一份 JD 当成全部要求。', 'roles.browseResources': '去招聘资源搜索 →',
+          'roles.workTitle': '常见工作内容', 'roles.prepareTitle': '新人可以准备', 'roles.keywordsTitle': '建议搜索词', 'roles.keywordsZh': '中文', 'roles.keywordsEn': 'English', 'roles.related': '相近岗位：', 'roles.expand': '展开查看岗位说明', 'roles.collapse': '收起岗位说明',
+          'roles.emptyTitle': '没有找到匹配的岗位方向', 'roles.emptyDesc': '换一个关键词，或调整岗位分类。', 'roles.disclaimer': '岗位说明用于建立搜索方向；实际职责、要求和开放状态请以最新 JD 为准。', 'roles.summary': '{count} 个岗位方向',
           'resources.searchPlaceholder': '搜索资源名称或用途', 'resources.search': '搜索',
           'resources.emptyTitle': '没有找到匹配的资源', 'resources.emptyDesc': '换一个关键词，或调整资源分类。',
           'resources.disclaimer': '资源仅作导航，具体服务、收费与隐私规则请以对应平台为准。', 'resources.focusTitle': '中文友好与专项资源', 'resources.focusDesc': '优先展示中文岗位、Web3、远程工作和求职社群。', 'resources.legacyTitle': '更多海外通用资源', 'resources.legacyDesc': '综合招聘、海外科技公司、自由职业和学习资源，按需展开。',
@@ -1164,7 +1244,7 @@
           'footer.disclaimer': '求职信息与外部服务请以官方页面为准。',
           'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制',
           'summary.tools': '{count} 个工具 · {developing} 个开发中', 'summary.resources': '{count} 个资源',
-          'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '求职资源导航', 'page.matcher': 'JD 与简历匹配器',
+          'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '找机会', 'page.matcher': 'JD 与简历匹配器',
           'matcher.title': 'JD 与简历关键词匹配器', 'matcher.subtitle': '粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。',
           'matcher.inputTitle': '输入求职材料', 'matcher.inputSub': '规则匹配，不使用 AI，不上传简历内容。',
           'matcher.jdLabel': '岗位描述 JD', 'matcher.resumeLabel': '简历文本', 'matcher.required': '必填 · 上限 10,000 字',
@@ -1204,7 +1284,7 @@
           'home.step3Title': 'Improve your resume', 'home.step3Desc': 'Adjust priorities based on the JD',
           'home.step4Title': 'Track decisions', 'home.step4Desc': 'Keep opportunities and next steps together',
           'home.toolsTitle': 'Featured tools', 'home.allTools': 'All tools', 'home.stagesTitle': 'Browse by job search stage',
-          'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': 'Find opportunities, diagnose a JD, and improve your resume through one clear Web3 job-search workflow.', 'home.v9.primary': 'Find opportunities', 'home.v9.secondary': 'Diagnose my resume', 'home.v9.signal1Title': 'Local processing', 'home.v9.signal1Desc': 'Your materials stay in the browser', 'home.v9.signal2Title': 'No account', 'home.v9.signal2Desc': 'Open and start immediately', 'home.v9.signal3Title': 'Transparent rules', 'home.v9.signal3Desc': 'Review the original evidence behind every result', 'home.v9.signal4Title': 'Bilingual', 'home.v9.signal4Desc': 'Language and theme switching supported', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': 'One path from finding opportunities to making a decision.', 'home.v9.workflowDesc': 'Know what to do at each stage, then choose the right tool.', 'home.v9.allTools': 'View toolbox →', 'home.v9.stage1Title': 'Find opportunities', 'home.v9.stage1Desc': 'Start with Chinese-friendly, Web3, remote, and community resources.', 'home.v9.stage1Meta': 'Resource directory · Live', 'home.v9.stage2Title': 'Explore roles', 'home.v9.stage2Desc': 'Understand requirements and compare shared and unique JD signals.', 'home.v9.stage2Meta': 'Multi-role analysis · In development', 'home.v9.stage3Title': 'Improve resume', 'home.v9.stage3Desc': 'Check keyword evidence and turn it into a focused revision list.', 'home.v9.stage3Meta': 'JD-resume diagnosis · Live', 'home.v9.stage4Title': 'Make decisions', 'home.v9.stage4Desc': 'Track opportunities, compare effort and return, and choose the next move.', 'home.v9.stage4Meta': 'Planned', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': 'Tools that move a job search forward.', 'home.v9.toolsDesc': 'No feature padding and no misleading status. In-development and planned capabilities are clearly marked.', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': 'Start with trustworthy job-search destinations.', 'home.v9.resourceDesc': 'Review Chinese-friendly, Web3, remote, and community resources first, then expand global platforms when needed.', 'home.v9.resourceCta': 'Open resource directory →', 'home.v9.resourceMetric1': 'Curated resources', 'home.v9.resourceMetric2': 'Categories', 'home.v9.resourceMetric3': 'Bilingual access',
+          'home.v9.eyebrow': 'WEB3 CAREER TOOLKIT', 'home.v9.subtitle': 'Find opportunities, diagnose a JD, and improve your resume through one clear Web3 job-search workflow.', 'home.v9.primary': 'Find opportunities', 'home.v9.secondary': 'Diagnose my resume', 'home.v9.signal1Title': 'Local processing', 'home.v9.signal1Desc': 'Your materials stay in the browser', 'home.v9.signal2Title': 'No account', 'home.v9.signal2Desc': 'Open and start immediately', 'home.v9.signal3Title': 'Transparent rules', 'home.v9.signal3Desc': 'Review the original evidence behind every result', 'home.v9.signal4Title': 'Bilingual', 'home.v9.signal4Desc': 'Language and theme switching supported', 'home.v9.workflowEyebrow': 'ONE CONTINUOUS WORKFLOW', 'home.v9.workflowTitle': 'One path from finding opportunities to making a decision.', 'home.v9.workflowDesc': 'Know what to do at each stage, then choose the right tool.', 'home.v9.allTools': 'View toolbox →', 'home.v9.stage1Title': 'Find opportunities', 'home.v9.stage1Desc': 'Understand role directions and search terms first, then use Chinese-friendly, Web3, remote, and community resources.', 'home.v9.stage1Meta': 'Role guides + resource directory · Live', 'home.v9.stage2Title': 'Explore roles', 'home.v9.stage2Desc': 'Understand requirements and compare shared and unique JD signals.', 'home.v9.stage2Meta': 'Multi-role analysis · In development', 'home.v9.stage3Title': 'Improve resume', 'home.v9.stage3Desc': 'Check keyword evidence and turn it into a focused revision list.', 'home.v9.stage3Meta': 'JD-resume diagnosis · Live', 'home.v9.stage4Title': 'Make decisions', 'home.v9.stage4Desc': 'Track opportunities, compare effort and return, and choose the next move.', 'home.v9.stage4Meta': 'Planned', 'home.v9.toolsEyebrow': 'TOOLS FOR REAL PROGRESS', 'home.v9.toolsTitle': 'Tools that move a job search forward.', 'home.v9.toolsDesc': 'No feature padding and no misleading status. In-development and planned capabilities are clearly marked.', 'home.v9.resourceEyebrow': 'CURATED, NOT CRAWLED', 'home.v9.resourceTitle': 'Start with trustworthy job-search destinations.', 'home.v9.resourceDesc': 'Review Chinese-friendly, Web3, remote, and community resources first, then expand global platforms when needed.', 'home.v9.resourceCta': 'Open resource directory →', 'home.v9.resourceMetric1': 'Curated resources', 'home.v9.resourceMetric2': 'Categories', 'home.v9.resourceMetric3': 'Bilingual access',
           'home.note': 'Roleport does not rebuild job boards. It brings proven services and lightweight tools together for you.',
           'stage.orient': 'Find direction', 'stage.roles': 'Explore roles', 'stage.resume': 'Resume', 'stage.apply': 'Applications', 'stage.interview': 'Interview prep', 'stage.decide': 'Decisions',
           'tools.title': 'Job search toolbox', 'tools.subtitle': 'Choose a lightweight tool for your current stage. Unavailable tools are clearly marked.',
@@ -1212,7 +1292,11 @@
           'tools.statusNote': 'Status: Developing = in progress; Planned = not started; Available = live.',
           'tools.status.planned': 'Planned', 'tools.status.developing': 'Developing', 'tools.status.available': 'Available',
           'tools.filter.all': 'All tools', 'tools.filter.manage': 'Manage', 'tools.filter.analysis': 'Analyze', 'tools.filter.optimize': 'Optimize', 'tools.filter.decision': 'Decide', 'tools.filter.resource': 'Directory',
-          'resources.title': 'Job search resources', 'resources.subtitle': 'Chinese-friendly, Web3, remote, and community resources shown first, with global general resources available below. All links point to official sites.',
+          'resources.title': 'Find opportunities', 'resources.subtitle': 'Understand role directions and search terms first, then explore reviewed job-search destinations.',
+          'opportunity.resourcesTab': 'Job resources', 'opportunity.resourcesTabDesc': 'Browse reviewed destinations by platform type', 'opportunity.rolesTab': 'Role guides', 'opportunity.rolesTabDesc': 'Learn common work, preparation areas, and search terms',
+          'roles.searchPlaceholder': 'Search role directions, responsibilities, or keywords', 'roles.introKicker': 'WEB3 ROLE GUIDE', 'roles.introTitle': 'Understand the role before you start searching.', 'roles.introDesc': 'Use common responsibilities, preparation areas, and bilingual search terms to build direction without treating one JD as the full definition.', 'roles.browseResources': 'Search job resources →',
+          'roles.workTitle': 'Common responsibilities', 'roles.prepareTitle': 'What beginners can prepare', 'roles.keywordsTitle': 'Suggested search terms', 'roles.keywordsZh': 'Chinese', 'roles.keywordsEn': 'English', 'roles.related': 'Related roles: ', 'roles.expand': 'Expand role guide', 'roles.collapse': 'Collapse role guide',
+          'roles.emptyTitle': 'No matching role directions', 'roles.emptyDesc': 'Try another keyword or change the role category.', 'roles.disclaimer': 'Role guides help frame your search. Check the latest JD for actual responsibilities, requirements, and availability.', 'roles.summary': '{count} role directions',
           'resources.searchPlaceholder': 'Search resources or use cases', 'resources.search': 'Search',
           'resources.emptyTitle': 'No matching resources', 'resources.emptyDesc': 'Try another keyword or category.',
           'resources.disclaimer': 'Resources are provided for navigation only. Check each platform for its current services, pricing, and privacy terms.', 'resources.focusTitle': 'Chinese-friendly & specialist resources', 'resources.focusDesc': 'Chinese-language roles, Web3, remote work, and job communities shown first.', 'resources.legacyTitle': 'More global general resources', 'resources.legacyDesc': 'General job boards, global tech companies, freelance, and learning resources.',
@@ -1231,7 +1315,7 @@
           'footer.disclaimer': 'Verify job and external service information on the official page.',
           'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied',
           'summary.tools': '{count} tools · {developing} in development', 'summary.resources': '{count} resources',
-          'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Job Search Resources', 'page.matcher': 'JD & Resume Matcher',
+          'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Find Opportunities', 'page.matcher': 'JD & Resume Matcher',
           'matcher.title': 'JD & Resume Keyword Matcher', 'matcher.subtitle': 'Paste a job description and your resume to find covered and missing keywords, then build an actionable checklist.',
           'matcher.inputTitle': 'Enter your materials', 'matcher.inputSub': 'Rule-based matching, no AI, no upload of your resume.',
           'matcher.jdLabel': 'Job description', 'matcher.resumeLabel': 'Resume text', 'matcher.required': 'Required · up to 10,000 characters',
@@ -1275,6 +1359,11 @@
         zh: { cn: '中国大陆', global: '全球', remote: '远程' },
         en: { cn: 'Mainland China', global: 'Global', remote: 'Remote' }
       };
+      const ROLE_CATEGORIES = ['all', 'operations', 'business', 'product', 'engineering', 'data', 'design'];
+      const ROLE_CATEGORY_LABELS = {
+        zh: { all: '全部岗位', operations: '运营与增长', business: '商务与合作', product: '产品与项目', engineering: '技术开发', data: '数据与研究', design: '产品设计' },
+        en: { all: 'All roles', operations: 'Operations & growth', business: 'Business & partnerships', product: 'Product & projects', engineering: 'Engineering', data: 'Data & research', design: 'Product design' }
+      };
       const FEEDBACK_EMAIL = '';
 
       const TOOLS = [
@@ -1286,18 +1375,18 @@
 
       const RESOURCE_DIRECTORY_TOOL = {
         id: 'resource-directory', icon: 'resource', category: 'resource', status: 'available', route: 'resources',
-        name: { zh: '求职资源导航', en: 'Job Search Resources' },
-        desc: { zh: '招聘、远程、简历与学习资源一站直达。', en: 'One place for job boards, remote work, resume, and learning resources.' }
+        name: { zh: '找机会指南', en: 'Find Opportunities' },
+        desc: { zh: '先了解岗位方向与搜索词，再前往可信招聘平台。', en: 'Clarify role directions and search terms, then explore trusted job resources.' }
       };
 
       const TOOL_GUIDES = {
         'resource-directory': {
           stage: { zh: '找方向', en: 'Explore' }, duration: { zh: '2～5 分钟', en: '2–5 min' },
-          scenario: { zh: '不知道去哪里找 Web3、远程或中文友好岗位时，先从资源导航开始。', en: 'Start here when you need places to find Web3, remote, or Chinese-friendly roles.' },
+          scenario: { zh: '需要先确认岗位方向和搜索词，或想找到 Web3、远程与中文友好岗位入口时使用。', en: 'Use this to clarify role directions and search terms, or to find Web3, remote, and Chinese-friendly job resources.' },
           whenToUse: { zh: ['刚开始求职，需要建立目标平台清单', '想按中文友好、Web3、远程或社群筛选资源', '不确定应该去哪个招聘网站'], en: ['You are starting a search and need a platform shortlist', 'You want Chinese-friendly, Web3, remote, or community resources', 'You are unsure which job board to use'] },
           preparation: { zh: ['准备想投的岗位方向或关键词'], en: ['Know the role direction or keywords you want to search'] },
-          steps: { zh: ['选择资源分类或搜索关键词', '先看“中文友好与专项资源”', '点击资源打开官方平台', '需要更多海外资源时再展开第二层'], en: ['Choose a category or search keyword', 'Review Chinese-friendly and specialist resources first', 'Open the official platform', 'Expand the global section only when needed'] },
-          outputs: { zh: ['可用的官方求职入口', '不同平台的使用场景', '下一步进行多岗位分析的目标岗位'], en: ['Official job-search destinations', 'A clearer view of each platform purpose', 'Target roles to analyze next'] },
+          steps: { zh: ['切换「岗位指南」了解工作内容、准备方向和中英文搜索词', '切换「招聘资源」选择平台分类或搜索用途', '先看「中文友好与专项资源」', '点击资源打开官方平台，需要时再展开海外通用资源'], en: ['Open Role guides for responsibilities, preparation areas, and bilingual search terms', 'Switch to Job resources and choose a platform category or search use case', 'Review Chinese-friendly and specialist resources first', 'Open the official platform and expand global resources only when needed'] },
+          outputs: { zh: ['清晰的岗位方向与搜索词', '可用的官方求职入口', '不同平台的使用场景与下一步目标岗位'], en: ['Clear role directions and search terms', 'Official job-search destinations', 'Platform use cases and target roles for the next step'] },
           cautions: { zh: ['资源导航只提供官方入口，不复制岗位数据库', '平台收费、隐私和岗位真实性请以官方页面为准'], en: ['The directory links to official platforms and does not copy their job databases', 'Check each platform for pricing, privacy, and listing accuracy'] },
           next: { toolId: 'multi-job-analyzer', label: { zh: '下一步：分析多个目标岗位', en: 'Next: analyze several target roles' } }
         },
@@ -1332,11 +1421,12 @@
       };
 
       const RESOURCES = Array.isArray(window.ROLEPORT_RESOURCES) ? window.ROLEPORT_RESOURCES : [];
+      const ROLE_GUIDES = Array.isArray(window.ROLEPORT_ROLE_GUIDES) ? window.ROLEPORT_ROLE_GUIDES : [];
 
       const state = {
         lang: document.documentElement.dataset.lang === 'en' ? 'en' : 'zh',
         theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
-        route: 'home', toolCategory: 'all', resourceCategory: 'all', resourceQuery: '',
+        route: 'home', toolCategory: 'all', opportunityView: 'resources', resourceCategory: 'all', resourceQuery: '', roleCategory: 'all', roleQuery: '',
         feedbackType: 'suggestion', toastTimer: null, matcherResult: null, guideToolId: null, guideReturnFocus: null
       };
 
@@ -1347,7 +1437,7 @@
         themeToggle: $('#themeToggle'), homeToolsGrid: $('#homeToolsGrid'), homeResourceCount: $('#homeResourceCount'), homeResourceCategoryCount: $('#homeResourceCategoryCount'),
         toolFilters: $('#toolFilters'), toolsGrid: $('#toolsGrid'), toolsSummary: $('#toolsSummary'),
         resourceFilters: $('#resourceFilters'), resourceGrid: $('#resourceGrid'), legacyResourceGrid: $('#legacyResourceGrid'), featuredResourcesSection: $('#featuredResourcesSection'), legacyResourcesSection: $('#legacyResourcesSection'), featuredResourcesCount: $('#featuredResourcesCount'), legacyResourcesCount: $('#legacyResourcesCount'), resourcesSummary: $('#resourcesSummary'),
-        resourceEmpty: $('#resourceEmpty'), resourceSearch: $('#resourceSearch'), resourceSearchForm: $('#resourceSearchForm'),
+        resourceEmpty: $('#resourceEmpty'), resourceSearch: $('#resourceSearch'), resourceSearchForm: $('#resourceSearchForm'), opportunitySwitch: $('#opportunitySwitch'), roleGuidePanel: $('#roleGuidePanel'), resourceDirectoryPanel: $('#resourceDirectoryPanel'), roleGuideGrid: $('#roleGuideGrid'), roleGuideEmpty: $('#roleGuideEmpty'), opportunityDisclaimer: $('#opportunityDisclaimer'),
         feedbackForm: $('#feedbackForm'), feedbackText: $('#feedbackText'), feedbackTypes: $('#feedbackTypes'), toast: $('#toast'),
         guideBackdrop: $('#guideBackdrop'), guideDrawer: $('#guideDrawer'), guideClose: $('#guideClose'), guideTitle: $('#guideTitle'), guideScenario: $('#guideScenario'), guideContent: $('#guideContent'),
         matcherJd: $('#matcherJd'), matcherResume: $('#matcherResume'), matcherJdCount: $('#matcherJdCount'), matcherResumeCount: $('#matcherResumeCount'),
@@ -1450,8 +1540,7 @@
         renderHomeTools();
         renderToolFilters();
         renderTools();
-        renderResourceFilters();
-        renderResources();
+        renderOpportunityView();
         if (state.guideToolId) renderToolGuide();
         if (state.matcherResult) renderMatcherResults();
       };
@@ -1479,12 +1568,15 @@
         refs.toolsSummary.textContent = t('summary.tools').replace('{count}', filtered.length).replace('{developing}', developing);
       }
 
-      function renderResourceFilters() {
+      function renderOpportunityFilters() {
         if (!refs.resourceFilters) return;
-        const labels = RESOURCE_CATEGORY_LABELS[state.lang];
-        refs.resourceFilters.innerHTML = RESOURCE_CATEGORIES.map((category) => {
-          const active = state.resourceCategory === category;
-          return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-resource-filter="${category}" aria-pressed="${active}">${escapeHtml(labels[category])}</button>`;
+        const showingRoles = state.opportunityView === 'roles';
+        const categories = showingRoles ? ROLE_CATEGORIES : RESOURCE_CATEGORIES;
+        const labels = showingRoles ? ROLE_CATEGORY_LABELS[state.lang] : RESOURCE_CATEGORY_LABELS[state.lang];
+        const activeCategory = showingRoles ? state.roleCategory : state.resourceCategory;
+        refs.resourceFilters.innerHTML = categories.map((category) => {
+          const active = activeCategory === category;
+          return `<button class="filter-chip${active ? ' is-active' : ''}" type="button" data-opportunity-filter="${category}" aria-pressed="${active}">${escapeHtml(labels[category])}</button>`;
         }).join('');
       }
 
@@ -1530,6 +1622,79 @@
         refs.resourcesSummary.textContent = t('summary.resources').replace('{count}', filtered.length);
       }
 
+      const roleGuideListMarkup = (items) => '<ul>' + items.map((item) => `<li>${escapeHtml(item)}</li>`).join('') + '</ul>';
+      const roleGuideCardMarkup = (guide, index) => {
+        const category = ROLE_CATEGORY_LABELS[state.lang][guide.category] || guide.category;
+        const keywordMarkup = (label, items) => `<div class="role-keyword-row"><span class="role-keyword-label">${escapeHtml(label)}</span><div class="role-keyword-list">${items.map((item) => `<span class="role-keyword">${escapeHtml(item)}</span>`).join('')}</div></div>`;
+        return `<details class="card role-guide-card">
+          <summary>
+            <span class="role-guide-index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+            <span class="role-guide-summary">
+              <span class="role-guide-title-row"><span class="role-guide-title">${escapeHtml(guide.name[state.lang])}</span><span class="role-guide-category">${escapeHtml(category)}</span></span>
+              <span class="role-guide-tagline">${escapeHtml(guide.tagline[state.lang])}</span>
+              <span class="role-guide-expand"><span class="role-expand-closed">${escapeHtml(t('roles.expand'))}</span><span class="role-expand-open">${escapeHtml(t('roles.collapse'))}</span></span>
+            </span>
+            <span class="role-guide-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="role-guide-body">
+            <div class="role-guide-detail-grid">
+              <section class="role-guide-detail"><h4>${escapeHtml(t('roles.workTitle'))}</h4>${roleGuideListMarkup(guide.work[state.lang])}</section>
+              <section class="role-guide-detail"><h4>${escapeHtml(t('roles.prepareTitle'))}</h4>${roleGuideListMarkup(guide.prepare[state.lang])}</section>
+            </div>
+            <section class="role-guide-keywords">
+              <h4>${escapeHtml(t('roles.keywordsTitle'))}</h4>
+              ${keywordMarkup(t('roles.keywordsZh'), guide.keywords.zh)}
+              ${keywordMarkup(t('roles.keywordsEn'), guide.keywords.en)}
+            </section>
+            <p class="role-guide-related"><strong>${escapeHtml(t('roles.related'))}</strong>${escapeHtml(guide.related[state.lang].join(' · '))}</p>
+          </div>
+        </details>`;
+      };
+
+      function renderRoleGuides() {
+        if (!refs.roleGuideGrid) return;
+        const query = state.roleQuery.trim().toLocaleLowerCase(state.lang === 'zh' ? 'zh-CN' : 'en');
+        const filtered = ROLE_GUIDES.filter((guide) => {
+          const inCategory = state.roleCategory === 'all' || guide.category === state.roleCategory;
+          const haystack = [
+            guide.name.zh, guide.name.en, guide.tagline.zh, guide.tagline.en,
+            ...guide.work.zh, ...guide.work.en, ...guide.prepare.zh, ...guide.prepare.en,
+            ...guide.keywords.zh, ...guide.keywords.en, ...guide.related.zh, ...guide.related.en,
+            ROLE_CATEGORY_LABELS.zh[guide.category] || '', ROLE_CATEGORY_LABELS.en[guide.category] || ''
+          ].join(' ').toLocaleLowerCase(state.lang === 'zh' ? 'zh-CN' : 'en');
+          return inCategory && (!query || haystack.includes(query));
+        });
+        refs.roleGuideGrid.innerHTML = filtered.map(roleGuideCardMarkup).join('');
+        refs.roleGuideEmpty.hidden = filtered.length !== 0;
+        refs.resourcesSummary.textContent = t('roles.summary').replace('{count}', filtered.length);
+      }
+
+      function renderOpportunityResults() {
+        if (state.opportunityView === 'roles') renderRoleGuides();
+        else renderResources();
+      }
+
+      function renderOpportunityView() {
+        const showingRoles = state.opportunityView === 'roles';
+        refs.roleGuidePanel.hidden = !showingRoles;
+        refs.resourceDirectoryPanel.hidden = showingRoles;
+        $$('[data-opportunity-view]').forEach((button) => {
+          const active = button.dataset.opportunityView === state.opportunityView;
+          button.classList.toggle('is-active', active);
+          button.setAttribute('aria-selected', String(active));
+        });
+        refs.resourceSearch.value = showingRoles ? state.roleQuery : state.resourceQuery;
+        refs.resourceSearch.placeholder = t(showingRoles ? 'roles.searchPlaceholder' : 'resources.searchPlaceholder');
+        refs.resourceSearch.setAttribute('aria-label', refs.resourceSearch.placeholder);
+        refs.opportunityDisclaimer.textContent = t(showingRoles ? 'roles.disclaimer' : 'resources.disclaimer');
+        renderOpportunityFilters();
+        renderOpportunityResults();
+      }
+
+      function setOpportunityView(view) {
+        state.opportunityView = view === 'roles' ? 'roles' : 'resources';
+        renderOpportunityView();
+      }
       const getToolById = (id) => [...TOOLS, RESOURCE_DIRECTORY_TOOL].find((tool) => tool.id === id);
       const guideListMarkup = (titleKey, items, ordered = false) => {
         if (!Array.isArray(items) || !items.length) return '';
@@ -1542,7 +1707,8 @@
         refs.guideTitle.textContent = tool.name[state.lang];
         refs.guideScenario.textContent = guide.scenario[state.lang];
         refs.guideClose.setAttribute('aria-label', t('guide.close'));
-        const meta = '<div class="guide-meta"><span>' + escapeHtml(t('guide.stage')) + '：' + escapeHtml(guide.stage[state.lang]) + '</span><span>' + escapeHtml(t('guide.duration')) + '：' + escapeHtml(guide.duration[state.lang]) + '</span></div>';
+        const separator = state.lang === 'zh' ? '：' : ': ';
+        const meta = '<div class="guide-meta"><span>' + escapeHtml(t('guide.stage')) + separator + escapeHtml(guide.stage[state.lang]) + '</span><span>' + escapeHtml(t('guide.duration')) + separator + escapeHtml(guide.duration[state.lang]) + '</span></div>';
         let nextMarkup = '';
         if (guide.next) {
           const nextTool = getToolById(guide.next.toolId);
@@ -2105,6 +2271,12 @@
       });
 
       document.addEventListener('click', (event) => {
+        const jump = event.target.closest('[data-opportunity-jump]');
+        if (jump) {
+          setOpportunityView(jump.dataset.opportunityJump);
+          refs.resourceSearch.focus();
+          return;
+        }
         const trigger = event.target.closest('[data-guide-tool]');
         if (trigger) openToolGuide(trigger.dataset.guideTool, trigger);
       });
@@ -2133,23 +2305,32 @@
         renderTools();
       });
 
-      refs.resourceFilters.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-resource-filter]');
+      refs.opportunitySwitch.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-opportunity-view]');
         if (!button) return;
-        state.resourceCategory = button.dataset.resourceFilter;
-        renderResourceFilters();
-        renderResources();
+        setOpportunityView(button.dataset.opportunityView);
+      });
+
+      refs.resourceFilters.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-opportunity-filter]');
+        if (!button) return;
+        if (state.opportunityView === 'roles') state.roleCategory = button.dataset.opportunityFilter;
+        else state.resourceCategory = button.dataset.opportunityFilter;
+        renderOpportunityFilters();
+        renderOpportunityResults();
       });
 
       refs.resourceSearch.addEventListener('input', () => {
-        state.resourceQuery = refs.resourceSearch.value;
-        renderResources();
+        if (state.opportunityView === 'roles') state.roleQuery = refs.resourceSearch.value;
+        else state.resourceQuery = refs.resourceSearch.value;
+        renderOpportunityResults();
       });
 
       refs.resourceSearchForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        state.resourceQuery = refs.resourceSearch.value;
-        renderResources();
+        if (state.opportunityView === 'roles') state.roleQuery = refs.resourceSearch.value;
+        else state.resourceQuery = refs.resourceSearch.value;
+        renderOpportunityResults();
       });
 
       $$('[data-stage-route]').forEach((button) => {
@@ -2161,9 +2342,9 @@
             renderToolFilters();
             renderTools();
           } else if (route === 'resources') {
+            state.opportunityView = 'resources';
             state.resourceCategory = RESOURCE_CATEGORIES.includes(filter) ? filter : 'all';
-            renderResourceFilters();
-            renderResources();
+            renderOpportunityView();
           }
           window.location.hash = `#${route}`;
         });

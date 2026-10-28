@@ -5,7 +5,7 @@ Roleport 是一个轻量求职工具箱，当前包含：
 - 首页
 - 工具箱
 - JD 与简历关键词匹配器
-- 求职资源导航
+- 找机会（岗位指南 + 求职资源导航）
 - 关于与反馈
 
 所有功能都在浏览器本地运行，不使用后端、账号或 AI API。
@@ -24,7 +24,7 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 
 ## 1.0 开发进度
 
-当前已完成 1.0 计划的第 0 步和 A 阶段：
+当前已完成 1.0 计划的第 0 步以及 A、B 阶段：
 
 - 建立 Git 版本基线
 - 首页调整为“找机会 / 提高申请竞争力”两条核心路径
@@ -33,8 +33,11 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 - 主导航中的资源入口调整为“找机会”
 - 根地址自动进入 `toolkit.html#home`
 - 旧招聘列表保留为 `legacy-jobs.html`，不参与 1.0 主流程
+- “找机会”页面增加岗位指南与招聘资源双视图
+- 岗位指南提供首批 10 个 Web3 岗位方向、常见工作内容、新人准备建议和中英文搜索词
+- 岗位指南与招聘资源共用搜索、分类筛选、空状态、主题和双语系统
 
-下一步为 B 阶段：在资源页增加岗位分类指南。
+下一步为 C 阶段：检查工具箱页面的两个核心工具入口与状态展示。
 
 ## 匹配器能力
 
@@ -54,10 +57,12 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 - `keywords.js`：核心词典与匹配规则
 - `keyword-maintenance.js`：日常新增关键词、同义词和证据规则的唯一维护入口
 - `resources.js`：求职资源正式数据，只放人工审核通过的资源
+- `role-guides.js`：岗位方向、常见工作内容、准备建议和中英文搜索词
 - `research/RESOURCE_WORKFLOW.md`：资源发现、初筛、审核和复查流程
 - `research/resource-candidates-batch-01.csv`：第一批候选资源人工审核表
 - `research/resource-candidates-batch-02.csv`：第二批 Web3、远程与社群资源审核表
 - `tests/resource-directory-test.html`：资源字段与链接格式检查
+- `tests/role-guide-test.html`：岗位指南字段、分类与双语内容检查
 - `file-import.js`：TXT、MD、PDF、DOCX 本地文本提取
 - `tests/keyword-maintenance-test.html`：词库一键检查与快速查词
 - `vendor/pdf.min.js`、`vendor/pdf.worker.min.js`：PDF 文本解析
@@ -66,6 +71,30 @@ PDF.js 的 Worker 在部分浏览器的 `file://` 环境下可能受限，因此
 - `favicon.svg`：Roleport 图标
 - `index.html`：1.0 网站入口跳转页
 - `legacy-jobs.html` / `styles.css` / `app.js` / `jobs.js`：早期招聘信息页面示例
+
+## 岗位指南维护
+
+岗位指南只维护通用岗位信息，不包含实时岗位、薪资承诺或自动抓取数据。日常新增或修改岗位方向时只编辑：
+
+```text
+role-guides.js
+```
+
+每个岗位方向必须包含：
+
+- 中英文岗位名称与一句话介绍
+- 常见工作内容
+- 新人可以准备的能力
+- 中英文搜索关键词
+- 相近岗位
+
+修改后打开：
+
+```text
+http://localhost:8000/tests/role-guide-test.html
+```
+
+检查全部通过后再刷新正式网站。岗位指南中的实际职责、要求和开放状态仍需以最新 JD 为准。
 
 ## 文件导入
 
