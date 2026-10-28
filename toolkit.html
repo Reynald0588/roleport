@@ -852,6 +852,7 @@
     .advisor-evidence { margin:12px 0 0; padding:11px 12px; border-left:2px solid var(--accent); border-radius:0 8px 8px 0; background:var(--surface); color:var(--muted); font-size:11.5px; line-height:1.7; }
     .advisor-evidence mark { background:rgba(108,75,231,.22); color:var(--text); border-radius:2px; padding:0 2px; }
     .advisor-empty { margin-top:26px; }
+    .advisor-empty > .button { margin-top:18px; }
     .advisor-empty-icon { display:grid; place-items:center; width:42px; height:42px; margin:0 auto 12px; border-radius:12px; background:var(--surface-raised); color:var(--text); }
     .advisor-actions-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:18px; }
     .advisor-actions-row .note { color:var(--soft); font-size:11.5px; line-height:1.55; }
@@ -1179,12 +1180,12 @@
                   <button class="feedback-type" type="button" data-feedback-type="tool" data-i18n="about.feedbackTool">工具需求</button>
                 </div>
               </div>
-              <p class="feedback-note" data-i18n="about.feedbackNote">无需登录。当前版本不上传反馈内容，按钮会将内容复制到剪贴板。</p>
+              <p class="feedback-note" data-i18n="about.feedbackNote">无需登录。当前版本不上传反馈内容，提交按钮会将反馈复制到剪贴板，请自行发送给开发者。</p>
             </div>
             <div class="feedback-bottom">
               <label class="sr-only" for="feedbackText" data-i18n="about.feedbackLabel">反馈内容</label>
               <textarea class="feedback-input" id="feedbackText" data-i18n-placeholder="about.feedbackPlaceholder" placeholder="简单描述你遇到的问题、建议或希望新增的资源…"></textarea>
-              <button class="button button-primary feedback-submit" type="submit" data-i18n="about.feedbackSubmit">复制反馈内容</button>
+              <button class="button button-primary feedback-submit" type="submit" data-i18n="about.feedbackSubmit">提交反馈</button>
             </div>
           </form>
           <p class="about-note" data-i18n="about.note">Roleport 不会要求注册账号，也不会把本地工具输入自动上传。</p>
@@ -1350,11 +1351,11 @@
           'about.howTitle': '基本使用说明', 'about.how1Title': '选择工具或资源', 'about.how1Desc': '从当前最需要解决的问题开始。',
           'about.how2Title': '在本地输入资料', 'about.how2Desc': '文本与结果尽量只保存在浏览器。', 'about.how3Title': '导出或继续下一步', 'about.how3Desc': '复制结果，带到常用文档或官方平台。',
           'about.feedbackTitle': '反馈与资源纠错', 'about.feedbackTypeLabel': '问题类型', 'about.feedbackSuggestion': '产品建议', 'about.feedbackCorrection': '资源纠错', 'about.feedbackTool': '工具需求',
-          'about.feedbackNote': '无需登录。当前版本不上传反馈内容，按钮会将内容复制到剪贴板。', 'about.feedbackLabel': '反馈内容',
-          'about.feedbackPlaceholder': '简单描述你遇到的问题、建议或希望新增的资源…', 'about.feedbackSubmit': '复制反馈内容',
+          'about.feedbackNote': '无需登录。当前版本不上传反馈内容，提交按钮会将反馈复制到剪贴板，请自行发送给开发者。', 'about.feedbackLabel': '反馈内容',
+          'about.feedbackPlaceholder': '简单描述你遇到的问题、建议或希望新增的资源…', 'about.feedbackSubmit': '提交反馈',
           'about.note': 'Roleport 不会要求注册账号，也不会把本地工具输入自动上传。',
           'footer.disclaimer': '求职信息与外部服务请以官方页面为准。',
-          'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制',
+          'toast.feedbackEmpty': '请先填写反馈内容', 'toast.feedbackCopied': '反馈内容已复制，请发送给开发者',
           'summary.tools': '{count} 个工具 · {developing} 个开发中', 'summary.resources': '{count} 个资源',
           'page.home': '求职工具箱', 'page.tools': '工具箱', 'page.resources': '找机会', 'page.matcher': 'JD 与简历匹配器', 'page.advisor': '简历改进建议',
           'matcher.title': 'JD 与简历关键词匹配器', 'matcher.subtitle': '粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。',
@@ -1389,7 +1390,7 @@
           'matcher.evidenceTitle': '命中句子证据', 'matcher.evidenceSub': '展示 JD 与简历中的全部相关原文，去重后逐句列出。', 'matcher.jdSource': 'JD', 'matcher.resumeSource': '简历', 'matcher.noEvidence': '未发现相关表达',
           'matcher.checklistTitle': '简历修改清单', 'matcher.checklistSub': '根据缺失关键词生成。',
           'matcher.checklistNote': '只补充真实具备的经历，不为了关键词覆盖率虚构项目或能力。',
-          'matcher.copyMarkdown': '复制 Markdown', 'matcher.exportCsv': '导出 CSV', 'matcher.cta': '使用工具', 'matcher.source.dictionary': '词典', 'matcher.source.auto': '自动提取', 'matcher.source.custom': '自定义', 'matcher.match.exact': '完全匹配', 'matcher.match.synonym': '同义词', 'matcher.match.evidence': '证据组匹配', 'matcher.match.partial': '部分匹配', 'matcher.match.unstated': '未说明', 'matcher.match.none': '未匹配', 'matcher.sourceSummary': '词典 {dictionary} · 自动提取 {auto} · 自定义 {custom}',
+          'matcher.copyMarkdown': '复制 Markdown', 'matcher.exportCsv': '导出 CSV', 'matcher.cta': '使用工具', 'matcher.source.dictionary': '词典', 'matcher.source.auto': '自动提取（待核对）', 'matcher.source.custom': '自定义', 'matcher.match.exact': '完全匹配', 'matcher.match.synonym': '同义词', 'matcher.match.evidence': '证据组匹配', 'matcher.match.partial': '部分匹配', 'matcher.match.unstated': '未说明', 'matcher.match.none': '未匹配', 'matcher.sourceSummary': '词典 {dictionary} · 自动提取 {auto} · 自定义 {custom}',
           'matcher.cat.tech': '技术技能', 'matcher.cat.infra': '基础设施', 'matcher.cat.data': '数据能力', 'matcher.cat.product': '产品设计', 'matcher.cat.domain': '领域知识', 'matcher.cat.web3': 'Web3 与区块链', 'matcher.cat.business': '业务运营', 'matcher.cat.market': '市场增长', 'matcher.cat.finance': '财务金融', 'matcher.cat.soft': '软技能', 'matcher.cat.auto': 'JD 自动提取',
           'matcher.importFile': '导入文件', 'matcher.importExtracting': '正在解析文件…', 'matcher.importSuccess': '已从 {name} 提取 {count} 字（中文 {cjk}）· 解析器 v{version}', 'matcher.importTruncated': '已从 {name} 提取并截取前 10,000 字（原文 {count} 字，中文 {cjk}）· 解析器 v{version}',
           'matcher.importTooLarge': '文件超过 12 MB，请换一个更小的文件', 'matcher.importPdfNoText': '未检测到可复制文本，可能是扫描版 PDF', 'matcher.importDocUnsupported': '暂不支持旧版 .doc，请另存为 .docx', 'matcher.importUnsupported': '不支持该文件格式，请使用 PDF、DOCX、TXT 或 MD', 'matcher.importFailed': '文件读取失败，请确认文件未损坏或加密',
@@ -1438,11 +1439,11 @@
           'about.howTitle': 'How to use Roleport', 'about.how1Title': 'Choose a tool or resource', 'about.how1Desc': 'Start with the problem you need to solve now.',
           'about.how2Title': 'Enter information locally', 'about.how2Desc': 'Text and results should stay in your browser where possible.', 'about.how3Title': 'Export or move forward', 'about.how3Desc': 'Copy results into your documents or the official platform.',
           'about.feedbackTitle': 'Feedback & corrections', 'about.feedbackTypeLabel': 'Feedback type', 'about.feedbackSuggestion': 'Product idea', 'about.feedbackCorrection': 'Resource correction', 'about.feedbackTool': 'Tool request',
-          'about.feedbackNote': 'No login required. This version does not upload feedback; the button copies it to your clipboard.', 'about.feedbackLabel': 'Feedback',
-          'about.feedbackPlaceholder': 'Describe the issue, suggestion, or resource you would like to add…', 'about.feedbackSubmit': 'Copy feedback',
+          'about.feedbackNote': 'No login required. This version does not upload feedback; the submit button copies it so you can send it to the developer.', 'about.feedbackLabel': 'Feedback',
+          'about.feedbackPlaceholder': 'Describe the issue, suggestion, or resource you would like to add…', 'about.feedbackSubmit': 'Submit feedback',
           'about.note': 'Roleport does not require an account and does not upload local tool inputs automatically.',
           'footer.disclaimer': 'Verify job and external service information on the official page.',
-          'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied',
+          'toast.feedbackEmpty': 'Please enter your feedback first', 'toast.feedbackCopied': 'Feedback copied. Send it to the developer.',
           'summary.tools': '{count} tools · {developing} in development', 'summary.resources': '{count} resources',
           'page.home': 'Career Toolkit', 'page.tools': 'Toolbox', 'page.resources': 'Find Opportunities', 'page.matcher': 'JD & Resume Matcher', 'page.advisor': 'Resume Improvement Advisor',
           'matcher.title': 'JD & Resume Keyword Matcher', 'matcher.subtitle': 'Paste a job description and your resume to find covered and missing keywords, then build an actionable checklist.',
@@ -1477,7 +1478,7 @@
           'matcher.evidenceTitle': 'Matched sentence evidence', 'matcher.evidenceSub': 'All relevant JD and resume sentences, deduplicated.', 'matcher.jdSource': 'JD', 'matcher.resumeSource': 'Resume', 'matcher.noEvidence': 'No related expression found',
           'matcher.checklistTitle': 'Resume checklist', 'matcher.checklistSub': 'Generated from missing keywords.',
           'matcher.checklistNote': 'Only add experiences you actually have; do not invent projects to improve keyword coverage.',
-          'matcher.copyMarkdown': 'Copy Markdown', 'matcher.exportCsv': 'Export CSV', 'matcher.cta': 'Open tool', 'matcher.source.dictionary': 'Dictionary', 'matcher.source.auto': 'Auto extracted', 'matcher.source.custom': 'Custom', 'matcher.match.exact': 'Exact', 'matcher.match.synonym': 'Synonym', 'matcher.match.evidence': 'Evidence groups', 'matcher.match.partial': 'Partial', 'matcher.match.unstated': 'Not stated', 'matcher.match.none': 'None', 'matcher.sourceSummary': 'Dictionary {dictionary} · Auto {auto} · Custom {custom}',
+          'matcher.copyMarkdown': 'Copy Markdown', 'matcher.exportCsv': 'Export CSV', 'matcher.cta': 'Open tool', 'matcher.source.dictionary': 'Dictionary', 'matcher.source.auto': 'Auto (verify)', 'matcher.source.custom': 'Custom', 'matcher.match.exact': 'Exact', 'matcher.match.synonym': 'Synonym', 'matcher.match.evidence': 'Evidence groups', 'matcher.match.partial': 'Partial', 'matcher.match.unstated': 'Not stated', 'matcher.match.none': 'None', 'matcher.sourceSummary': 'Dictionary {dictionary} · Auto {auto} · Custom {custom}',
           'matcher.cat.tech': 'Technical', 'matcher.cat.infra': 'Infrastructure', 'matcher.cat.data': 'Data', 'matcher.cat.product': 'Product & Design', 'matcher.cat.domain': 'Domain', 'matcher.cat.web3': 'Web3 & Blockchain', 'matcher.cat.business': 'Business & Operations', 'matcher.cat.market': 'Marketing & Growth', 'matcher.cat.finance': 'Finance & Accounting', 'matcher.cat.soft': 'Soft skills', 'matcher.cat.auto': 'JD extracted',
           'matcher.importFile': 'Import file', 'matcher.importExtracting': 'Reading file…', 'matcher.importSuccess': 'Extracted {count} characters from {name} ({cjk} Chinese) · parser v{version}', 'matcher.importTruncated': 'Extracted from {name} and limited to the first 10,000 characters (original: {count}, Chinese: {cjk}) · parser v{version}',
           'matcher.importTooLarge': 'The file is larger than 12 MB. Choose a smaller file.', 'matcher.importPdfNoText': 'No selectable text found. This may be a scanned PDF.', 'matcher.importDocUnsupported': 'Legacy .doc files are not supported. Save as .docx instead.', 'matcher.importUnsupported': 'Unsupported format. Use PDF, DOCX, TXT, or MD.', 'matcher.importFailed': 'Could not read the file. Check that it is valid and not encrypted.',
@@ -2004,6 +2005,13 @@
         });
         return stats;
       };
+      const AUTO_EXTRACT_GENERIC_TERMS = new Set([
+        '日常','全球','潜在','及时','定期','有效','独立','主动','积极','本科','硕士','博士','大专','英语','读写','流利','沟通','协调','执行','学习','责任心','抗压','逻辑','表达','写作','技能','知识','行业','热点','内容','活动','方案','策略','推广','合作','客户','供应商','社交媒体','社区平台','相关','其他','以上','以下',
+        'social','media','monitoring','community','operations','user','feedback','data','analysis','communication','english','chinese','analytics','campaigns','content','growth','marketing','product','design','support','tools','platform','systems'
+      ]);
+      const AUTO_EXTRACT_MIN_SCORE = 5;
+      const AUTO_EXTRACT_RATIO = 0.25;
+      const AUTO_EXTRACT_MAX = 6;
       const CANDIDATE_STOPWORDS = new Set([
         '工作','经验','能力','要求','负责','参与','熟悉','掌握','精通','了解','理解','具备','优先','加分','相关','项目','团队','公司','岗位','进行','完成','支持','协助','良好','较强','优秀','较好','以上','以下','以上学历','以下学历','进展','变化','级规划','以及','可以','能够','需要','使用','相关经验','工作经验','工作经历','生产环境','相关专业','相关领域','分析','数据','增长','运营','管理','沟通','系统','平台','工具','技术','业务','市场','用户','客户','服务','产品',
         'experience','knowledge','familiar','proficient','responsible','ability','requirements','preferred','work','team','company','project','role','related','strong','good','excellent','plus','bonus','using','use','with','and','or','must','have'
@@ -2023,9 +2031,14 @@
       };      const isCandidateValid = (candidate) => {
         const normalized = normalizeText(candidate);
         const compact = compactMatchText(candidate);
-        if (compact.length < 2 || compact.length > 40) return false;
+        const hasCjk = /[\u3400-\u9fff]/.test(normalized);
+        if (compact.length < 3 || compact.length > 40) return false;
+        if (hasCjk && compact.length > 24) return false;
+        if (!hasCjk && !/[a-z]/.test(normalized)) return false;
         if (!/[\u3400-\u9fff]/.test(normalized) && !/[a-z]/.test(normalized)) return false;
-        if (CANDIDATE_STOPWORDS.has(normalized)) return false;
+        if (CANDIDATE_STOPWORDS.has(normalized) || AUTO_EXTRACT_GENERIC_TERMS.has(normalized)) return false;
+        if (/^(?:日常|全球|潜在|及时|定期|有效|独立|主动|积极)/.test(normalized)) return false;
+        if (/(?:以及|等等|相关工作|相关能力|其他工作)$/.test(normalized)) return false;
         if (/^(?:至少)?\s*\d+\s*(?:年|个月|years?|months?)/i.test(normalized)) return false;
         if (/\d+\s*(?:年|个月|years?|months?)/i.test(normalized) && compact.length < 24) return false;
         if (/(?:岗位职责|任职要求|work responsibilities|job requirements)$/i.test(normalized)) return false;
@@ -2061,6 +2074,8 @@
         const addCandidate = (text, section, cue, evidence) => {
           const candidate = cleanCandidate(text);
           if (!isCandidateValid(candidate)) return;
+        const looksSpecific = /[A-Z].*[a-z]|[a-z].*[A-Z]|[.#+/]|\b(?:api|sdk|sql|html|css|js|ai|ml|nlp|llm|crm|erp|kyc|aml)\b/i.test(candidate);
+        if (!(section === 'title' || section === 'requirement' || cue === 'strong' || looksSpecific)) return;
           const key = compactMatchText(candidate);
           if (knownAliases.has(key)) return;
           if ([...knownAliases].some((alias) => alias.length >= 3 && key !== alias && key.includes(alias))) return;
@@ -2110,12 +2125,12 @@
         });
 
         return [...candidates.values()].map((candidate) => {
-          const sectionScore = candidate.section === 'requirement' ? 3 : candidate.section === 'responsibility' ? 2 : candidate.section === 'title' ? 2 : candidate.section === 'plus' ? 1 : 0;
+          const sectionScore = candidate.section === 'requirement' ? 4 : candidate.section === 'title' ? 3 : candidate.section === 'responsibility' ? 2 : candidate.section === 'plus' ? 1 : 0;
           const cueScore = candidate.cue === 'strong' ? 2 : candidate.cue === 'normal' ? 1 : candidate.cue === 'plus' ? -1 : 0;
           const technical = /[A-Z].*[a-z]|[a-z].*[A-Z]|[.#+/]|\b(?:api|sdk|sql|html|css|js|ai|ml|nlp|llm)\b/i.test(candidate.text) ? 1 : 0;
           const score = sectionScore + cueScore + technical + Math.min(candidate.occurrences - 1, 2);
           return { ...candidate, score, importance: score >= 6 ? 'high' : score >= 4 ? 'medium' : 'low' };
-        }).filter((candidate) => candidate.score >= 2).sort((a, b) => b.score - a.score || b.text.length - a.text.length);
+        }).filter((candidate) => candidate.score >= AUTO_EXTRACT_MIN_SCORE).sort((a, b) => b.score - a.score || b.text.length - a.text.length);
       };      const matchEvidenceGroups = (resumeText, entry) => {
         if (!entry.evidenceGroups?.length) return { matchedCount: 0, groups: [], sentences: [] };
         const sentences = splitSentences(resumeText);
@@ -2210,7 +2225,8 @@
           });
         });
         const knownCandidates = new Set([...knownAliasKeys, ...customEntries.map((entry) => compactMatchText(entry.aliases[0]))]);
-        extractJdCandidates(jdText, knownCandidates).forEach((candidate) => {
+        const autoExtractLimit = Math.min(AUTO_EXTRACT_MAX, Math.max(1, Math.ceil(rows.length * AUTO_EXTRACT_RATIO)));
+        extractJdCandidates(jdText, knownCandidates).slice(0, autoExtractLimit).forEach((candidate) => {
           const covered = matchesTerm(resumeText, candidate.text);
           const partial = !covered && isPartialMatch(resumeText, [candidate.text]);
           const entry = {
