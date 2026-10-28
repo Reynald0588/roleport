@@ -34,8 +34,8 @@
       --line: #e8e8e3;
       --line-soft: #eeeeea;
       --text: #171916;
-      --muted: #74766f;
-      --soft: #92948e;
+      --muted: #62655e;
+      --soft: #6b6e67;
       --accent: #b9f24b;
       --primary-bg: #171916;
       --primary-text: #ffffff;
@@ -75,7 +75,7 @@
       --line-soft: #242920;
       --text: #f2f4ee;
       --muted: #a0a79a;
-      --soft: #7d8478;
+      --soft: #909789;
       --primary-bg: #b9f24b;
       --primary-text: #171916;
       --link: #9db9f0;
@@ -663,8 +663,8 @@
     body[data-route="home"] .site-header .nav-link:hover, body[data-route="home"] .site-header .nav-link[aria-current="page"] { color:#f8f7ff; }
     body[data-route="home"] .site-header .language-toggle, body[data-route="home"] .site-header .theme-toggle { border-color:#33303d; background:#17141f; }
     body[data-route="home"] .site-header .language-thumb, body[data-route="home"] .site-header .theme-thumb { background:#2b2737; }
-    .home-v9 { --hv-bg:#f5f2fb; --hv-surface:#fff; --hv-surface-soft:#f7f4fc; --hv-line:#e4def0; --hv-text:#191320; --hv-muted:#6f687d; --hv-soft:#91899f; --hv-violet:#6c4be7; --hv-violet-strong:#6545e8; --hv-cyan:#0d8999; background:var(--hv-bg); color:var(--hv-text); }
-    [data-theme="dark"] .home-v9 { --hv-bg:#08070d; --hv-surface:#11101a; --hv-surface-soft:#171421; --hv-line:rgba(255,255,255,.09); --hv-text:#f8f7ff; --hv-muted:#aaa4b9; --hv-soft:#7f788d; --hv-violet:#9b87f5; --hv-violet-strong:#7557f6; --hv-cyan:#67e8f9; }
+    .home-v9 { --hv-bg:#f5f2fb; --hv-surface:#fff; --hv-surface-soft:#f7f4fc; --hv-line:#e4def0; --hv-text:#191320; --hv-muted:#625b6f; --hv-soft:#6f687d; --hv-violet:#6c4be7; --hv-violet-strong:#6545e8; --hv-cyan:#0d8999; background:var(--hv-bg); color:var(--hv-text); }
+    [data-theme="dark"] .home-v9 { --hv-bg:#08070d; --hv-surface:#11101a; --hv-surface-soft:#171421; --hv-line:rgba(255,255,255,.09); --hv-text:#f8f7ff; --hv-muted:#aaa4b9; --hv-soft:#8d859a; --hv-violet:#9b87f5; --hv-violet-strong:#7557f6; --hv-cyan:#67e8f9; }
     .home-v9 .shell { width:min(1200px,calc(100% - 48px)); }
     .home-v9-hero { position:relative; overflow:hidden; color:#f8f7ff; background:radial-gradient(ellipse at 73% 39%,rgba(117,87,246,.2),transparent 39%),radial-gradient(ellipse at 101% 73%,rgba(103,232,249,.07),transparent 31%),#08070d; }
     .home-v9-hero:before { content:""; position:absolute; inset:0; pointer-events:none; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:64px 64px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
@@ -702,7 +702,7 @@
     .home-v9-art-tag i { width:5px; height:5px; border-radius:50%; background:#67e8f9; box-shadow:0 0 12px #67e8f9; animation:homeParticle 3s ease-in-out infinite; }
     .home-v9-signal-row { position:relative; z-index:2; display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(255,255,255,.09); border-bottom:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.014); }
     .home-v9-signal { padding:18px 20px; border-right:1px solid rgba(255,255,255,.09); }
-    .home-v9-signal:last-child { border-right:0; } .home-v9-signal b { display:block; color:#f8f7ff; font-size:10.5px; } .home-v9-signal span { display:block; margin-top:5px; color:#7f788d; font-size:9px; }
+    .home-v9-signal:last-child { border-right:0; } .home-v9-signal b { display:block; color:#f8f7ff; font-size:10.5px; } .home-v9-signal span { display:block; margin-top:5px; color:var(--hv-soft); font-size:9px; }
     @keyframes homeSpin { to { transform:rotate(360deg); } } @keyframes homeSpinReverse { to { transform:rotate(-360deg); } } @keyframes homeRouteDash { to { stroke-dashoffset:-190; } } @keyframes homeNodePulse { 0%,100% { opacity:.35; transform:scale(.84); } 50% { opacity:1; transform:scale(1.2); } } @keyframes homeParticle { 0%,100% { opacity:.25; } 50% { opacity:1; } }
 
     .home-v9-content { padding:88px 0 64px; background:var(--hv-bg); }
@@ -761,7 +761,7 @@
     [data-theme="light"] .home-v9-signal-row { border-color:rgba(45,24,78,.13); background:rgba(255,255,255,.32); }
     [data-theme="light"] .home-v9-signal { border-color:rgba(45,24,78,.13); }
     [data-theme="light"] .home-v9-signal b { color:#191320; }
-    [data-theme="light"] .home-v9-signal span { color:#7d7589; }
+    [data-theme="light"] .home-v9-signal span { color:#6f687d; }
 
     [data-theme="light"] .home-v9-title .grad { background:linear-gradient(105deg,#875ff2 6%,#1aa5b6 88%); -webkit-background-clip:text; background-clip:text; color:transparent; }
     [data-theme="dark"] .home-v9-title .grad { background:linear-gradient(105deg,#c4b8ff 6%,#b5f6ff 88%); -webkit-background-clip:text; background-clip:text; color:transparent; }
@@ -937,7 +937,7 @@
         </svg>
         <span class="brand-copy"><span class="brand-name">roleport</span><span class="brand-tagline">CAREER TOOLKIT</span></span>
       </a>
-      <nav class="primary-nav" aria-label="主导航">
+      <nav class="primary-nav" aria-label="主导航" data-i18n-aria-label="aria.mainNav">
         <a class="nav-link" href="#home" data-route-link="home" data-i18n="nav.home">首页</a>
         <a class="nav-link" href="#tools" data-route-link="tools" data-i18n="nav.tools">工具箱</a>
         <a class="nav-link" href="#resources" data-route-link="resources" data-i18n="nav.resources">找机会</a>
@@ -1071,7 +1071,7 @@
           </form>
         </div>
 
-        <div class="opportunity-switch" id="opportunitySwitch" role="tablist" aria-label="找机会内容视图">
+        <div class="opportunity-switch" id="opportunitySwitch" role="tablist" aria-label="找机会内容视图" data-i18n-aria-label="aria.opportunityViews">
           <button class="opportunity-tab is-active" type="button" role="tab" aria-selected="true" data-opportunity-view="resources">
             <span class="opportunity-tab-index" aria-hidden="true">01</span>
             <span class="opportunity-tab-copy"><strong data-i18n="opportunity.resourcesTab">招聘资源</strong><small data-i18n="opportunity.resourcesTabDesc">按平台类型查找已审核的招聘入口</small></span>
@@ -1201,7 +1201,7 @@
           <p data-i18n="matcher.subtitle">粘贴岗位描述和简历文本，自动找出已覆盖与缺失的关键词，并生成可执行的修改清单。</p>
           <button class="guide-trigger" type="button" data-guide-tool="resume-keyword"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
         </header>
-        <div class="resume-workflow" aria-label="简历优化流程">
+        <div class="resume-workflow" aria-label="简历优化流程" data-i18n-aria-label="aria.resumeWorkflow">
           <span class="workflow-step is-active"><span class="workflow-step-index">01</span><span data-i18n="workflow.diagnosis">匹配诊断</span></span>
           <span class="workflow-arrow" aria-hidden="true">→</span>
           <a class="workflow-step" href="#advisor"><span class="workflow-step-index">02</span><span data-i18n="workflow.advice">改进建议</span></a>
@@ -1257,7 +1257,7 @@
           <button class="guide-trigger" type="button" data-guide-tool="resume-advisor"><span class="guide-trigger-icon" aria-hidden="true">i</span><span data-i18n="guide.trigger">使用指南</span></button>
         </header>
 
-        <div class="resume-workflow" aria-label="简历优化流程">
+        <div class="resume-workflow" aria-label="简历优化流程" data-i18n-aria-label="aria.resumeWorkflow">
           <a class="workflow-step" href="#matcher"><span class="workflow-step-index">01</span><span data-i18n="workflow.diagnosis">匹配诊断</span></a>
           <span class="workflow-arrow" aria-hidden="true">→</span>
           <span class="workflow-step is-active"><span class="workflow-step-index">02</span><span data-i18n="workflow.advice">改进建议</span></span>
@@ -1311,7 +1311,7 @@
         zh: {
           skip: '跳到主要内容',
           'nav.home': '首页', 'nav.tools': '工具箱', 'nav.resources': '找机会', 'nav.about': '关于与反馈',
-          'theme.toDark': '切换到深色主题', 'theme.toLight': '切换到浅色主题',
+          'theme.toDark': '切换到深色主题', 'theme.toLight': '切换到浅色主题', 'aria.mainNav': '主导航', 'aria.opportunityViews': '找机会内容视图', 'aria.resumeWorkflow': '简历诊断与优化流程',
           'home.title': '求职新手的一站式工具箱',
           'home.subtitle': '从看岗位、分析 JD，到优化简历和记录求职决策，用更少的工具切换完成准备。',
           'home.primary': '浏览工具箱', 'home.secondary': '查看求职资源', 'home.journeyTitle': '一条清晰的求职路径',
@@ -1391,12 +1391,15 @@
           'matcher.importFile': '导入文件', 'matcher.importExtracting': '正在解析文件…', 'matcher.importSuccess': '已从 {name} 提取 {count} 字（中文 {cjk}）· 解析器 v{version}', 'matcher.importTruncated': '已从 {name} 提取并截取前 10,000 字（原文 {count} 字，中文 {cjk}）· 解析器 v{version}',
           'matcher.importTooLarge': '文件超过 12 MB，请换一个更小的文件', 'matcher.importPdfNoText': '未检测到可复制文本，可能是扫描版 PDF', 'matcher.importDocUnsupported': '暂不支持旧版 .doc，请另存为 .docx', 'matcher.importUnsupported': '不支持该文件格式，请使用 PDF、DOCX、TXT 或 MD', 'matcher.importFailed': '文件读取失败，请确认文件未损坏或加密',
           'matcher.customSummary': '补充关键词（可选）', 'matcher.customHint': '仅用于本次分析', 'matcher.customDesc': '一行一个，适合补充词典暂未覆盖的行业术语或工具名，不会保存。', 'matcher.customPlaceholder': '例如：\\nKubernetes\\n用户增长', 'matcher.cat.custom': '自定义',
-          'matcher.toastFill': '请先填写 JD 和简历', 'matcher.toastNone': '未从 JD 中识别到词典关键词', 'matcher.toastCopied': 'Markdown 已复制', 'matcher.toastExported': 'CSV 已导出','page.about': '关于与反馈'
+          'matcher.toastFill': '请先填写 JD 和简历', 'matcher.toastNone': '未从 JD 中识别到词典关键词', 'matcher.toastCopied': 'Markdown 已复制', 'matcher.toastExported': 'CSV 已导出', 'page.about': '关于与反馈',
+          'matcher.charCount': '{count} 字', 'matcher.yes': '是', 'matcher.no': '否', 'matcher.partialShort': '部分', 'matcher.notStatedShort': '—',
+          'matcher.markdownTitle': 'JD 与简历匹配结果', 'matcher.detailsHeading': '岗位要求匹配明细', 'matcher.adviceHeading': '简历优化建议', 'matcher.allCovered': '所有要求均有明确覆盖。', 'matcher.honestyShort': '仅补充真实经历，不为了关键词覆盖率虚构内容。',
+          'matcher.advice.evidence': '已有相关经历，建议直接用岗位关键词强化表达。', 'matcher.advice.unstated': '简历未说明，请确认是否具备并决定是否补充。', 'matcher.advice.partial': '已有部分证据，建议补充完整案例、规模或结果。', 'matcher.advice.missing': '未找到对应证据，仅在有真实经历时补充。',
         },
         en: {
           skip: 'Skip to main content',
           'nav.home': 'Home', 'nav.tools': 'Toolbox', 'nav.resources': 'Find opportunities', 'nav.about': 'About & Feedback',
-          'theme.toDark': 'Switch to dark theme', 'theme.toLight': 'Switch to light theme',
+          'theme.toDark': 'Switch to dark theme', 'theme.toLight': 'Switch to light theme', 'aria.mainNav': 'Main navigation', 'aria.opportunityViews': 'Opportunity views', 'aria.resumeWorkflow': 'Resume diagnosis and improvement workflow',
           'home.title': 'A practical toolkit for first-time job seekers',
           'home.subtitle': 'Explore roles, analyze job descriptions, improve your resume, and keep your decisions organized without jumping between tools.',
           'home.primary': 'Explore the toolbox', 'home.secondary': 'Browse resources', 'home.journeyTitle': 'A clear job search path',
@@ -1476,7 +1479,10 @@
           'matcher.importFile': 'Import file', 'matcher.importExtracting': 'Reading file…', 'matcher.importSuccess': 'Extracted {count} characters from {name} ({cjk} Chinese) · parser v{version}', 'matcher.importTruncated': 'Extracted from {name} and limited to the first 10,000 characters (original: {count}, Chinese: {cjk}) · parser v{version}',
           'matcher.importTooLarge': 'The file is larger than 12 MB. Choose a smaller file.', 'matcher.importPdfNoText': 'No selectable text found. This may be a scanned PDF.', 'matcher.importDocUnsupported': 'Legacy .doc files are not supported. Save as .docx instead.', 'matcher.importUnsupported': 'Unsupported format. Use PDF, DOCX, TXT, or MD.', 'matcher.importFailed': 'Could not read the file. Check that it is valid and not encrypted.',
           'matcher.customSummary': 'Extra keywords (optional)', 'matcher.customHint': 'This analysis only', 'matcher.customDesc': 'One term per line for niche tools or domain terms not yet in the dictionary. Nothing is saved.', 'matcher.customPlaceholder': 'Example:\\nKubernetes\\nUser growth', 'matcher.cat.custom': 'Custom',
-          'matcher.toastFill': 'Please enter both the JD and your resume', 'matcher.toastNone': 'No dictionary keywords found in this JD', 'matcher.toastCopied': 'Markdown copied', 'matcher.toastExported': 'CSV exported','page.about': 'About & Feedback'
+          'matcher.toastFill': 'Please enter both the JD and your resume', 'matcher.toastNone': 'No dictionary keywords found in this JD', 'matcher.toastCopied': 'Markdown copied', 'matcher.toastExported': 'CSV exported', 'page.about': 'About & Feedback',
+          'matcher.charCount': '{count} chars', 'matcher.yes': 'Yes', 'matcher.no': 'No', 'matcher.partialShort': 'Partial', 'matcher.notStatedShort': '—',
+          'matcher.markdownTitle': 'JD and Resume Match Results', 'matcher.detailsHeading': 'Requirement match details', 'matcher.adviceHeading': 'Resume improvement notes', 'matcher.allCovered': 'All requirements have clear coverage.', 'matcher.honestyShort': 'Only add real experience. Do not invent content to improve keyword coverage.',
+          'matcher.advice.evidence': 'Relevant experience exists. Use the role keyword to strengthen the real evidence.', 'matcher.advice.unstated': 'The resume does not state this. Confirm whether it applies and decide whether to add it.', 'matcher.advice.partial': 'Some related evidence exists. Add the full case, scale, or outcome.', 'matcher.advice.missing': 'No matching evidence was found. Add it only if you genuinely have that experience.',
         }
       };
 
@@ -1687,7 +1693,11 @@
         $$('[data-i18n-placeholder]').forEach((element) => {
           element.placeholder = t(element.dataset.i18nPlaceholder);
         });
+        $$('[data-i18n-aria-label]').forEach((element) => {
+          element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel));
+        });
         updateThemeLabel();
+        updateMatcherCounts();
         updatePageTitle();
         renderHomeTools();
         renderTools();
@@ -2282,6 +2292,7 @@
       const buildMarkdown = () => {
         if (!state.matcherResult) return '';
         const { rows } = state.matcherResult;
+        const separator = state.lang === 'zh' ? '：' : ': ';
         const counts = {
           covered: rows.filter((row) => row.status === 'covered').length,
           evidence: rows.filter((row) => row.status === 'evidence').length,
@@ -2289,47 +2300,36 @@
           missing: rows.filter((row) => row.status === 'missing').length,
           unstated: rows.filter((row) => row.status === 'unstated').length
         };
-        const lines = ['# JD 与简历关键词匹配结果', ''];
-        lines.push(`- 明确覆盖：${counts.covered}`);
-        lines.push(`- 证据覆盖：${counts.evidence}`);
-        lines.push(`- 部分覆盖：${counts.partial}`);
-        lines.push(`- 未发现：${counts.missing}`);
-        lines.push(`- 简历未说明：${counts.unstated}`);
-        lines.push('');
-        lines.push('## 岗位要求匹配明细');
-        lines.push('| 关键词 | 分类 | 来源 | 重要程度 | JD | 简历 | 匹配方式 | 状态 |');
+        const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
+        const lines = [`# ${t('matcher.markdownTitle')}`, ''];
+        [['matcher.covered', counts.covered], ['matcher.evidence', counts.evidence], ['matcher.partial', counts.partial], ['matcher.missing', counts.missing], ['matcher.unstated', counts.unstated]].forEach(([key, count]) => lines.push(`- ${t(key)}${separator}${count}`));
+        lines.push('', `## ${t('matcher.detailsHeading')}`);
+        lines.push(`| ${[t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus')].join(' | ')} |`);
         lines.push('|---|---|---|---|---|---|---|---|');
         rows.forEach((row) => {
-          const resumeMark = row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是';
-          lines.push(`| ${row.entry.canonical[state.lang]} | ${categoryLabel(row.entry.category)} | ${sourceLabel(row.source)} | ${importanceLabel(row.importance)} | 是 | ${resumeMark} | ${matchLabel(row.matchMode)} | ${matcherStatusLabel(row.status)} |`);
+          lines.push(`| ${row.entry.canonical[state.lang]} | ${categoryLabel(row.entry.category)} | ${sourceLabel(row.source)} | ${importanceLabel(row.importance)} | ${t('matcher.yes')} | ${resumeMark(row)} | ${matchLabel(row.matchMode)} | ${matcherStatusLabel(row.status)} |`);
         });
-        lines.push('');
-        lines.push('## 简历优化建议');
+        lines.push('', `## ${t('matcher.adviceHeading')}`);
         const attention = rows.filter((row) => row.status !== 'covered');
         attention.forEach((row) => {
-          const action = row.status === 'evidence'
-            ? '已有相关经历，建议直接用岗位关键词强化表达。'
-            : row.status === 'unstated'
-              ? '简历未说明，请确认是否具备并决定是否补充。'
-              : row.status === 'partial'
-                ? '已有部分证据，建议补充完整案例、规模或结果。'
-                : '未找到对应证据，仅在有真实经历时补充。';
-          lines.push(`- [${matcherStatusLabel(row.status)}] ${row.entry.canonical[state.lang]}：${action}`);
+          const action = row.status === 'evidence' ? t('matcher.advice.evidence') : row.status === 'unstated' ? t('matcher.advice.unstated') : row.status === 'partial' ? t('matcher.advice.partial') : t('matcher.advice.missing');
+          lines.push(`- [${matcherStatusLabel(row.status)}] ${row.entry.canonical[state.lang]}${separator}${action}`);
         });
-        if (!attention.length) lines.push('- 所有要求均有明确覆盖。');
-        lines.push('- 仅补充真实经历，不为了关键词覆盖率虚构内容。');
+        if (!attention.length) lines.push(`- ${t('matcher.allCovered')}`);
+        lines.push(`- ${t('matcher.honestyShort')}`);
         return lines.join('\n');
       };
       const buildCsv = () => {
         if (!state.matcherResult) return '';
-        const lines = ['关键词,分类,来源,重要程度,JD,简历,匹配方式,状态'];
+        const headers = [t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus')];
+        const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
+        const lines = [headers.map((value) => `"${value}"`).join(',')];
         state.matcherResult.rows.forEach((row) => {
-          const values = [row.entry.canonical[state.lang], categoryLabel(row.entry.category), sourceLabel(row.source), importanceLabel(row.importance), '是', row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是', matchLabel(row.matchMode), matcherStatusLabel(row.status)];
+          const values = [row.entry.canonical[state.lang], categoryLabel(row.entry.category), sourceLabel(row.source), importanceLabel(row.importance), t('matcher.yes'), resumeMark(row), matchLabel(row.matchMode), matcherStatusLabel(row.status)];
           lines.push(values.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(','));
         });
         return lines.join('\n');
       };
-
       const downloadCsv = () => {
         const blob = new Blob([`\ufeff${buildCsv()}`], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -2354,12 +2354,13 @@
         const coverage = buildCategoryCoverage(rows);
         const attentionRows = rows.filter((row) => row.status !== 'covered');
         const sourceSummary = t('matcher.sourceSummary').replace('{dictionary}', dictionaryCount).replace('{auto}', autoCount).replace('{custom}', customCount);
-        const resumeMark = (row) => row.status === 'missing' ? '否' : row.status === 'unstated' ? '—' : row.status === 'partial' ? '部分' : '是';
+        const separator = state.lang === 'zh' ? '：' : ': ';
+        const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
         const checklistText = (row) => {
-          if (row.status === 'evidence') return '简历已有相关经历证据，建议直接用岗位关键词强化表达，并保留原文证据。';
-          if (row.status === 'unstated') return '简历未说明该项，请确认是否具备，并决定是否补充到简历。';
-          if (row.status === 'partial') return '已有部分相关证据，建议补充完整案例、规模或结果。';
-          return '未找到对应证据，仅在真实具备时补充，不建议虚构。';
+          if (row.status === 'evidence') return t('matcher.advice.evidence');
+          if (row.status === 'unstated') return t('matcher.advice.unstated');
+          if (row.status === 'partial') return t('matcher.advice.partial');
+          return t('matcher.advice.missing');
         };
         const evidenceGroupsMarkup = (row) => {
           if (!row.matchedGroups?.length) return '';
@@ -2382,7 +2383,7 @@
             <section class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.tableTitle'))}</h3><p>${escapeHtml(t('matcher.tableSub'))} · ${escapeHtml(sourceSummary)}</p></div><div class="matcher-buttons"><button class="button button-secondary" type="button" data-matcher-copy>${escapeHtml(t('matcher.copyMarkdown'))}</button><button class="button button-primary" type="button" data-matcher-export>${escapeHtml(t('matcher.exportCsv'))}</button></div></div>
               <div class="matcher-table-wrap"><table class="matcher-table"><thead><tr><th>${escapeHtml(t('matcher.colKeyword'))}</th><th>${escapeHtml(t('matcher.colCategory'))}</th><th>${escapeHtml(t('matcher.colSource'))}</th><th>${escapeHtml(t('matcher.colImportance'))}</th><th>${escapeHtml(t('matcher.colJd'))}</th><th>${escapeHtml(t('matcher.colResume'))}</th><th>${escapeHtml(t('matcher.colMatch'))}</th><th>${escapeHtml(t('matcher.colStatus'))}</th></tr></thead><tbody>
-                ${rows.map((row) => `<tr><td class="mkeyword">${escapeHtml(row.entry.canonical[state.lang])}</td><td>${escapeHtml(categoryLabel(row.entry.category))}</td><td><span class="mbadge msource-${row.source}">${escapeHtml(sourceLabel(row.source))}</span></td><td class="mimportance-${row.importance}">${escapeHtml(importanceLabel(row.importance))}</td><td class="myes">是</td><td class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${resumeMark(row)}</td><td>${escapeHtml(matchLabel(row.matchMode))}</td><td><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></td></tr>`).join('')}
+                ${rows.map((row) => `<tr><td class="mkeyword">${escapeHtml(row.entry.canonical[state.lang])}</td><td>${escapeHtml(categoryLabel(row.entry.category))}</td><td><span class="mbadge msource-${row.source}">${escapeHtml(sourceLabel(row.source))}</span></td><td class="mimportance-${row.importance}">${escapeHtml(importanceLabel(row.importance))}</td><td class="myes">${escapeHtml(t('matcher.yes'))}</td><td class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${resumeMark(row)}</td><td>${escapeHtml(matchLabel(row.matchMode))}</td><td><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></td></tr>`).join('')}
               </tbody></table></div>
             </section>
             <aside class="card matcher-card">
@@ -2394,7 +2395,7 @@
           <div class="matcher-grid">
             <section class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.evidenceTitle'))}</h3><p>${escapeHtml(t('matcher.evidenceSub'))}</p></div></div>
-              <div class="mevidence-grid">${rows.map((row) => `<div class="mevidence-card"><div class="mevidence-kicker"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></div>${evidenceGroupsMarkup(row)}<blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.jdSource'))}：</span>${row.jdEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.resumeSource'))}：</span>${row.resumeEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote></div>`).join('')}</div>
+              <div class="mevidence-grid">${rows.map((row) => `<div class="mevidence-card"><div class="mevidence-kicker"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></div>${evidenceGroupsMarkup(row)}<blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.jdSource'))}${separator}</span>${row.jdEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.resumeSource'))}${separator}</span>${row.resumeEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote></div>`).join('')}</div>
             </section>
             <aside class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.checklistTitle'))}</h3><p>${escapeHtml(t('matcher.checklistSub'))}</p></div></div>
@@ -2608,8 +2609,8 @@
       });
 
       const updateMatcherCounts = () => {
-        refs.matcherJdCount.textContent = `${refs.matcherJd.value.length} 字`;
-        refs.matcherResumeCount.textContent = `${refs.matcherResume.value.length} 字`;
+        refs.matcherJdCount.textContent = t('matcher.charCount').replace('{count}', refs.matcherJd.value.length);
+        refs.matcherResumeCount.textContent = t('matcher.charCount').replace('{count}', refs.matcherResume.value.length);
       };
       const importErrorKey = (code) => {
         if (code === 'FILE_TOO_LARGE') return 'matcher.importTooLarge';
