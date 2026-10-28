@@ -67,8 +67,8 @@
     </section>
     <p class="note">若检查失败，先查看本页“详情”列；常见原因是新增行分隔符不足、别名数组写错，或证据组 key 与英文名生成的 ID 不一致。</p>
   </main>
-  <script src="../keyword-maintenance.js?v=20261024.1"></script>
-  <script src="../keywords.js?v=20261024.5"></script>
+  <script src="../keyword-maintenance.js?v=20261028.2"></script>
+  <script src="../keywords.js?v=20261028.2"></script>
   <script>
     (() => {
       'use strict';
@@ -92,6 +92,13 @@
       add('维护关键词已生效', !!recruitingOps, recruitingOps ? '招聘运营 -> recruiting-operations' : '未找到 recruiting-operations');
       add('维护同义词已生效', !!community && community.aliases.includes('社群运营专员'), community && community.aliases.includes('社群运营专员') ? '社群运营专员 已加入 community-management' : '未找到新增同义词');
       add('维护证据规则已生效', !!recruitingOps?.evidenceGroups?.length, recruitingOps?.evidenceGroups?.length ? recruitingOps.evidenceGroups.length + ' 个证据组' : '未关联证据组');
+      const crm = dictionary.find((entry) => entry.id === 'crm');
+      const learning = dictionary.find((entry) => entry.id === 'learning-ability');
+      const dataSensitivity = dictionary.find((entry) => entry.id === 'data-sensitivity');
+      const launch = dictionary.find((entry) => entry.id === 'launch-acceptance');
+      const internship = dictionary.find((entry) => entry.id === 'full-time-internship-availability');
+      add('新增高频要求已生效', !!learning && !!dataSensitivity && !!launch && !!internship, learning && dataSensitivity && launch && internship ? '学习力、数据敏感度、上线验收、全职实习期限已加载' : '存在未加载的新词条');
+      add('部分覆盖与硬性条件规则已生效', !!crm?.partialNote?.zh && !!internship?.hardCondition, crm?.partialNote?.zh && internship?.hardCondition ? 'CRM 与实习期限规则已关联' : '规则未关联');
       document.getElementById('results').innerHTML = tests.map((test) => '<tr><td>' + test.name + '</td><td><span class="badge ' + (test.passed ? 'pass' : 'fail') + '">' + (test.passed ? '通过' : '失败') + '</span></td><td class="detail">' + test.detail + '</td></tr>').join('');
       const passed = tests.filter((test) => test.passed).length;
       document.getElementById('dictTotal').textContent = dictionary.length;

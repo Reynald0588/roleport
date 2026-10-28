@@ -581,7 +581,7 @@
     .matcher-method-note strong { color:var(--text); font-weight:680; }
     .matcher-results { display:none; margin-top:26px; }
     .matcher-results.is-visible { display:block; }
-    .matcher-stats { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .matcher-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
     .mstat-card { padding:17px 18px; border:1px solid var(--line); border-radius:14px; background:var(--surface); box-shadow:var(--shadow-card); }
     .mstat-label { display:block; color:var(--muted); font-size:9.5px; font-weight:650; }
     .mstat-value { display:block; margin-top:10px; color:var(--text); font-size:28px; font-weight:720; letter-spacing:-.04em; line-height:1; }
@@ -599,6 +599,7 @@
     .matcher-table td { height:42px; padding:0 12px; border-bottom:1px solid var(--line-soft); color:var(--muted); font-size:10px; }
     .matcher-table tr:last-child td { border-bottom:0; }
     .mkeyword { color:var(--text); font-weight:680; }
+    .mkeyword .mbadge { margin-left:6px; vertical-align:middle; }
     .mimportance-high { color:var(--amber-text); font-weight:700; } .mimportance-medium { color:var(--blue-text); font-weight:650; } .mimportance-low { color:var(--soft); }
     .myes { color:var(--green-text); font-weight:700; } .mno { color:var(--red-text); font-weight:700; }
     .mbadge { display:inline-flex; align-items:center; gap:5px; min-height:22px; padding:0 8px; border-radius:11px; font-size:8.5px; font-weight:700; white-space:nowrap; }
@@ -624,6 +625,8 @@
     .mevidence-card blockquote { margin:0; color:var(--muted); font-size:9.5px; line-height:1.7; }
     .mevidence-card blockquote mark { background:rgba(108,75,231,.22); color:var(--text); border-radius:2px; padding:0 2px; }
     .mevidence-card blockquote + blockquote { margin-top:10px; }
+    .mreason { margin:10px 0 0; padding:9px 10px; border-radius:8px; background:var(--surface); color:var(--muted); font-size:11.5px; line-height:1.65; }
+    .mreason strong { color:var(--text); }
     .mevidence-groups { display:grid; gap:6px; margin:0 0 11px; padding:9px 10px; border-radius:8px; background:rgba(47,98,164,.07); }
     .mevidence-group { display:flex; align-items:flex-start; gap:8px; color:var(--muted); font-size:8.5px; line-height:1.5; }
     .mevidence-group strong { flex:0 0 auto; color:var(--text); font-size:8.5px; }
@@ -1304,8 +1307,8 @@
   <script src="file-import.js?v=2.2"></script>
   <script src="resources.js?v=20261024.1"></script>
   <script src="role-guides.js?v=20261028.1"></script>
-  <script src="keyword-maintenance.js?v=20261024.1"></script>
-  <script src="keywords.js?v=20261024.5"></script>
+  <script src="keyword-maintenance.js?v=20261028.2"></script>
+  <script src="keywords.js?v=20261028.2"></script>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>
     (() => {
@@ -1381,7 +1384,7 @@
           'matcher.output3Title': '命中句子证据', 'matcher.output3Desc': '展示 JD 和简历中的具体原文，方便判断是否真匹配。',
           'matcher.output4Title': '可复制修改清单', 'matcher.output4Desc': '支持 Markdown 和 CSV，方便放入 Notion 或飞书。',
           'matcher.methodTitle': '规则透明：', 'matcher.methodDesc': '关键词来自本地词典、同义词、段落权重和命中句子。结果用于辅助检查，不代替真实经历判断。',
-          'matcher.statsCovered': '明确覆盖', 'matcher.statsEvidence': '证据覆盖', 'matcher.statsPartial': '部分覆盖', 'matcher.statsMissing': '未发现', 'matcher.statsUnstated': '简历未说明', 'matcher.statsHigh': '高优先级缺失',
+          'matcher.statsTotal': '要求总数', 'matcher.statsTotalDesc': '去重后进入明细的有效要求', 'matcher.statsCovered': '明确覆盖', 'matcher.statsEvidence': '证据覆盖', 'matcher.statsPartial': '部分覆盖', 'matcher.statsMissing': '未发现', 'matcher.statsUnstated': '简历未说明', 'matcher.statsHigh': '高优先级缺失',
           'matcher.statsCoveredDesc': '简历中存在明确关键词或同义词', 'matcher.statsEvidenceDesc': '通过多条相关经历证据匹配', 'matcher.statsPartialDesc': '只找到部分相关证据', 'matcher.statsMissingDesc': '简历中没有找到对应证据', 'matcher.statsUnstatedDesc': '需要本人确认或主动补充', 'matcher.statsHighDesc': '优先检查这些关键词',
           'matcher.tableTitle': '关键词覆盖明细', 'matcher.tableSub': '重要程度由所在段落、要求措辞和出现次数综合计算。',
           'matcher.colKeyword': '关键词', 'matcher.colCategory': '分类', 'matcher.colSource': '来源', 'matcher.colImportance': '重要程度', 'matcher.colJd': 'JD', 'matcher.colResume': '简历', 'matcher.colMatch': '匹配方式', 'matcher.colStatus': '状态',
@@ -1399,6 +1402,7 @@
           'matcher.charCount': '{count} 字', 'matcher.yes': '是', 'matcher.no': '否', 'matcher.partialShort': '部分', 'matcher.notStatedShort': '—',
           'matcher.markdownTitle': 'JD 与简历匹配结果', 'matcher.detailsHeading': '岗位要求匹配明细', 'matcher.adviceHeading': '简历优化建议', 'matcher.allCovered': '所有要求均有明确覆盖。', 'matcher.honestyShort': '仅补充真实经历，不为了关键词覆盖率虚构内容。',
           'matcher.advice.evidence': '已有相关经历，建议直接用岗位关键词强化表达。', 'matcher.advice.unstated': '简历未说明，请确认是否具备并决定是否补充。', 'matcher.advice.partial': '已有部分证据，建议补充完整案例、规模或结果。', 'matcher.advice.missing': '未找到对应证据，仅在有真实经历时补充。',
+          'matcher.hardCondition': '硬性条件', 'matcher.statsHard': '硬性条件待核实', 'matcher.statsHardDesc': '实习期限、英语、轮班等情况需要本人确认', 'matcher.reasonLabel': '判断理由', 'matcher.reason.covered': '简历直接出现相关关键词或同义表达，且找到对应原文。', 'matcher.reason.evidence': '命中多条相关经历证据，但未直接使用要求中的原词。', 'matcher.reason.partial': '只找到部分相关证据，尚不足以证明完整满足要求。', 'matcher.reason.unstated': '简历未提供足够信息，需要本人确认；这不代表不符合要求。', 'matcher.reason.missing': '简历中未找到足够的相关证据，这不代表一定不具备该能力。',
         },
         en: {
           skip: 'Skip to main content',
@@ -1469,7 +1473,7 @@
           'matcher.output3Title': 'Matched sentence evidence', 'matcher.output3Desc': 'Review the original text from both JD and resume.',
           'matcher.output4Title': 'Copyable checklist', 'matcher.output4Desc': 'Export as Markdown or CSV for Notion or Feishu.',
           'matcher.methodTitle': 'Transparent rules: ', 'matcher.methodDesc': 'Results come from a local dictionary, synonyms, section weights, and matched sentences. They assist review but do not replace honest experience.',
-          'matcher.statsCovered': 'Explicit matches', 'matcher.statsEvidence': 'Evidence matches', 'matcher.statsPartial': 'Partial matches', 'matcher.statsMissing': 'Not found', 'matcher.statsUnstated': 'Not stated', 'matcher.statsHigh': 'High-priority gaps',
+          'matcher.statsTotal': 'Requirements', 'matcher.statsTotalDesc': 'Unique requirements included in the final detail', 'matcher.statsCovered': 'Explicit matches', 'matcher.statsEvidence': 'Evidence matches', 'matcher.statsPartial': 'Partial matches', 'matcher.statsMissing': 'Not found', 'matcher.statsUnstated': 'Not stated', 'matcher.statsHigh': 'High-priority gaps',
           'matcher.statsCoveredDesc': 'An exact keyword or synonym appears in the resume', 'matcher.statsEvidenceDesc': 'Multiple related experience signals support this', 'matcher.statsPartialDesc': 'Only some related evidence was found', 'matcher.statsMissingDesc': 'No supporting evidence was found', 'matcher.statsUnstatedDesc': 'Confirm or explicitly add this information', 'matcher.statsHighDesc': 'Focus on these gaps first',
           'matcher.tableTitle': 'Keyword coverage detail', 'matcher.tableSub': 'Importance is calculated from section, phrasing, and occurrence frequency.',
           'matcher.colKeyword': 'Keyword', 'matcher.colCategory': 'Category', 'matcher.colSource': 'Source', 'matcher.colImportance': 'Importance', 'matcher.colJd': 'JD', 'matcher.colResume': 'Resume', 'matcher.colMatch': 'Match', 'matcher.colStatus': 'Status',
@@ -1487,6 +1491,7 @@
           'matcher.charCount': '{count} chars', 'matcher.yes': 'Yes', 'matcher.no': 'No', 'matcher.partialShort': 'Partial', 'matcher.notStatedShort': '—',
           'matcher.markdownTitle': 'JD and Resume Match Results', 'matcher.detailsHeading': 'Requirement match details', 'matcher.adviceHeading': 'Resume improvement notes', 'matcher.allCovered': 'All requirements have clear coverage.', 'matcher.honestyShort': 'Only add real experience. Do not invent content to improve keyword coverage.',
           'matcher.advice.evidence': 'Relevant experience exists. Use the role keyword to strengthen the real evidence.', 'matcher.advice.unstated': 'The resume does not state this. Confirm whether it applies and decide whether to add it.', 'matcher.advice.partial': 'Some related evidence exists. Add the full case, scale, or outcome.', 'matcher.advice.missing': 'No matching evidence was found. Add it only if you genuinely have that experience.',
+          'matcher.hardCondition': 'Hard condition', 'matcher.statsHard': 'Hard conditions to verify', 'matcher.statsHardDesc': 'Confirm internship duration, English ability, shift availability, or similar facts', 'matcher.reasonLabel': 'Why this result', 'matcher.reason.covered': 'The resume contains a relevant keyword or synonym and matching source evidence.', 'matcher.reason.evidence': 'Multiple related experience signals match, but the exact requirement wording does not appear.', 'matcher.reason.partial': 'Only partial related evidence was found, which is not enough to prove full coverage.', 'matcher.reason.unstated': 'The resume does not provide enough information. Confirm it yourself; this does not mean you fail the requirement.', 'matcher.reason.missing': 'No sufficient evidence was found in the resume. This does not prove the capability is absent.',
         }
       };
 
@@ -2054,7 +2059,7 @@
       };
       const cueForLine = (line) => {
         const normalized = normalizeText(line);
-        const strongMatch = normalized.match(/(熟悉|掌握|精通|了解|理解|具备|要求|必须|至少|熟练|experience with|knowledge of|proficient in|familiar with|must have)/);
+        const strongMatch = normalized.match(/(熟悉|掌握|精通|了解|理解|具备|要求|必须|至少|熟练|善于|擅长|experience with|knowledge of|proficient in|familiar with|must have)/);
         if (strongMatch) return { kind: 'strong', match: strongMatch[0] };
         const normalMatch = normalized.match(/(负责|参与|能够|善于|responsible for|ability to)/);
         if (normalMatch) return { kind: 'normal', match: normalMatch[0] };
@@ -2120,8 +2125,9 @@
           const cueIndex = cue.match ? lowerLine.indexOf(cue.match) : -1;
           const shouldSliceCue = cue.kind !== 'none' && cue.kind !== 'plus' && cueIndex >= 0;
           const content = shouldSliceCue ? line.slice(cueIndex + cue.match.length) : line;
+          const effectiveSection = section === 'other' && cue.kind === 'strong' ? 'requirement' : section;
           const parts = content.split(/[、,，;；/]|(?:以及|及|与|和|或)|\s+(?:and|or)\s+/i);
-          parts.forEach((part) => addCandidate(part, section, cue.kind, rawLine));
+          parts.forEach((part) => addCandidate(part, effectiveSection, cue.kind, rawLine));
         });
 
         return [...candidates.values()].map((candidate) => {
@@ -2289,6 +2295,13 @@
       const sourceLabel = (source) => t(`matcher.source.${source}`);
       const matchLabel = (mode) => t(`matcher.match.${mode}`);
       const importanceLabel = (importance) => t(`matcher.importance${importance === 'high' ? 'High' : importance === 'medium' ? 'Medium' : 'Low'}`);
+      const HARD_CONDITION_IDS = new Set(['english-reading-and-writing', 'shift-work', 'full-time-internship-availability']);
+      const isHardCondition = (row) => !!row.entry.hardCondition || HARD_CONDITION_IDS.has(row.entry.id);
+      const matchReason = (row) => {
+        const note = row.entry.partialNote;
+        if (row.status === 'partial' && note && note[state.lang]) return note[state.lang];
+        return t(`matcher.reason.${row.status}`);
+      };
 
       const buildCategoryCoverage = (rows) => {
         const map = new Map();
@@ -2321,18 +2334,23 @@
         };
         const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
         const lines = [`# ${t('matcher.markdownTitle')}`, ''];
+        lines.push(`- ${t('matcher.statsTotal')}${separator}${rows.length}`);
         [['matcher.covered', counts.covered], ['matcher.evidence', counts.evidence], ['matcher.partial', counts.partial], ['matcher.missing', counts.missing], ['matcher.unstated', counts.unstated]].forEach(([key, count]) => lines.push(`- ${t(key)}${separator}${count}`));
+        const hardPending = rows.filter((row) => isHardCondition(row) && ['partial', 'missing', 'unstated'].includes(row.status)).length;
+        if (hardPending) lines.push(`- ${t('matcher.statsHard')}${separator}${hardPending}`);
         lines.push('', `## ${t('matcher.detailsHeading')}`);
-        lines.push(`| ${[t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus')].join(' | ')} |`);
-        lines.push('|---|---|---|---|---|---|---|---|');
+        lines.push(`| ${[t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus'), t('matcher.reasonLabel')].join(' | ')} |`);
+        lines.push('|---|---|---|---|---|---|---|---|---|');
         rows.forEach((row) => {
-          lines.push(`| ${row.entry.canonical[state.lang]} | ${categoryLabel(row.entry.category)} | ${sourceLabel(row.source)} | ${importanceLabel(row.importance)} | ${t('matcher.yes')} | ${resumeMark(row)} | ${matchLabel(row.matchMode)} | ${matcherStatusLabel(row.status)} |`);
+          lines.push(`| ${row.entry.canonical[state.lang]} | ${categoryLabel(row.entry.category)} | ${sourceLabel(row.source)} | ${importanceLabel(row.importance)} | ${t('matcher.yes')} | ${resumeMark(row)} | ${matchLabel(row.matchMode)} | ${matcherStatusLabel(row.status)} | ${matchReason(row).replaceAll('|', '/')} |`);
         });
         lines.push('', `## ${t('matcher.adviceHeading')}`);
         const attention = rows.filter((row) => row.status !== 'covered');
         attention.forEach((row) => {
+          const hardLabel = isHardCondition(row) ? `[${t('matcher.hardCondition')}] ` : '';
           const action = row.status === 'evidence' ? t('matcher.advice.evidence') : row.status === 'unstated' ? t('matcher.advice.unstated') : row.status === 'partial' ? t('matcher.advice.partial') : t('matcher.advice.missing');
-          lines.push(`- [${matcherStatusLabel(row.status)}] ${row.entry.canonical[state.lang]}${separator}${action}`);
+          lines.push(`- [${matcherStatusLabel(row.status)}] ${hardLabel}${row.entry.canonical[state.lang]}${separator}${action}`);
+          lines.push(`  - ${t('matcher.reasonLabel')}${separator}${matchReason(row)}`);
         });
         if (!attention.length) lines.push(`- ${t('matcher.allCovered')}`);
         lines.push(`- ${t('matcher.honestyShort')}`);
@@ -2340,11 +2358,11 @@
       };
       const buildCsv = () => {
         if (!state.matcherResult) return '';
-        const headers = [t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus')];
+        const headers = [t('matcher.colKeyword'), t('matcher.colCategory'), t('matcher.colSource'), t('matcher.colImportance'), t('matcher.colJd'), t('matcher.colResume'), t('matcher.colMatch'), t('matcher.colStatus'), t('matcher.reasonLabel'), t('matcher.hardCondition')];
         const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
         const lines = [headers.map((value) => `"${value}"`).join(',')];
         state.matcherResult.rows.forEach((row) => {
-          const values = [row.entry.canonical[state.lang], categoryLabel(row.entry.category), sourceLabel(row.source), importanceLabel(row.importance), t('matcher.yes'), resumeMark(row), matchLabel(row.matchMode), matcherStatusLabel(row.status)];
+          const values = [row.entry.canonical[state.lang], categoryLabel(row.entry.category), sourceLabel(row.source), importanceLabel(row.importance), t('matcher.yes'), resumeMark(row), matchLabel(row.matchMode), matcherStatusLabel(row.status), matchReason(row), isHardCondition(row) ? t('matcher.yes') : t('matcher.no')];
           lines.push(values.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(','));
         });
         return lines.join('\n');
@@ -2372,13 +2390,14 @@
         const customCount = rows.filter((row) => row.source === 'custom').length;
         const coverage = buildCategoryCoverage(rows);
         const attentionRows = rows.filter((row) => row.status !== 'covered');
+        const hardPending = rows.filter((row) => isHardCondition(row) && ['partial', 'missing', 'unstated'].includes(row.status)).length;
         const sourceSummary = t('matcher.sourceSummary').replace('{dictionary}', dictionaryCount).replace('{auto}', autoCount).replace('{custom}', customCount);
         const separator = state.lang === 'zh' ? '：' : ': ';
         const resumeMark = (row) => row.status === 'missing' ? t('matcher.no') : row.status === 'unstated' ? t('matcher.notStatedShort') : row.status === 'partial' ? t('matcher.partialShort') : t('matcher.yes');
         const checklistText = (row) => {
           if (row.status === 'evidence') return t('matcher.advice.evidence');
           if (row.status === 'unstated') return t('matcher.advice.unstated');
-          if (row.status === 'partial') return t('matcher.advice.partial');
+          if (row.status === 'partial') return row.entry.partialNote?.[state.lang] || t('matcher.advice.partial');
           return t('matcher.advice.missing');
         };
         const evidenceGroupsMarkup = (row) => {
@@ -2388,11 +2407,13 @@
         refs.matcherResults.classList.add('is-visible');
         refs.matcherResults.innerHTML = `
           <div class="matcher-stats">
+            <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsTotal'))}</span><span class="mstat-value">${rows.length}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsTotalDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsCovered'))}</span><span class="mstat-value">${counts.covered}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsCoveredDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsEvidence'))}</span><span class="mstat-value">${counts.evidence}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsEvidenceDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsPartial'))}</span><span class="mstat-value">${counts.partial}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsPartialDesc'))}</span></div>
             <div class="mstat-card is-alert"><span class="mstat-label">${escapeHtml(t('matcher.statsMissing'))}</span><span class="mstat-value">${counts.missing}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsMissingDesc'))}</span></div>
             <div class="mstat-card"><span class="mstat-label">${escapeHtml(t('matcher.statsUnstated'))}</span><span class="mstat-value">${counts.unstated}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsUnstatedDesc'))}</span></div>
+            ${hardPending ? `<div class="mstat-card is-alert"><span class="mstat-label">${escapeHtml(t('matcher.statsHard'))}</span><span class="mstat-value">${hardPending}</span><span class="mstat-desc">${escapeHtml(t('matcher.statsHardDesc'))}</span></div>` : ''}
           </div>
           <div class="matcher-next">
             <div><span class="matcher-next-kicker">${escapeHtml(t('workflow.nextKicker'))}</span><h3>${escapeHtml(t('workflow.continue'))}</h3><p>${escapeHtml(t('workflow.continueDesc'))}</p></div>
@@ -2402,7 +2423,7 @@
             <section class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.tableTitle'))}</h3><p>${escapeHtml(t('matcher.tableSub'))} · ${escapeHtml(sourceSummary)}</p></div><div class="matcher-buttons"><button class="button button-secondary" type="button" data-matcher-copy>${escapeHtml(t('matcher.copyMarkdown'))}</button><button class="button button-primary" type="button" data-matcher-export>${escapeHtml(t('matcher.exportCsv'))}</button></div></div>
               <div class="matcher-table-wrap"><table class="matcher-table"><thead><tr><th>${escapeHtml(t('matcher.colKeyword'))}</th><th>${escapeHtml(t('matcher.colCategory'))}</th><th>${escapeHtml(t('matcher.colSource'))}</th><th>${escapeHtml(t('matcher.colImportance'))}</th><th>${escapeHtml(t('matcher.colJd'))}</th><th>${escapeHtml(t('matcher.colResume'))}</th><th>${escapeHtml(t('matcher.colMatch'))}</th><th>${escapeHtml(t('matcher.colStatus'))}</th></tr></thead><tbody>
-                ${rows.map((row) => `<tr><td class="mkeyword">${escapeHtml(row.entry.canonical[state.lang])}</td><td>${escapeHtml(categoryLabel(row.entry.category))}</td><td><span class="mbadge msource-${row.source}">${escapeHtml(sourceLabel(row.source))}</span></td><td class="mimportance-${row.importance}">${escapeHtml(importanceLabel(row.importance))}</td><td class="myes">${escapeHtml(t('matcher.yes'))}</td><td class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${resumeMark(row)}</td><td>${escapeHtml(matchLabel(row.matchMode))}</td><td><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></td></tr>`).join('')}
+                ${rows.map((row) => `<tr><td class="mkeyword">${escapeHtml(row.entry.canonical[state.lang])}${isHardCondition(row) ? `<span class="mbadge mbadge-unstated">${escapeHtml(t('matcher.hardCondition'))}</span>` : ''}</td><td>${escapeHtml(categoryLabel(row.entry.category))}</td><td><span class="mbadge msource-${row.source}">${escapeHtml(sourceLabel(row.source))}</span></td><td class="mimportance-${row.importance}">${escapeHtml(importanceLabel(row.importance))}</td><td class="myes">${escapeHtml(t('matcher.yes'))}</td><td class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${resumeMark(row)}</td><td>${escapeHtml(matchLabel(row.matchMode))}</td><td><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></td></tr>`).join('')}
               </tbody></table></div>
             </section>
             <aside class="card matcher-card">
@@ -2414,7 +2435,7 @@
           <div class="matcher-grid">
             <section class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.evidenceTitle'))}</h3><p>${escapeHtml(t('matcher.evidenceSub'))}</p></div></div>
-              <div class="mevidence-grid">${rows.map((row) => `<div class="mevidence-card"><div class="mevidence-kicker"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span></div>${evidenceGroupsMarkup(row)}<blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.jdSource'))}${separator}</span>${row.jdEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.resumeSource'))}${separator}</span>${row.resumeEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote></div>`).join('')}</div>
+              <div class="mevidence-grid">${rows.map((row) => `<div class="mevidence-card"><div class="mevidence-kicker"><strong>${escapeHtml(row.entry.canonical[state.lang])}</strong><span class="mbadge ${matcherStatusClass(row.status)}">${escapeHtml(matcherStatusLabel(row.status))}</span>${isHardCondition(row) ? `<span class="mbadge mbadge-unstated">${escapeHtml(t('matcher.hardCondition'))}</span>` : ''}</div>${evidenceGroupsMarkup(row)}<p class="mreason"><strong>${escapeHtml(t('matcher.reasonLabel'))}${separator}</strong>${escapeHtml(matchReason(row))}</p><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.jdSource'))}${separator}</span>${row.jdEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote><blockquote><span class="${row.status === 'missing' ? 'mno' : row.status === 'unstated' ? '' : 'myes'}">${escapeHtml(t('matcher.resumeSource'))}${separator}</span>${row.resumeEvidence || `<span class="mno">${escapeHtml(t('matcher.noEvidence'))}</span>`}</blockquote></div>`).join('')}</div>
             </section>
             <aside class="card matcher-card">
               <div class="matcher-card-head"><div><h3>${escapeHtml(t('matcher.checklistTitle'))}</h3><p>${escapeHtml(t('matcher.checklistSub'))}</p></div></div>
@@ -2426,7 +2447,7 @@
       const advisorRowsByStatus = (rows, statuses) => rows.filter((row) => statuses.includes(row.status));
       const advisorEvidenceText = (row) => String(row.resumeEvidence || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
       const advisorItemMarkup = (row) => {
-        const diagnosis = t(`advisor.diagnosis.${row.status}`);
+        const diagnosis = row.status === 'partial' && row.entry.partialNote?.[state.lang] ? row.entry.partialNote[state.lang] : t(`advisor.diagnosis.${row.status}`);
         const action = t(`advisor.action.${row.status}`);
         const separator = state.lang === 'zh' ? '：' : ': ';
         const evidence = advisorEvidenceText(row);

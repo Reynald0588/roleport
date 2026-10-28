@@ -3,7 +3,7 @@
  * Duplicate canonical names are merged automatically, including aliases.
  * Add new rows below to expand the dictionary.
  */
-window.KEYWORD_DICTIONARY_VERSION = '2026.10.24.5';
+window.KEYWORD_DICTIONARY_VERSION = '2026.10.28.2';
 
 window.KEYWORD_DICTIONARY = (() => {
   'use strict';
@@ -1294,6 +1294,8 @@ window.KEYWORD_DICTIONARY.forEach((entry) => {
     window.KEYWORD_EVIDENCE_GROUPS[entry.id] = {
       minimumGroups: Math.min(groups.length, Math.max(1, Number(rule.minimumGroups) || 2)),
       unstatedIfMissing: !!rule.unstatedIfMissing,
+      hardCondition: !!rule.hardCondition,
+      partialNote: rule.partialNote || null,
       groups
     };
     stats.addedEvidenceGroups += 1;
@@ -1305,6 +1307,8 @@ window.KEYWORD_DICTIONARY.forEach((entry) => {
       entry.evidenceGroups = evidence.groups;
       entry.minimumGroups = evidence.minimumGroups;
       entry.unstatedIfMissing = !!evidence.unstatedIfMissing;
+      entry.hardCondition = !!evidence.hardCondition;
+      entry.partialNote = evidence.partialNote || null;
     }
   });
 })();

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Roleport · 匹配规则回归测试</title>
+<style>:root{--bg:#f7f5fb;--card:#fff;--line:#e5dfed;--text:#191320;--muted:#625b6f;--accent:#6c4be7;--green:#277444;--greenBg:#eaf7ee;--red:#a04d49;--redBg:#fff0ef}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}.wrap{width:min(1050px,calc(100% - 32px));margin:auto;padding:38px 0 60px}.eyebrow{font-size:11px;color:var(--accent);font-weight:750;letter-spacing:.1em}h1{margin:12px 0 8px;font-size:32px}p{color:var(--muted);font-size:13px;line-height:1.7}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 16px}.stat,.panel{padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--card)}.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;margin-top:8px;font-size:23px}table{width:100%;border-collapse:collapse}th,td{padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:12px;vertical-align:top}th{background:#faf8fd;color:var(--muted);font-size:11px}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:10px;font-size:11px;font-weight:700}.pass{background:var(--greenBg);color:var(--green)}.fail{background:var(--redBg);color:var(--red)}.detail{color:var(--muted);line-height:1.6}.note{margin-top:18px}.test-frame{position:fixed;left:-12000px;top:0;width:1200px;height:900px;border:0}@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}th:nth-child(2),td:nth-child(2){display:none}}</style></head>
+<body><main class="wrap"><div class="eyebrow">ROLEPORT / MATCHER REGRESSION</div><h1>匹配规则回归测试</h1><p>通过真实页面输入样例，检查关键词提取、同义表达、证据覆盖、部分覆盖、硬性条件与统计一致性。</p><section class="stats"><div class="stat"><span>测试项</span><strong id="total">—</strong></div><div class="stat"><span>通过</span><strong id="passed">—</strong></div><div class="stat"><span>失败</span><strong id="failed">—</strong></div><div class="stat"><span>状态</span><strong id="state">运行中</strong></div></section><section class="panel"><table><thead><tr><th>检查项</th><th>状态</th><th>详情</th></tr></thead><tbody id="results"><tr><td colspan="3">正在加载匹配器并运行测试…</td></tr></tbody></table></section><p class="note">本页通过同源 iframe 操作真实匹配器页面，不复制匹配算法。请通过本地静态服务器打开。</p><iframe class="test-frame" id="app" title="Roleport matcher test target"></iframe></main>
+<script>
+(() => {
+  'use strict';
+  const tests = [];
+  const add = (name, ok, detail) => tests.push({ name, ok: !!ok, detail });
+  const frame = document.getElementById('app');
+  const results = document.getElementById('results');
+  const statusLabels = ['明确覆盖', '证据覆盖', '部分覆盖', '未发现', '简历未说明'];
+
+  function waitFor(check, timeout = 8000) {
+    return new Promise((resolve, reject) => {
+      const started = Date.now();
+      const tick = () => {
+        try { if (check()) return resolve(); } catch (_) {}
+        if (Date.now() - started > timeout) return reject(new Error('等待页面状态超时'));
+        setTimeout(tick, 50);
+      };
+      tick();
+    });
+  }
+
+  function parseResults(doc) {
+    const cards = [...doc.querySelectorAll('.mevidence-card')];
+    const rows = [...doc.querySelectorAll('#matcherResults .matcher-table tbody tr')].map((tr) => {
+      const cells = [...tr.children].map((cell) => cell.textContent.trim());
+      const keyword = cells[0];
+      const card = cards.find((item) => item.querySelector('.mevidence-kicker strong')?.textContent.trim() === keyword.replace(/硬性条件$/, '').trim());
+      return {
+        keyword,
+        source: cells[2],
+        importance: cells[3],
+        status: cells[7],
+        reason: card?.querySelector('.mreason')?.textContent.trim() || '',
+        jdEvidence: card?.querySelectorAll('blockquote')[0]?.textContent.trim() || '',
+        resumeEvidence: card?.querySelectorAll('blockquote')[1]?.textContent.trim() || ''
+      };
+    });
+    let hardPending = 0;
+    const counts = [...doc.querySelectorAll('#matcherResults .mstat-card')].reduce((acc, card) => {
+      const label = card.querySelector('.mstat-label')?.textContent.trim();
+      const value = Number(card.querySelector('.mstat-value')?.textContent || 0);
+      if (statusLabels.includes(label)) acc[label] = value;
+      if (label === '硬性条件待核实') hardPending = value;
+      return acc;
+    }, {});
+    return { rows, counts, hardPending };
+  }
+
+  async function analyze(doc, jd, resume) {
+    const jdInput = doc.querySelector('#matcherJd');
+    const resumeInput = doc.querySelector('#matcherResume');
+    doc.querySelector('#matcherClear').click();
+    jdInput.value = jd;
+    resumeInput.value = resume;
+    jdInput.dispatchEvent(new Event('input', { bubbles: true }));
+    resumeInput.dispatchEvent(new Event('input', { bubbles: true }));
+    doc.querySelector('#matcherAnalyze').click();
+    await waitFor(() => doc.querySelectorAll('#matcherResults .matcher-table tbody tr').length > 0);
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    return parseResults(doc);
+  }
+
+  function hasKeyword(result, text) {
+    return result.rows.some((row) => row.keyword.includes(text));
+  }
+
+  function findRow(result, text) {
+    return result.rows.find((row) => row.keyword.includes(text));
+  }
+
+  async function run() {
+    localStorage.setItem('roleport-theme', 'light');
+    localStorage.setItem('roleport-language', 'zh');
+    frame.src = '../toolkit.html?matcher-regression=' + Date.now() + '#matcher';
+    await new Promise((resolve, reject) => {
+      frame.addEventListener('load', resolve, { once: true });
+      frame.addEventListener('error', reject, { once: true });
+    });
+    const doc = frame.contentDocument;
+    await waitFor(() => doc.querySelector('#matcherAnalyze'));
+
+    const t1 = await analyze(doc, '具备出色的学习力、执行力与数据敏感度，熟悉 CRM 产品逻辑，善于通过数据发现并解决问题。', '有用户运营相关经历，能够整理反馈并跟进问题。');
+    const t1Keywords = t1.rows.map((row) => row.keyword);
+    add('不再提取“通过数”', !t1Keywords.some((keyword) => keyword.includes('通过数')), t1Keywords.join('、'));
+    add('复合要求提取完整', ['学习力', '数据敏感度', '客户关系管理', '数据驱动问题解决'].every((term) => t1Keywords.some((keyword) => keyword.includes(term))) && t1Keywords.some((keyword) => /任务执行|执行力/.test(keyword)), t1Keywords.join('、'));
+
+    const t2 = await analyze(doc, '拥有用户运营相关经验。', '负责社群维护、成员答疑、用户引导及活动推广。');
+    const userOps = findRow(t2, '用户运营');
+    add('用户运营要求可通过经历证据覆盖', !!userOps && ['证据覆盖', '部分覆盖'].includes(userOps.status), userOps ? `${userOps.status}；${userOps.resumeEvidence}` : '未找到用户运营记录');
+    add('用户运营证据保留原文', !!userOps && /社群维护|成员答疑/.test(userOps.resumeEvidence), userOps?.resumeEvidence || '缺少简历证据');
+
+    const t3 = await analyze(doc, '监控数据看板，挖掘数据异常点与业务机会点。', '使用表格整理项目进度、任务记录及参与结果。');
+    const dataVisual = findRow(t3, '数据可视化');
+    add('基础数据记录不被判为明确覆盖', !!dataVisual && dataVisual.status !== '明确覆盖', dataVisual ? `${dataVisual.status}；${dataVisual.reason}` : '未找到数据能力记录');
+    add('数据能力缺口说明具体', !!dataVisual && /表格|看板|异常/.test(dataVisual.reason), dataVisual?.reason || '缺少判断理由');
+
+    const t4 = await analyze(doc, '熟悉 CRM 产品逻辑。', '负责社群日常维护和成员答疑。');
+    const crm = findRow(t4, '客户关系管理');
+    add('一般社群经验不判为 CRM 明确覆盖', !!crm && crm.status !== '明确覆盖', crm ? `${crm.status}；${crm.reason}` : '未找到 CRM 记录');
+    add('CRM 判断理由说明边界', !!crm && /CRM/.test(crm.reason), crm?.reason || '缺少 CRM 判断理由');
+
+    const t5 = await analyze(doc, '参与产品需求的上线验收。', '使用 Codex 开发个人网站，完成公开部署和基础测试。');
+    const launch = findRow(t5, '上线验收');
+    add('个人项目测试仅作为部分覆盖', !!launch && launch.status === '部分覆盖', launch ? `${launch.status}；${launch.reason}` : '未找到上线验收记录');
+
+    const t6 = await analyze(doc, '能保证六个月及以上全职实习。', '本科在读，参与社群运营，熟悉 Telegram。');
+    const internship = findRow(t6, '全职实习');
+    add('未写实习期限时标记简历未说明', !!internship && internship.status === '简历未说明', internship ? `${internship.status}；${internship.reason}` : '未找到实习期限记录');
+    add('硬性条件被单独提示', !!internship && internship.keyword.includes('硬性条件') && t6.hardPending === 1, internship ? `${internship.keyword}；硬性待核实 ${t6.hardPending}` : '缺少硬性条件标记');
+
+    const combinedJd = '拥有用户运营相关经验。\n监控数据看板，挖掘数据异常点与业务机会点。\n熟悉 CRM 产品逻辑。\n参与产品需求的上线验收。\n能保证六个月及以上全职实习。';
+    const combinedResume = '负责社群维护、成员答疑、用户引导及活动推广。\n使用表格整理项目进度、任务记录及参与结果。\n使用 Codex 开发个人网站，完成公开部署和基础测试。';
+    const t7 = await analyze(doc, combinedJd, combinedResume);
+    const statusSum = statusLabels.reduce((sum, label) => sum + Number(t7.counts[label] || 0), 0);
+    add('状态计数之和等于明细总数', statusSum === t7.rows.length, `统计 ${statusSum} / 明细 ${t7.rows.length}`);
+    add('所有匹配项可追溯到 JD 原文', t7.rows.every((row) => row.jdEvidence && !row.jdEvidence.includes('未发现相关表达')), t7.rows.filter((row) => !row.jdEvidence || row.jdEvidence.includes('未发现相关表达')).map((row) => row.keyword).join('、') || '全部有 JD 原文');
+    const matchedRows = t7.rows.filter((row) => ['明确覆盖', '证据覆盖', '部分覆盖'].includes(row.status));
+    add('已匹配项保留简历证据', matchedRows.every((row) => row.resumeEvidence && !row.resumeEvidence.includes('未发现相关表达')), matchedRows.filter((row) => !row.resumeEvidence || row.resumeEvidence.includes('未发现相关表达')).map((row) => row.keyword).join('、') || '全部有简历原文');
+    const uniqueKeywords = new Set(t7.rows.map((row) => row.keyword));
+    add('匹配明细没有重复关键词', uniqueKeywords.size === t7.rows.length, `${uniqueKeywords.size} 个唯一关键词 / ${t7.rows.length} 条明细`);
+
+    const passed = tests.filter((test) => test.ok).length;
+    results.innerHTML = tests.map((test) => `<tr><td>${test.name}</td><td><span class="badge ${test.ok ? 'pass' : 'fail'}">${test.ok ? '通过' : '失败'}</span></td><td class="detail">${test.detail}</td></tr>`).join('');
+    document.getElementById('total').textContent = tests.length;
+    document.getElementById('passed').textContent = passed;
+    document.getElementById('failed').textContent = tests.length - passed;
+    document.getElementById('state').textContent = passed === tests.length ? '全部通过' : '存在失败';
+  }
+
+  run().catch((error) => {
+    results.innerHTML = `<tr><td>测试运行失败</td><td><span class="badge fail">失败</span></td><td class="detail">${error.message}</td></tr>`;
+    document.getElementById('total').textContent = '—';
+    document.getElementById('passed').textContent = '—';
+    document.getElementById('failed').textContent = '—';
+    document.getElementById('state').textContent = '运行失败';
+  });
+})();
+</script></body></html>
